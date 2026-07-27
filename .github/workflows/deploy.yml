@@ -2,7 +2,8 @@ name: Deploy MkDocs
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -10,28 +11,37 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: site-qualite
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
-      - name: Installer des versions compatibles
+      - name: Install dependencies
         run: |
-          pip install mkdocs-material==9.4.14
-          pip install pymdown-extensions==9.11
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Configurer Git
+      - name: Show installed versions
+        run: |
+          python --version
+          pip freeze
+
+      - name: Build documentation
+        run: mkdocs build --strict
+
+      - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Vérifier la configuration (optionnel)
-        run: mkdocs build --strict  # pour voir si l'erreur est résolue avant de déployer
-
-      - name: Déployer
+      - name: Deploy
         run: mkdocs gh-deploy --force
