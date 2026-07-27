@@ -22,5 +22,5 @@ jobs:
 
       - run: pip install mkdocs-material
 
-      - run: mkdocs gh-deploy --force --config-file ../site-qualite/mkdocs.yml
-        working-directory: .
+      - run: mkdocs gh-deploy --force
+        working-directory: site-qualite
