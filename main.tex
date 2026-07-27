@@ -1,0 +1,397 @@
+% ============================================================================
+%  Syllabus — Qualité et tests logiciels (L2)
+%  Dr. Yvan GUIFO FODJO — EFREI Paris — 2025–2026
+%  Compilation : pdflatex (Overleaf)
+% ============================================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---- Encodage et langue ----------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+
+% ---- Mise en page ----------------------------------------------------------
+\usepackage[a4paper,margin=2.3cm,top=2.4cm,bottom=2.4cm]{geometry}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlength{\emergencystretch}{2em}
+
+% ---- Couleurs (alignées avec SQ_Seance1_v2.tex) ----------------------------
+\usepackage{xcolor}
+\definecolor{accent}{HTML}{3B82F6}
+\definecolor{accent2}{HTML}{0EA5A4}
+\definecolor{bgsoft}{HTML}{F1F5F9}
+\definecolor{linecolor}{HTML}{CBD5E1}
+\definecolor{textsoft}{HTML}{475569}
+\definecolor{bgaccent}{HTML}{E0EBFB}
+\definecolor{bgaccent2}{HTML}{D8F0EE}
+
+% ---- Titres ----------------------------------------------------------------
+\usepackage{titlesec}
+\titleformat{\section}
+  {\color{accent}\Large\bfseries}
+  {\thesection.}{0.6em}{}[\vspace{2pt}{\color{accent}\titlerule[1.2pt]}]
+\titleformat{\subsection}
+  {\color{accent2}\large\bfseries}
+  {\thesubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.4em}{0.6em}
+\titlespacing*{\subsection}{0pt}{1.0em}{0.3em}
+
+% ---- Tableaux --------------------------------------------------------------
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\renewcommand{\arraystretch}{1.25}
+\arrayrulecolor{linecolor}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% ---- Listes ----------------------------------------------------------------
+\usepackage{enumitem}
+\setlist{itemsep=2pt,topsep=4pt,parsep=0pt,leftmargin=1.4em}
+
+% ---- Hyperliens et URLs ---------------------------------------------------
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\usepackage{xurl}
+\Urlmuskip=0mu plus 1mu
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accent,
+    urlcolor=accent2,
+    citecolor=accent,
+    pdftitle={Syllabus - Qualite et tests logiciels - L2},
+    pdfauthor={Dr. Yvan GUIFO FODJO}
+}
+
+% ---- En-tête / pied de page -----------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyfoot[L]{\color{textsoft}\footnotesize Dr. Yvan GUIFO FODJO --- EFREI Paris --- 2025--2026}
+\fancyfoot[R]{\color{textsoft}\footnotesize Page \thepage}
+
+% ---- Encadrés --------------------------------------------------------------
+\usepackage[most]{tcolorbox}
+\newtcolorbox{noteinfo}{
+    enhanced,
+    colback=bgaccent,
+    colframe=accent,
+    boxrule=0pt,
+    leftrule=3pt,
+    arc=2pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    fontupper=\small
+}
+\newtcolorbox{noteeval}{
+    enhanced,
+    colback=bgaccent2,
+    colframe=accent2,
+    boxrule=0pt,
+    leftrule=3pt,
+    arc=2pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    fontupper=\small
+}
+
+% ============================================================================
+\begin{document}
+
+% ---- BLOC TITRE -------------------------------------------------------------
+\begin{center}
+{\color{accent}\rule{0.22\linewidth}{1.4pt}}\\[0.4em]
+{\Huge\bfseries Qualité et tests logiciels}\\[0.4em]
+{\large\color{textsoft}Syllabus de cours --- Niveau L2 ingénierie informatique}\\[0.8em]
+\begin{tcolorbox}[
+    enhanced, colback=bgsoft, colframe=linecolor, boxrule=0.6pt,
+    arc=3pt, left=10pt, right=10pt, top=8pt, bottom=8pt,
+    width=0.86\linewidth
+]
+\centering
+{\large\bfseries Dr. Yvan GUIFO FODJO}\\[0.2em]
+{\color{textsoft} EFREI Paris \quad|\quad Format CTP \quad|\quad 15h \quad|\quad 3 séances de 5h}\\[0.2em]
+{\small\color{textsoft} Année universitaire 2025--2026 \quad|\quad \texttt{yvan.guifo-fodjo@efrei.fr}}
+\end{tcolorbox}
+\end{center}
+\vspace{0.4em}
+
+% ============================================================================
+\section{Identification du cours}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries\color{accent}}p{4.5cm} X@{}}
+\toprule
+Intitulé & Qualité et tests logiciels \\
+Niveau & L2 --- Ingénierie informatique \\
+Volume horaire & 15 h en présentiel --- 3 séances de 5 h \\
+Format & CTP (Cours-Travaux Pratiques intégrés) \\
+Charge personnelle estimée & 8 à 10 h (préparation, révisions QCM) \\
+Année universitaire & 2025--2026 \\
+Enseignant & Dr. Yvan GUIFO FODJO --- EFREI Paris \\
+Contact & \texttt{yvan.guifo-fodjo@efrei.fr} \\
+\bottomrule
+\end{tabularx}
+
+% ============================================================================
+\section{Prérequis}
+
+\begin{itemize}
+    \item \textbf{Programmation Python} : syntaxe, fonctions, classes, exceptions, modules.
+    \item \textbf{Programmation Java} : syntaxe, classes, héritage, exceptions, Maven ou Gradle (notions).
+    \item \textbf{Git} : \texttt{clone}, \texttt{add}, \texttt{commit}, \texttt{push} (manipulation de base).
+    \item \textbf{Ligne de commande} : navigation, exécution de scripts.
+\end{itemize}
+
+Aucun prérequis en théorie des tests n'est attendu.
+
+% ============================================================================
+\section{Description et raison d'être}
+
+Tout logiciel non trivial contient des défauts. La capacité à \textbf{prévenir, détecter et corriger} ces défauts distingue un développeur débutant d'un ingénieur logiciel. Ce cours introduit les \textbf{fondements théoriques} et les \textbf{pratiques professionnelles} du test logiciel, en s'appuyant sur deux écosystèmes industriels majeurs : \textbf{Python (pytest)} et \textbf{Java (JUnit~5)}.
+
+Le format CTP entrelace systématiquement exposé conceptuel et manipulation : chaque notion introduite est immédiatement mise en \oe uvre sur un \emph{fil rouge} --- une mini-application de \textbf{gestion de librairie en ligne} --- qui s'enrichit séance après séance.
+
+% ============================================================================
+\section{Objectifs d'apprentissage}
+
+\textit{Formulés selon la taxonomie de Bloom révisée (Anderson \& Krathwohl, 2001).}
+
+À l'issue du cours, l'étudiant·e sera capable de :
+
+\begin{tabularx}{\linewidth}{@{}C{0.7cm} X C{2.6cm}@{}}
+\toprule
+\textbf{\#} & \textbf{Objectif} & \textbf{Niveau Bloom} \\
+\midrule
+O1 & \textbf{Définir} la terminologie ISTQB (erreur, défaut, panne, V\&V) et \textbf{distinguer} vérification et validation & Comprendre (2) \\
+O2 & \textbf{Identifier} les caractéristiques de qualité ISO/IEC 25010 affectées dans un cas concret & Comprendre (2) \\
+O3 & \textbf{Appliquer} le patron AAA pour écrire des tests unitaires en \texttt{pytest} et \texttt{JUnit~5} & Appliquer (3) \\
+O4 & \textbf{Concevoir} des cas de test par partitions d'équivalence et valeurs limites & Appliquer (3) / Analyser (4) \\
+O5 & \textbf{Mesurer} et \textbf{interpréter} la couverture de code avec \texttt{coverage.py} et \texttt{JaCoCo} & Appliquer (3) \\
+O6 & \textbf{Utiliser} des doubles de test (mocks, stubs, fakes) avec \texttt{unittest.mock} et \texttt{Mockito} & Appliquer (3) \\
+O7 & \textbf{Pratiquer} le cycle TDD \emph{red-green-refactor} sur un kata court & Appliquer (3) \\
+O8 & \textbf{Mettre en place} un pipeline d'intégration continue minimal avec GitHub Actions & Appliquer (3) \\
+O9 & \textbf{Critiquer} une suite de tests existante au regard des principes FIRST & Analyser (4) \\
+\bottomrule
+\end{tabularx}
+
+% ============================================================================
+\section{Alignement constructif (Biggs, 1996)}
+
+\begin{tabularx}{\linewidth}{@{}C{1.3cm} X L{4.2cm}@{}}
+\toprule
+\textbf{Objectif} & \textbf{Activité CTP} & \textbf{Évaluation} \\
+\midrule
+O1, O2 & Exercices d'analyse de cas (S1) & QCM final \\
+O3 & TP guidés pytest / JUnit (S1) & TP noté S2 + QCM final \\
+O4 & Atelier conception de tests (S2) & TP noté S2 + QCM final \\
+O5 & TP couverture (S2) & TP noté S2 + QCM final \\
+O6 & TP mocking (S2) & QCM final \\
+O7 & Kata TDD (S3) & QCM final \\
+O8 & TP GitHub Actions (S3) & QCM final \\
+O9 & Revue de tests entre pairs (S3) & QCM final \\
+\bottomrule
+\end{tabularx}
+
+% ============================================================================
+\section{Programme détaillé}
+
+% ---- SÉANCE 1 --------------------------------------------------------------
+\subsection{Séance 1 (5 h) --- Fondements et premiers tests}
+
+\begin{tabularx}{\linewidth}{@{}C{1.0cm} C{1.6cm} X@{}}
+\toprule
+\textbf{Bloc} & \textbf{Durée} & \textbf{Contenu} \\
+\midrule
+1.1 & 40 min & Qualité logicielle, ISO/IEC 25010, coût des défauts \\
+1.2 & 30 min & Vocabulaire ISTQB : erreur / défaut / panne, V\&V \\
+1.3 & 50 min & Pyramide de tests (Cohn 2009), principes FIRST \\
+1.4 & 60 min & TP1 --- Premiers tests \texttt{pytest}, patron AAA \\
+1.5 & 45 min & Cas limites, \texttt{@pytest.mark.parametrize}, \texttt{pytest.approx} \\
+1.6 & 60 min & TP2 --- Tests \texttt{JUnit~5}, \texttt{@BeforeEach}, fixtures \\
+Pauses & 15 min & --- \\
+\bottomrule
+\end{tabularx}
+
+\begin{noteinfo}
+\textbf{Livrable étudiant (non noté)} : suite de tests pour le module \texttt{LibraireService} (Python + Java). Sert de préparation au TP noté de S2.
+\end{noteinfo}
+
+% ---- SÉANCE 2 --------------------------------------------------------------
+\subsection{Séance 2 (5 h) --- Conception de tests, couverture et TP noté}
+
+\begin{tabularx}{\linewidth}{@{}C{1.0cm} C{1.6cm} X@{}}
+\toprule
+\textbf{Bloc} & \textbf{Durée} & \textbf{Contenu} \\
+\midrule
+2.1 & 30 min & Boîte noire vs boîte blanche ; rappel de S1 \\
+2.2 & 45 min & Partitions d'équivalence et valeurs limites (Beizer 1990) \\
+2.3 & 40 min & Tables de décision et tests basés sur états \\
+2.4 & 50 min & TP3 (guidé) --- Conception de tests sur le module \texttt{Panier} \\
+2.5 & 40 min & Couverture de code : instruction, branche, condition (Ammann \& Offutt 2017) \\
+2.6 & 40 min & TP4 (guidé) --- \texttt{coverage.py} et \texttt{JaCoCo}, lecture de rapports HTML \\
+2.7 & 35 min & Test doubles : \emph{dummies, stubs, fakes, mocks, spies} (Meszaros 2007) \\
+\rowcolor{bgaccent2!50}
+\textbf{2.8} & \textbf{60 min} & \textbf{TP noté individuel sur machine} \\
+Pauses & 20 min & --- \\
+\bottomrule
+\end{tabularx}
+
+\begin{noteeval}
+\textbf{TP noté (S2, bloc 2.8 --- 60 min)} : sujet inédit, code Python fourni. L'étudiant écrit une suite de tests respectant AAA + parametrize, atteint un seuil de couverture imposé et identifie au moins un défaut introduit volontairement. Grille analytique remise en début de séance.
+\end{noteeval}
+
+% ---- SÉANCE 3 --------------------------------------------------------------
+\subsection{Séance 3 (5 h) --- TDD, intégration, CI et examen final}
+
+\begin{tabularx}{\linewidth}{@{}C{1.0cm} C{1.6cm} X@{}}
+\toprule
+\textbf{Bloc} & \textbf{Durée} & \textbf{Contenu} \\
+\midrule
+3.1 & 25 min & Test-Driven Development : cycle \emph{red-green-refactor} (Beck 2002) \\
+3.2 & 60 min & TP5 --- Kata FizzBuzz en TDD (étape par étape, en binôme) \\
+3.3 & 25 min & Refactoring guidé par les tests \\
+3.4 & 35 min & Tests d'intégration : base de données en mémoire (SQLite, H2) \\
+3.5 & 50 min & TP6 --- Intégration continue avec GitHub Actions : workflow \texttt{.yml}, badges \\
+3.6 & 20 min & Mention : analyse statique (\texttt{pylint}, SpotBugs), tests de mutation, fuzzing \\
+3.7 & 15 min & Synthèse, conseils de révision pour le QCM \\
+\rowcolor{bgaccent2!50}
+\textbf{3.8} & \textbf{90 min} & \textbf{Examen final QCM individuel} (sans documents) \\
+Pauses & 20 min & --- \\
+\bottomrule
+\end{tabularx}
+
+\begin{noteeval}
+\textbf{Examen final (S3, bloc 3.8 --- 1h30)} : QCM de 30 à 40 questions couvrant l'ensemble du programme, avec distracteurs plausibles. Pas de pénalité pour réponse fausse (à confirmer selon politique EFREI).
+\end{noteeval}
+
+% ============================================================================
+\section{Méthodes pédagogiques}
+
+\begin{itemize}
+    \item \textbf{Format CTP} : alternance d'exposés courts (15--25 min) et de manipulations guidées (40--60 min), conformément aux résultats de Freeman et al.\ (2014, PNAS, DOI : \href{https://doi.org/10.1073/pnas.1319030111}{10.1073/pnas.1319030111}) sur l'efficacité de l'apprentissage actif.
+    \item \textbf{Fil rouge} : application \emph{Librairie en ligne} (catalogue, panier, paiement simulé) enrichie sur les 3 séances.
+    \item \textbf{Pair programming} ponctuel en TP pour favoriser l'entraide.
+    \item \textbf{Feedback immédiat} : correction collective en fin de chaque TP.
+\end{itemize}
+
+% ============================================================================
+\section{Outils et environnement}
+
+\textit{Versions cibles données à titre indicatif ; alternatives libres signalées en séance.}
+
+\begin{tabularx}{\linewidth}{@{}L{3.4cm} L{2.2cm} X@{}}
+\toprule
+\textbf{Outil} & \textbf{Version} & \textbf{Usage} \\
+\midrule
+Python & 3.12+ & Code et tests \\
+\texttt{pytest} & 8.x & Framework de test Python \\
+\texttt{pytest-cov} & 5.x & Couverture côté Python \\
+\texttt{coverage.py} & 7.x & Mesure de couverture \\
+Java & 21 (LTS) & Code et tests \\
+JUnit & 5.10+ & Framework de test Java \\
+Mockito & 5.x & Mocks Java \\
+JaCoCo & 0.8.x & Couverture côté Java \\
+Maven & 3.9+ & Build Java \\
+Git & 2.40+ & Versionnement \\
+GitHub Actions & --- & Intégration continue \\
+IDE & VS Code ou IntelliJ Community & Au choix de l'étudiant \\
+\bottomrule
+\end{tabularx}
+
+% ============================================================================
+\section{Évaluation}
+
+\begin{tabularx}{\linewidth}{@{}L{4.5cm} C{1.8cm} X C{1.5cm}@{}}
+\toprule
+\textbf{Composante} & \textbf{Poids} & \textbf{Modalité} & \textbf{Durée} \\
+\midrule
+TP noté individuel --- S2 & \textbf{40\,\%} & Sur machine, sujet écrit, code Python à tester & 60 min \\
+Examen final QCM --- S3 & \textbf{60\,\%} & Sur table ou plateforme, sans documents & 90 min \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Grille du TP noté de S2 (sur 20)}
+
+\begin{tabularx}{\linewidth}{@{}X C{1.5cm}@{}}
+\toprule
+\textbf{Critère} & \textbf{Points} \\
+\midrule
+Application stricte du patron AAA --- nommage explicite & 4 \\
+Couverture des cas nominaux et des cas limites & 5 \\
+Usage pertinent de \texttt{parametrize} ou de tests équivalents & 3 \\
+Détection du ou des défaut(s) introduit(s) & 4 \\
+Couverture de code $\geq$ seuil imposé & 3 \\
+Lisibilité, indépendance et rapidité des tests (FIRST) & 1 \\
+\midrule
+\textbf{Total} & \textbf{20} \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Composition indicative du QCM final}
+
+30 à 40 questions, équilibrage Bloom :
+\begin{itemize}
+    \item Niveau Comprendre (O1, O2) : 30\,\% des questions
+    \item Niveau Appliquer (O3 à O8) : 50\,\% des questions
+    \item Niveau Analyser (O9 + lecture de code) : 20\,\% des questions
+\end{itemize}
+
+% ============================================================================
+\section{Politique d'intégrité académique}
+
+\begin{itemize}
+    \item Le plagiat de code (entre étudiants ou depuis le web) entraîne la note de 0 et un signalement.
+    \item L'utilisation d'assistants (Copilot, Claude, ChatGPT) est \textbf{autorisée pour explorer et apprendre}, \textbf{interdite pendant le TP noté et l'examen}. Tout code rendu doit être compris et défendable à l'oral.
+    \item Toute soumission générée par IA hors contexte autorisé doit être explicitement déclarée.
+\end{itemize}
+
+% ============================================================================
+\section{Bibliographie}
+
+\subsection{Références principales}
+
+\begin{enumerate}
+    \item Anderson, L.~W.\ et Krathwohl, D.~R.\ (dir.). \emph{A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy of Educational Objectives}. New York : Longman, 2001. ISBN 978-0801319037.
+    \item Ammann, P.\ et Offutt, J. \emph{Introduction to Software Testing}. 2\textsuperscript{e}~éd. Cambridge University Press, 2017. ISBN 978-1107172012.
+    \item Beck, K. \emph{Test-Driven Development: By Example}. Addison-Wesley, 2002. ISBN 978-0321146533.
+    \item Biggs, J. «~Enhancing teaching through constructive alignment~». \emph{Higher Education}, vol.~32, n\textsuperscript{o}~3, 1996, p.~347--364. DOI : \href{https://doi.org/10.1007/BF00138871}{10.1007/BF00138871}.
+    \item Cohn, M. \emph{Succeeding with Agile: Software Development Using Scrum}. Addison-Wesley, 2009. ISBN 978-0321579362 (chapitre~16, \emph{The Test Automation Pyramid}).
+    \item Meszaros, G. \emph{xUnit Test Patterns: Refactoring Test Code}. Addison-Wesley, 2007. ISBN 978-0131495050.
+\end{enumerate}
+
+\subsection{Standards et référentiels}
+
+\begin{enumerate}\setcounter{enumi}{6}
+    \item ISO/IEC 25010:2011. \emph{Systems and software engineering --- Systems and software Quality Requirements and Evaluation (SQuaRE) --- System and software quality models}. Genève : ISO, 2011. \url{https://www.iso.org/standard/35733.html}
+    \item ISO/IEC/IEEE 29119 (séries 1 à 5). \emph{Software and systems engineering --- Software testing}. \url{https://www.iso.org/standard/81291.html}
+    \item IEEE Computer Society. \emph{SWEBOK v3.0 --- Guide to the Software Engineering Body of Knowledge}, chapitre~4 \emph{Software Testing}. IEEE, 2014. \url{https://www.computer.org/education/bodies-of-knowledge/software-engineering}
+    \item ISTQB. \emph{Foundation Level Syllabus v4.0}. International Software Testing Qualifications Board, 2023. \url{https://www.istqb.org/certifications/certified-tester-foundation-level}
+\end{enumerate}
+
+\subsection{Référence complémentaire}
+
+\begin{enumerate}\setcounter{enumi}{10}
+    \item Freeman, S.\ et al.\ «~Active learning increases student performance in science, engineering, and mathematics~». \emph{Proceedings of the National Academy of Sciences}, vol.~111, n\textsuperscript{o}~23, 2014, p.~8410--8415. DOI : \href{https://doi.org/10.1073/pnas.1319030111}{10.1073/pnas.1319030111}.
+\end{enumerate}
+
+\subsection{Documentation technique en ligne}
+
+\begin{enumerate}\setcounter{enumi}{11}
+    \item \emph{pytest documentation}. \url{https://docs.pytest.org/}
+    \item \emph{JUnit 5 User Guide}. \url{https://junit.org/junit5/docs/current/user-guide/}
+    \item \emph{Mockito Reference}. \url{https://site.mockito.org/}
+    \item \emph{coverage.py docs}. \url{https://coverage.readthedocs.io/}
+    \item \emph{JaCoCo docs}. \url{https://www.jacoco.org/jacoco/trunk/doc/}
+\end{enumerate}
+
+\vspace{1em}
+\begin{center}
+\color{textsoft}\small\itshape
+--- Fin du syllabus ---\\
+Document susceptible de mises à jour mineures avant la première séance.
+\end{center}
+
+\end{document}

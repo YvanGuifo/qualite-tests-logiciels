@@ -1,0 +1,1321 @@
+% ============================================================================
+%  Qualité et tests logiciels --- Séance 1 (5h)
+%  Niveau : L2 ingénierie informatique --- Format CTP
+%  Dr. Yvan GUIFO FODJO --- EFREI Paris --- 2025--2026
+%  Style : Slidev-inspired (sobre, moderne, code dark, generous whitespace)
+%  Compilation : pdflatex (Overleaf)
+% ============================================================================
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ---- Encodage et langue ---------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% ---- Math, graphiques, tableaux -------------------------------------------
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{pifont}
+\usepackage{eurosym}
+
+% ---- TikZ -----------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{positioning,calc,arrows.meta,shapes.geometric,shapes.symbols,
+                fit,backgrounds,decorations.pathreplacing,patterns}
+
+% ============================================================================
+%  COULEURS
+% ============================================================================
+\usepackage{xcolor}
+
+% --- palette de marque ---
+\definecolor{accent}{HTML}{3B82F6}
+\definecolor{accent2}{HTML}{0EA5A4}
+\definecolor{accentdark}{HTML}{1D4ED8}
+
+% --- textes & arrière-plans clairs ---
+\definecolor{textmain}{HTML}{0F172A}
+\definecolor{textsoft}{HTML}{64748B}
+\definecolor{bgsoft}{HTML}{F8FAFC}
+\definecolor{bgaccent}{HTML}{EFF6FF}
+\definecolor{bgaccent2}{HTML}{ECFEFB}
+\definecolor{linecolor}{HTML}{E2E8F0}
+
+% --- thème sombre (code Slidev) ---
+\definecolor{darkbg}{HTML}{0F172A}
+\definecolor{darkbg2}{HTML}{1E293B}
+\definecolor{darkfg}{HTML}{E2E8F0}
+\definecolor{darkcomment}{HTML}{64748B}
+\definecolor{darkkey}{HTML}{C084FC}
+\definecolor{darkstr}{HTML}{34D399}
+\definecolor{darknum}{HTML}{FBBF24}
+\definecolor{darkfunc}{HTML}{60A5FA}
+
+% --- sémantique ---
+\definecolor{good}{HTML}{16A34A}
+\definecolor{goodbg}{HTML}{DCFCE7}
+\definecolor{warn}{HTML}{EA580C}
+\definecolor{warnbg}{HTML}{FFEDD5}
+\definecolor{bad}{HTML}{DC2626}
+\definecolor{badbg}{HTML}{FEE2E2}
+\definecolor{exobg}{HTML}{FEF9C3}
+\definecolor{exodraw}{HTML}{A16207}
+\definecolor{solbg}{HTML}{F0F9FF}
+\definecolor{soldraw}{HTML}{0369A1}
+
+\colorlet{greenlight}{good!18}
+\colorlet{orangelight}{warn!18}
+\colorlet{redlight}{bad!15}
+
+% ============================================================================
+%  LISTINGS --- thème sombre Slidev
+% ============================================================================
+\usepackage{listings}
+
+\lstdefinestyle{pythondark}{
+    language=Python,
+    backgroundcolor=\color{darkbg},
+    basicstyle=\ttfamily\footnotesize\color{darkfg},
+    commentstyle=\color{darkcomment}\itshape,
+    keywordstyle=\color{darkkey}\bfseries,
+    stringstyle=\color{darkstr},
+    numberstyle=\tiny\color{darkcomment},
+    emphstyle=\color{darkfunc},
+    numbers=left, numbersep=10pt,
+    showstringspaces=false,
+    breaklines=true, tabsize=4,
+    frame=none,
+    xleftmargin=1.2em, xrightmargin=0.4em,
+    aboveskip=0.6em, belowskip=0.6em,
+    morekeywords={self,True,False,None,assert}
+}
+
+\lstdefinestyle{javadark}{
+    language=Java,
+    backgroundcolor=\color{darkbg},
+    basicstyle=\ttfamily\footnotesize\color{darkfg},
+    commentstyle=\color{darkcomment}\itshape,
+    keywordstyle=\color{darkkey}\bfseries,
+    stringstyle=\color{darkstr},
+    numberstyle=\tiny\color{darkcomment},
+    numbers=left, numbersep=10pt,
+    showstringspaces=false,
+    breaklines=true, tabsize=4,
+    frame=none,
+    xleftmargin=1.2em, xrightmargin=0.4em,
+    aboveskip=0.6em, belowskip=0.6em
+}
+
+\lstdefinestyle{bashdark}{
+    backgroundcolor=\color{darkbg},
+    basicstyle=\ttfamily\footnotesize\color{darkfg},
+    commentstyle=\color{darkcomment}\itshape,
+    keywordstyle=\color{darkkey}\bfseries,
+    showstringspaces=false,
+    breaklines=true,
+    frame=none,
+    xleftmargin=1em, aboveskip=0.5em, belowskip=0.5em,
+    morekeywords={pytest,pip,python,mvn,git,coverage}
+}
+
+\lstset{style=pythondark}
+
+% ============================================================================
+%  THÈME BEAMER  --- "Slidev"
+% ============================================================================
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{normal text}{fg=textmain,bg=white}
+\setbeamercolor{frametitle}{fg=textmain,bg=white}
+\setbeamercolor{structure}{fg=accent}
+\setbeamercolor{item}{fg=accent}
+\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamertemplate{frametitle}{
+  \vspace{0.55cm}
+  {\usebeamerfont{frametitle}\color{textmain}\insertframetitle\par}
+  \vspace{0.18cm}{\color{accent}\rule{0.18\linewidth}{1.2pt}}
+}
+\setbeamertemplate{itemize item}{\color{accent}\small$\bullet$}
+\setbeamertemplate{itemize subitem}{\color{accent2}\small$\blacktriangleright$}
+\setbeamertemplate{itemize subsubitem}{\color{textsoft}\scriptsize$\circ$}
+
+\setbeamertemplate{footline}{
+  \leavevmode\hbox{%
+    \begin{beamercolorbox}[wd=.88\paperwidth,ht=2.8ex,dp=1.2ex,leftskip=1em]{author in head/foot}%
+      \color{textsoft}\scriptsize\insertshorttitle
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.12\paperwidth,ht=2.8ex,dp=1.2ex,center]{date in head/foot}%
+      \color{accent}\scriptsize\bfseries\insertframenumber
+    \end{beamercolorbox}%
+  }\vskip0pt
+}
+\setbeamertemplate{headline}{}
+
+% ============================================================================
+%  COMMANDES & ENVIRONNEMENTS
+% ============================================================================
+\newcommand{\duree}[1]{{\small\color{accent2}\textbf{Durée :} #1}}
+
+\newcommand{\sectionframe}[2]{%
+\begin{frame}[plain]
+
+\begin{tikzpicture}[remember picture, overlay]
+\fill[accent] (current page.south west) rectangle (current page.north east);
+\node[anchor=west, text=white, font=\tiny] at ([xshift=0.6cm,yshift=-0.6cm]current page.north west) {SECTION};
+\node[anchor=east, text=white, font=\tiny] at ([xshift=-0.6cm,yshift=-0.6cm]current page.north east) {Séance 1 --- Qualité et tests logiciels};
+\end{tikzpicture}
+\vspace{0.6cm}
+{\color{white}\rule{0.15\linewidth}{1.6pt}}\\[0.6cm]
+{\color{white}\Huge\bfseries #1}\\[0.3cm]
+{\color{white!85!accent}\large #2}
+\vfill
+\end{frame}}
+
+\newcommand{\takeaway}[1]{%
+\vfill\begin{beamercolorbox}[wd=\linewidth,sep=0.4em]{}
+\color{accent2}\rule[0.6ex]{1.2em}{1.2pt}\hspace{0.4em}%
+\textbf{\color{accent2}\small À retenir} \textcolor{textsoft}{:} %
+{\small\color{textmain}#1}
+\end{beamercolorbox}}
+
+% --- encadrés thématiques (sans tcolorbox pour rester simple) ---
+\newenvironment{infobox}[1][Info]{%
+\begin{beamercolorbox}[wd=\linewidth,sep=0.6em,rounded=true]{block body}%
+\color{accent}\textbf{\small #1}\\[-0.1em]
+\color{textmain}\small
+}{\end{beamercolorbox}}
+
+% --- encadrés thématiques avec tcolorbox (robuste) ---
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{exercice}[1][Exercice]{%
+    enhanced,
+    colback=exobg!40,
+    colframe=exodraw,
+    boxrule=1pt,
+    arc=3pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    fontupper=\small\color{textmain},
+    before upper={{\color{exodraw}\bfseries\small\ding{220}\ #1}\par\vspace{0.3em}}
+}
+
+\newtcolorbox{corrige}[1][Solution]{%
+    enhanced,
+    colback=solbg,
+    colframe=soldraw,
+    boxrule=1pt,
+    arc=3pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    fontupper=\small\color{textmain},
+    before upper={{\color{soldraw}\bfseries\small\ding{51}\ #1}\par\vspace{0.3em}}
+}
+
+\newcommand{\oui}[1]{\textcolor{good}{\ding{51}}~#1}
+\newcommand{\non}[1]{\textcolor{bad}{\ding{55}}~#1}
+
+% ============================================================================
+%  TIKZ STYLES
+% ============================================================================
+\tikzset{
+  iso/.style={rectangle, rounded corners=4pt, thick, draw,
+    minimum width=3.5cm, minimum height=0.75cm,
+    align=center, font=\footnotesize\bfseries},
+  chainbox/.style={rectangle, rounded corners=3pt, thick, draw,
+    minimum width=2.6cm, minimum height=1.0cm,
+    align=center, font=\small},
+  pyramid/.style={thick, font=\footnotesize\bfseries},
+  firstletter/.style={circle, draw, thick, fill=bgaccent,
+    minimum size=0.9cm, font=\bfseries, text=accentdark},
+  arrowstep/.style={-{Latex[length=2.5mm,width=2mm]},
+    line width=0.7pt, draw=textsoft}
+}
+
+% ============================================================================
+%  MÉTADONNÉES
+% ============================================================================
+
+% ============================================================================
+%  MÉTADONNÉES
+% ============================================================================
+\title[Qualité \& Tests Logiciels --- Séance 3]{}
+\author{Dr. Yvan GUIFO FODJO}
+\institute{EFREI Paris}
+\date{2025--2026}
+
+% Section header pour Séance 3
+\renewcommand{\sectionframe}[2]{%
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture, overlay]
+\fill[accent] (current page.south west) rectangle (current page.north east);
+\node[anchor=west, text=white, font=\tiny] at ([xshift=0.6cm,yshift=-0.6cm]current page.north west) {SECTION};
+\node[anchor=east, text=white, font=\tiny] at ([xshift=-0.6cm,yshift=-0.6cm]current page.north east) {Séance 3 --- Qualité et tests logiciels};
+\end{tikzpicture}
+\vspace{0.6cm}
+{\color{white}\rule{0.15\linewidth}{1.6pt}}\\[0.6cm]
+{\color{white}\Huge\bfseries #1}\\[0.3cm]
+{\color{white!85!accent}\large #2}
+\vfill
+\end{frame}}
+
+% Style YAML pour workflows GitHub Actions
+\lstdefinestyle{yamldark}{
+    backgroundcolor=\color{darkbg},
+    basicstyle=\ttfamily\footnotesize\color{darkfg},
+    commentstyle=\color{darkcomment}\itshape,
+    keywordstyle=\color{darkkey}\bfseries,
+    stringstyle=\color{darkstr},
+    numberstyle=\tiny\color{darkcomment},
+    numbers=left, numbersep=10pt,
+    showstringspaces=false,
+    breaklines=true, tabsize=2,
+    frame=none,
+    xleftmargin=1.2em, xrightmargin=0.4em,
+    aboveskip=0.6em, belowskip=0.6em,
+    morekeywords={name,on,jobs,runs-on,steps,uses,with,run,if,env,strategy,matrix,needs}
+}
+
+% ============================================================================
+\begin{document}
+% ============================================================================
+
+% ---- TITRE -----------------------------------------------------------------
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture, overlay]
+\node[anchor=north east] at ([xshift=-0.7cm, yshift=-0.6cm]current page.north east)
+    {\includegraphics[width=4.6cm]{Logo_EFREI.png}};
+\end{tikzpicture}
+\vspace{0.8cm}
+{\color{accent}\rule{0.22\linewidth}{1.4pt}}\\[0.5cm]
+{\Huge\bfseries TDD, intégration \\[0.18em] continue \& examen final}\\[0.35cm]
+{\large\color{textsoft}Séance 3 --- Construire, automatiser, valider}\\[0.9cm]
+\begin{tikzpicture}
+\node[rectangle, rounded corners=4pt, fill=bgsoft, draw=linecolor, line width=0.5pt,
+      minimum width=0.82\linewidth, minimum height=1.9cm, inner sep=10pt]{
+\begin{minipage}{0.76\linewidth}
+{\large\bfseries Dr. Yvan GUIFO FODJO}\\[0.1cm]
+{\color{textsoft}\small EFREI Paris\quad|\quad Séance 3/3\quad|\quad Format CTP\quad|\quad \textbf{5h}}\\[0.1cm]
+{\color{textsoft}\footnotesize Année universitaire 2026--2027\quad|\quad \texttt{yvan.guifo-fodjo@efrei.fr}}
+\end{minipage}};
+\end{tikzpicture}
+\vfill
+\end{frame}
+
+% ---- PLAN ------------------------------------------------------------------
+\begin{frame}[t]{Plan de la séance}
+\duree{5h --- CTP avec examen final QCM en clôture}
+\vspace{0.4cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{\color{accent}Partie cours}\\[0.2em]
+\footnotesize
+\textbf{1.} TDD \emph{red-green-refactor} \hfill {\color{textsoft}25~min}\\
+\textbf{3.} Refactoring guidé par les tests \hfill {\color{textsoft}25~min}\\
+\textbf{4.} Tests d'intégration \hfill {\color{textsoft}35~min}\\
+\textbf{6.} Analyse statique, mutation, fuzzing \hfill {\color{textsoft}20~min}\\
+\textbf{7.} Synthèse \& conseils QCM \hfill {\color{textsoft}15~min}\\
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{\color{accent2}Partie travaux pratiques}\\[0.2em]
+\footnotesize
+\textbf{2.} TP5 --- Kata FizzBuzz en TDD \hfill {\color{textsoft}60~min}\\
+\textbf{5.} TP6 --- CI GitHub Actions \hfill {\color{textsoft}50~min}\\
+\textbf{\color{bad}8.} \textbf{Examen final QCM} \hfill \textbf{\color{bad}90~min}\\[0.2em]
+{\color{textsoft}Pauses \hfill 20~min}
+\end{column}
+\end{columns}
+\vspace{0.4cm}
+\begin{beamercolorbox}[wd=\linewidth,sep=0.5em,rounded=true]{block body}
+{\color{accent}\bfseries\small Objectifs Bloom}\\[0.1em]
+\footnotesize
+\textbf{Appliquer} : cycle TDD \emph{red-green-refactor} sur un kata court.\\
+\textbf{Appliquer} : configurer un pipeline d'intégration continue avec GitHub Actions.\\
+\textbf{Analyser} : critiquer une suite de tests existante au regard des principes FIRST.
+\end{beamercolorbox}
+\end{frame}
+
+% ============================================================================
+\section{Test-Driven Development}
+% ============================================================================
+\sectionframe{1. TDD : red-green-refactor}{Écrire le test avant le code \quad\textbf{\textbar{}}\quad \textbf{25 min}}
+
+% ---- 1.1 Pourquoi inverser ?-----------------------------------------------
+\begin{frame}[t]{Inverser l'ordre : pourquoi écrire le test d'abord ?}
+\footnotesize
+Jusqu'ici, vous avez écrit \textbf{le code, puis les tests}. Beck (2002) propose l'inverse.\\[0.4em]
+
+\textbf{Test-Driven Development} = écrire le test \textbf{avant} chaque incrément de code de production.\\[0.5em]
+
+\textbf{Bénéfices empiriques observés :}
+\begin{itemize}\itemsep0.1em
+\item \textbf{Code testable par construction} : impossible d'oublier les tests.
+\item \textbf{Design émergent} : on conçoit les API du point de vue de l'\emph{utilisateur} du code.
+\item \textbf{Filet de sécurité immédiat} : tout refactoring s'appuie sur une suite verte.
+\item \textbf{Documentation vivante} : les tests décrivent l'intention.
+\item \textbf{Feedback ultra-rapide} : on découvre les erreurs de conception en quelques minutes.
+\end{itemize}
+\vspace{0.3cm}
+\textbf{Étude empirique (Nagappan et al., Microsoft \& IBM, 2008) :} sur 4 équipes industrielles, TDD réduit la densité de défauts de 40\,\% à 90\,\% avec un surcoût de développement initial de 15\,\% à 35\,\%.
+\takeaway{TDD est un investissement court terme pour un retour long terme (moins de bugs, moins de dette).}
+\end{frame}
+
+% ---- 1.2 Le cycle ----------------------------------------------------------
+\begin{frame}[t,shrink=8]{Le cycle red--green--refactor}
+\centering
+\begin{tikzpicture}[font=\footnotesize, node distance=2cm,
+    cyclestate/.style={circle, draw, line width=1.2pt, minimum size=2cm,
+                      align=center, font=\small\bfseries}]
+
+\node[cyclestate, fill=redlight, draw=bad] (red) {\color{bad}\textbf{RED}\\\scriptsize écrire\\\scriptsize un test\\\scriptsize qui échoue};
+\node[cyclestate, fill=greenlight, draw=good, right=2.2cm of red] (green) {\color{good}\textbf{GREEN}\\\scriptsize coder le\\\scriptsize minimum\\\scriptsize pour passer};
+\node[cyclestate, fill=bgaccent, draw=accent, right=2.2cm of green] (refactor) {\color{accent}\textbf{REFACTOR}\\\scriptsize améliorer\\\scriptsize sans changer\\\scriptsize le comportement};
+
+\draw[arrowstep, line width=1pt] (red) -- (green);
+\draw[arrowstep, line width=1pt] (green) -- (refactor);
+\draw[arrowstep, line width=1pt, bend right=35] (refactor.south) to[bend right=45] (red.south);
+\end{tikzpicture}
+\vspace{0.6cm}
+\footnotesize
+\begin{tabular}{@{}p{1.6cm} p{11cm}@{}}
+\toprule
+\textbf{\color{bad}Red} & Écrire \textbf{un} test qui exprime un nouveau comportement attendu. Le lancer : il échoue (la fonctionnalité n'existe pas encore).\\
+\textbf{\color{good}Green} & Écrire le \textbf{minimum} de code de production qui fait passer le test. La laideur est tolérée.\\
+\textbf{\color{accent}Refactor} & Améliorer la structure du code \emph{et} des tests sans modifier le comportement. Les tests restent verts.\\
+\bottomrule
+\end{tabular}
+\takeaway{Chaque cycle prend 2 à 5 minutes. La discipline = ne jamais sauter une étape.}
+\end{frame}
+
+% ---- 1.3 3 lois de Martin --------------------------------------------------
+\begin{frame}[t]{Les trois lois de Robert C.\ Martin}
+\vspace{0.2cm}
+\footnotesize
+Robert C.\ Martin (\emph{Clean Code}, 2008) formule TDD comme \textbf{3 règles non négociables} :\\[0.5em]
+
+\begin{enumerate}\itemsep0.4em
+\item \textbf{Vous ne devez écrire AUCUN code de production tant qu'un test échoue.}\\
+{\color{textsoft}\scriptsize Pas de « j'ajoute juste cette petite fonction utile ».}
+\item \textbf{Vous ne devez écrire qu'AUTANT de test qu'il en faut pour qu'il échoue.}\\
+{\color{textsoft}\scriptsize Pas de compilation =  échec valide.}
+\item \textbf{Vous ne devez écrire qu'AUTANT de code de production qu'il faut pour faire passer le test qui échoue.}\\
+{\color{textsoft}\scriptsize Ni plus, ni moins.}
+\end{enumerate}
+\vspace{0.5cm}
+\textbf{Conséquence :} on alterne en permanence test $\leftrightarrow$ code, par minuscules incréments. Aucun \og marathon de code \fg{} de plusieurs heures.
+\takeaway{Les 3 lois imposent une discipline. Au début c'est lent. Après quelques semaines, c'est instinctif.}
+\end{frame}
+
+% ---- 1.4 TDD vs Test-After -------------------------------------------------
+\begin{frame}[t,shrink=10]{TDD vs Test-After : ce qui change vraiment}
+\footnotesize
+\begin{tabular}{@{}p{3.4cm} p{4.5cm} p{4.5cm}@{}}
+\toprule
+& \textbf{\color{warn}Test-After (classique)} & \textbf{\color{accent}TDD} \\
+\midrule
+Ordre & Code $\to$ test & Test $\to$ code \\
+\addlinespace[0.15em]
+Couverture obtenue & Variable, souvent partielle (les chemins difficiles sont oubliés)
+& Élevée par construction (chaque ligne existe pour passer un test) \\
+\addlinespace[0.15em]
+Testabilité du code & À vérifier après coup (souvent : « pas testable, je n'avais pas pensé ») 
+& Garantie par construction \\
+\addlinespace[0.15em]
+Conception des API & Influencée par l'implémentation interne 
+& Influencée par l'expérience utilisateur de l'API \\
+\addlinespace[0.15em]
+Confiance pour refactoring & Modérée (peur de casser quelque chose) 
+& Élevée (la suite verte est le filet) \\
+\bottomrule
+\end{tabular}
+\vspace{0.5cm}
+\textbf{Mythe à dissiper :} TDD n'est \textbf{pas} une garantie d'absence de bugs. C'est une \textbf{discipline} qui rend les bugs visibles \textbf{plus tôt} et le code \textbf{plus malléable}.
+\takeaway{TDD = méthode de conception, pas méthode de test. Le bénéfice principal est sur l'architecture.}
+\end{frame}
+
+
+% ============================================================================
+\section{TP5 --- Kata FizzBuzz en TDD}
+% ============================================================================
+\sectionframe{2. TP5 --- Kata FizzBuzz en TDD}{Pratiquer le cycle 6 fois \quad\textbf{\textbar{}}\quad \textbf{60 min}}
+
+% ---- 2.1 Présentation du kata ----------------------------------------------
+\begin{frame}[t]{Le kata FizzBuzz}
+\footnotesize
+\textbf{Spécification :} écrire une fonction \texttt{fizzbuzz(n: int) -> str} telle que :\\[0.3em]
+\begin{itemize}\itemsep0.05em
+\item si $n$ est divisible par \textbf{3} \emph{et} par \textbf{5}, retourner \texttt{"FizzBuzz"} ;
+\item sinon si $n$ est divisible par \textbf{3}, retourner \texttt{"Fizz"} ;
+\item sinon si $n$ est divisible par \textbf{5}, retourner \texttt{"Buzz"} ;
+\item sinon retourner $n$ en chaîne de caractères.
+\end{itemize}
+\vspace{0.4cm}
+\textbf{Pourquoi ce kata pour le TDD ?}
+\begin{itemize}\itemsep0.05em
+\item Spécification courte mais riche en \textbf{partitions} et \textbf{valeurs limites}.
+\item Permet 5 à 7 cycles \emph{red-green-refactor} en moins d'une heure.
+\item Pousse à choisir entre \emph{quick-and-dirty} et \emph{design propre}.
+\end{itemize}
+\vspace{0.4cm}
+\textbf{Discipline du jour :} chaque test sera écrit \textbf{avant} le code. On lancera \texttt{pytest} \textbf{après chaque} ligne ajoutée.
+\takeaway{Le kata reproductible permet de comparer une exécution \emph{disciplinée} et une exécution \emph{intuitive}.}
+\end{frame}
+
+% ---- 2.2 Cycle 1 -----------------------------------------------------------
+\begin{frame}[fragile,t,shrink=12]{Cycle 1 : \texttt{fizzbuzz(1) -> "1"}}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{\color{bad}1. RED}
+\begin{lstlisting}[style=pythondark]
+# tests/test_fizzbuzz.py
+from src.fizzbuzz import fizzbuzz
+
+def test_un_retourne_chaine_1():
+    assert fizzbuzz(1) == "1"
+\end{lstlisting}
+\textbf{Lancer :} \texttt{pytest} \\
+{\color{bad}\scriptsize $\to$ ModuleNotFoundError : src.fizzbuzz}
+\vspace{0.4em}\\
+\textbf{\color{good}2. GREEN (minimal)}
+\begin{lstlisting}[style=pythondark]
+# src/fizzbuzz.py
+def fizzbuzz(n):
+    return "1"
+\end{lstlisting}
+\textbf{Lancer :} \texttt{pytest} \\
+{\color{good}\scriptsize $\to$ 1 passed in 0.01s}
+\end{column}
+\begin{column}{0.48\textwidth}
+\vspace{0.1cm}\footnotesize
+\textbf{\color{accent}3. REFACTOR}\\[0.2em]
+Code trop trivial pour mériter un refactor à ce stade.\\[0.5em]
+\textbf{Observation pédagogique :}\\[0.2em]
+\og Mais \texttt{return "1"} est ridicule, ça ne marche que pour $n=1$ ! \fg{}\\[0.4em]
+\textbf{Exactement.}\\[0.3em]
+La discipline TDD dit : \emph{n'écris que le minimum pour passer le test rouge}. C'est le test \textbf{suivant} qui forcera la généralisation.
+\end{column}
+\end{columns}
+\takeaway{Au cycle 1 on construit la baseline. Le code restera trivial jusqu'au cycle 2.}
+\end{frame}
+
+% ---- 2.3 Cycle 2 -----------------------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{Cycle 2 : \texttt{fizzbuzz(2) -> "2"}}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{\color{bad}1. RED}
+\begin{lstlisting}[style=pythondark]
+def test_deux_retourne_chaine_2():
+    assert fizzbuzz(2) == "2"
+\end{lstlisting}
+{\color{bad}\scriptsize $\to$ AssertionError : assert '1' == '2'}
+\vspace{0.4em}\\
+\textbf{\color{good}2. GREEN}
+\begin{lstlisting}[style=pythondark]
+def fizzbuzz(n):
+    return str(n)
+\end{lstlisting}
+{\color{good}\scriptsize $\to$ 2 passed}
+\end{column}
+\begin{column}{0.48\textwidth}
+\vspace{0.1cm}\textbf{\color{accent}3. REFACTOR}\\[0.2em]
+\footnotesize Le code est déjà propre. Pas de duplication, pas d'odeur. On passe.\\[0.4em]
+\textbf{Ce qu'on vient d'apprendre :}\\[0.2em]
+Le passage de \texttt{return "1"} à \texttt{return str(n)} est appelé \og \textbf{triangulation} \fg{} : deux tests qui forcent la généralisation.\\[0.4em]
+{\color{textsoft}Beck (2002, ch.~2) : \og \textit{We do not generalize until we have at least two data points.} \fg{}}
+\end{column}
+\end{columns}
+\takeaway{2 tests, 2 cas : la généralisation devient légitime. Sans le 2\textsuperscript{e} test, on aurait spéculé.}
+\end{frame}
+
+% ---- 2.4 Cycle 3 -----------------------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{Cycle 3 : \texttt{fizzbuzz(3) -> "Fizz"}}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{\color{bad}1. RED}
+\begin{lstlisting}[style=pythondark]
+def test_trois_retourne_Fizz():
+    assert fizzbuzz(3) == "Fizz"
+\end{lstlisting}
+{\color{bad}\scriptsize $\to$ AssertionError : '3' == 'Fizz'}
+\vspace{0.4em}\\
+\textbf{\color{good}2. GREEN}
+\begin{lstlisting}[style=pythondark]
+def fizzbuzz(n):
+    if n == 3:
+        return "Fizz"
+    return str(n)
+\end{lstlisting}
+{\color{good}\scriptsize $\to$ 3 passed}
+\end{column}
+\begin{column}{0.48\textwidth}
+\vspace{0.1cm}\textbf{\color{accent}3. REFACTOR}\\[0.2em]
+\footnotesize Le test passe, mais on sait que ça ne marche que pour $n=3$ exactement.\\[0.4em]
+\textbf{Tentation :} généraliser à \texttt{n \% 3 == 0}.\\[0.3em]
+\textbf{Réponse TDD :} \textbf{NON.} Pas tant qu'aucun test ne le justifie. C'est le \textbf{cycle 4} qui forcera la généralisation, avec \texttt{fizzbuzz(6)}.
+\end{column}
+\end{columns}
+\takeaway{Code naïf $\to$ tests qui forcent l'amélioration. La discipline = ne pas anticiper.}
+\end{frame}
+
+% ---- 2.5 Cycle 4 -----------------------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{Cycle 4 : \texttt{fizzbuzz(6) -> "Fizz"} --- la généralisation}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{\color{bad}1. RED}
+\begin{lstlisting}[style=pythondark]
+def test_six_retourne_Fizz():
+    assert fizzbuzz(6) == "Fizz"
+\end{lstlisting}
+{\color{bad}\scriptsize $\to$ AssertionError : '6' == 'Fizz'}
+\vspace{0.4em}\\
+\textbf{\color{good}2. GREEN}
+\begin{lstlisting}[style=pythondark]
+def fizzbuzz(n):
+    if n % 3 == 0:
+        return "Fizz"
+    return str(n)
+\end{lstlisting}
+{\color{good}\scriptsize $\to$ 4 passed}
+\end{column}
+\begin{column}{0.48\textwidth}
+\vspace{0.1cm}\textbf{\color{accent}3. REFACTOR}\\[0.2em]
+\footnotesize Le code est encore simple, mais on commence à voir la structure : un test sur le modulo, puis le cas par défaut.\\[0.4em]
+\textbf{Anticipation :} en ajoutant les cycles 5 (Buzz) et 6 (FizzBuzz), on aura 3 conditions à orchestrer. C'est là qu'on \emph{refactorera} pour de bon.\\[0.4em]
+\textbf{Vérification clé :} les 2 premiers tests passent encore (\texttt{fizzbuzz(1)}, \texttt{fizzbuzz(2)}).
+\end{column}
+\end{columns}
+\takeaway{La triangulation force \texttt{n == 3} $\to$ \texttt{n \% 3 == 0}. Pas par intuition, par contrainte de test.}
+\end{frame}
+
+% ---- 2.6 Refactor final ----------------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{Après les cycles 5 et 6 : un refactor sérieux}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{Code obtenu naïvement après 6 cycles :}
+\begin{lstlisting}[style=pythondark]
+def fizzbuzz(n):
+    if n % 3 == 0 and n % 5 == 0:
+        return "FizzBuzz"
+    if n % 3 == 0:
+        return "Fizz"
+    if n % 5 == 0:
+        return "Buzz"
+    return str(n)
+\end{lstlisting}
+{\color{textsoft}\scriptsize 6 tests passent. Code lisible mais répétitif.}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Refactor possible (concat) :}
+\begin{lstlisting}[style=pythondark]
+def fizzbuzz(n):
+    sortie = ""
+    if n % 3 == 0:
+        sortie += "Fizz"
+    if n % 5 == 0:
+        sortie += "Buzz"
+    return sortie or str(n)
+\end{lstlisting}
+{\color{textsoft}\scriptsize 4 lignes au lieu de 7. Les 6 tests passent toujours.}
+\end{column}
+\end{columns}
+\vspace{0.4cm}
+\textbf{Critère de qualité du refactor :}
+\begin{itemize}\itemsep0.05em
+\item \oui{} Lisibilité : on comprend en 3 secondes.
+\item \oui{} Pas de duplication.
+\item \oui{} Suite verte conservée à 100\,\%.
+\end{itemize}
+\takeaway{Le refactor n'est jamais obligatoire. Il est \emph{permis} dès lors qu'on a un filet de tests.}
+\end{frame}
+
+% ---- 2.7 Exercice TP5 ------------------------------------------------------
+\begin{frame}[t,shrink=18]{Exercice TP5 (40 min sur machine, en binôme)}
+\begin{exercice}[Exercice 2.1 --- FizzBuzz en TDD strict]
+\textbf{Consignes pour le binôme :}
+\begin{enumerate}\itemsep0.1em
+\item Un membre tape les tests ; l'autre tape le code. On échange tous les 2 cycles.
+\item Démarrer d'un dossier vide avec uniquement \texttt{pytest} installé.
+\item Implémenter FizzBuzz \textbf{par cycles successifs} : \texttt{1}, \texttt{2}, \texttt{3}, \texttt{5}, \texttt{6}, \texttt{10}, \texttt{15}.
+\item Pour chaque cycle : test RED $\to$ vérifier l'échec $\to$ code GREEN minimal $\to$ vérifier le passage $\to$ refactor si pertinent.
+\item Après le cycle 7, ajouter un test \texttt{parametrize} couvrant les 4 catégories de sortie.
+\item Lancer \texttt{pytest --cov=src --cov-report=term-missing} : viser 100\,\% sur \texttt{fizzbuzz.py}.
+\end{enumerate}
+\vspace{0.3em}
+\textbf{Livrable :} dépôt local avec historique Git montrant un commit par cycle (red + green ensemble).
+\end{exercice}
+\takeaway{La granularité Git fine est un sous-produit naturel du TDD : un cycle = un commit = un comportement.}
+\end{frame}
+
+
+% ============================================================================
+\section{Refactoring guidé par les tests}
+% ============================================================================
+\sectionframe{3. Refactoring guidé par les tests}{Améliorer sans casser \quad\textbf{\textbar{}}\quad \textbf{25 min}}
+
+% ---- 3.1 Définition --------------------------------------------------------
+\begin{frame}[t]{Qu'est-ce que refactorer ?}
+\footnotesize
+\textbf{Définition (Fowler, 1999) :} \\[0.3em]
+\textit{Le refactoring est un changement appliqué au code source pour améliorer sa structure interne sans modifier son comportement externe observable.}\\[0.5em]
+
+\textbf{Trois mots clés :}
+\begin{itemize}\itemsep0.1em
+\item \textbf{Changement} : on modifie réellement le code (pas juste un commentaire).
+\item \textbf{Structure interne} : on touche à l'organisation, pas à la fonctionnalité.
+\item \textbf{Comportement préservé} : la suite de tests reste verte \textbf{à chaque pas}.
+\end{itemize}
+\vspace{0.4cm}
+\textbf{Pourquoi refactorer ?}
+\begin{itemize}\itemsep0.05em
+\item Réduire la \textbf{dette technique} accumulée par les \og GREEN \fg{} successifs.
+\item Préparer une \textbf{évolution} : avant d'ajouter une fonctionnalité, on rend le code prêt à la recevoir.
+\item Faire \textbf{émerger} un \textbf{design} qui n'était pas évident au début.
+\end{itemize}
+\takeaway{Le refactoring n'est ni un nettoyage cosmétique, ni une réécriture : c'est un changement \textbf{discipliné} par les tests.}
+\end{frame}
+
+% ---- 3.2 Filet de sécurité -------------------------------------------------
+\begin{frame}[fragile,t,shrink=12]{Le filet de s\'ecurit\'e des tests}
+\footnotesize
+\textbf{R\`egle d'or :} on ne refactorise \textbf{que sur du code couvert par des tests}. \\[0.4em]
+
+\textbf{Workflow s\'ecuris\'e :}
+\begin{enumerate}\itemsep0.1em
+\item Lancer \texttt{pytest} : suite \textbf{verte} (sinon, on corrige d'abord).
+\item Appliquer \textbf{une} transformation atomique (renommer une variable, extraire une méthode\ldots).
+\item Relancer \texttt{pytest} : doit toujours être verte.
+\item Commit.
+\item Retour à l'étape 2.
+\end{enumerate}
+
+\vspace{0.4cm}
+\textbf{Anti-pattern :}
+\begin{lstlisting}[style=bashdark]
+$ git log --oneline
+abc123 Refactor complet du module Panier (847 lignes modifiees)
+\end{lstlisting}
+\vspace{0.1em}
+{\color{textsoft}847 lignes en un commit = perte du filet. Si un bug apparaît, par où chercher ?}
+
+\vspace{0.3em}
+\textbf{Bon pattern :}
+\begin{lstlisting}[style=bashdark]
+$ git log --oneline
+abc1 Refactor : extraire methode calculer_remise()
+abc2 Refactor : renommer panier.items en panier.articles
+abc3 Refactor : remplacer if/elif par dict de strategies
+\end{lstlisting}
+\takeaway{Petits pas + commits fréquents = capacité à revenir en arrière à tout instant.}
+\end{frame}
+
+% ---- 3.3 Exemple Extract Method --------------------------------------------
+\begin{frame}[fragile,t,shrink=18]{Exemple : \emph{Extract Method} sur le fil rouge}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.49\textwidth}
+\textbf{Avant}
+\begin{lstlisting}[style=pythondark]
+def total_panier(panier, client):
+    total = sum(a.prix * q
+                for a, q in panier.items())
+    if client.est_etudiant and client.fidelite:
+        total *= 0.80
+    elif client.est_etudiant or client.fidelite:
+        total *= 0.90
+    if total > 100:
+        total -= 5  # frais port offerts
+    return round(total, 2)
+\end{lstlisting}
+{\color{textsoft}\scriptsize 1 fonction, 3 responsabilités mélangées.}
+\end{column}
+\begin{column}{0.49\textwidth}
+\textbf{Après (3 \emph{Extract Method})}
+\begin{lstlisting}[style=pythondark]
+def total_panier(panier, client):
+    brut = _sous_total(panier)
+    avec_remise = _appliquer_remise(brut, client)
+    return round(_frais_port(avec_remise), 2)
+
+def _sous_total(panier):
+    return sum(a.prix * q for a, q in panier.items())
+
+def _appliquer_remise(total, client):
+    if client.est_etudiant and client.fidelite:
+        return total * 0.80
+    if client.est_etudiant or client.fidelite:
+        return total * 0.90
+    return total
+\end{lstlisting}
+\end{column}
+\end{columns}
+\vspace{0.3em}\footnotesize
+\textbf{Critère de qualité :} chaque sous-fonction tient en \textbf{1 phrase}. Les tests existants passent sans modification.
+\takeaway{Extract Method = le refactoring le plus rentable du catalogue Fowler. À pratiquer dès qu'une fonction dépasse 10 lignes.}
+\end{frame}
+
+% ---- 3.4 Catalogue refactorings --------------------------------------------
+\begin{frame}[t,shrink=8]{Catalogue minimal à connaître}
+\footnotesize
+Fowler (\emph{Refactoring}, 2\textsuperscript{e}~éd., 2018) recense plus de 70 refactorings nommés. À votre niveau, 6 suffisent :\\[0.4em]
+\begin{tabular}{@{}p{4cm} p{8.6cm}@{}}
+\toprule
+\textbf{Nom} & \textbf{Quand l'appliquer} \\
+\midrule
+\textbf{Rename Variable/Method} & Le nom trompe ou n'exprime pas l'intention. \\
+\addlinespace[0.15em]
+\textbf{Extract Method} & Un bloc de code mérite un nom propre.\\
+\addlinespace[0.15em]
+\textbf{Inline Method} & Une méthode triviale ne sert qu'à masquer son contenu.\\
+\addlinespace[0.15em]
+\textbf{Extract Variable} & Une expression complexe gagne à être nommée.\\
+\addlinespace[0.15em]
+\textbf{Replace Magic Number with Constant} & Une constante littérale apparaît plusieurs fois.\\
+\addlinespace[0.15em]
+\textbf{Replace Conditional with Polymorphism} & Un \texttt{if} sur un type d'objet répété en plusieurs endroits.\\
+\bottomrule
+\end{tabular}
+\vspace{0.4cm}
+\\
+\textbf{Outillage :} PyCharm, VS Code (avec Python Tools), IntelliJ proposent ces refactorings \textbf{automatisés} (raccourci \texttt{Shift+F6} pour Rename, \texttt{Ctrl+Alt+M} pour Extract Method).
+\takeaway{Les IDE modernes garantissent la correction syntaxique du refactoring. Les tests garantissent la correction sémantique.}
+\end{frame}
+
+% ============================================================================
+\section{Tests d'intégration}
+% ============================================================================
+\sectionframe{4. Tests d'intégration}{Au-delà du test unitaire \quad\textbf{\textbar{}}\quad \textbf{35 min}}
+
+% ---- 4.1 Définition --------------------------------------------------------
+\begin{frame}[t]{Pourquoi des tests d'intégration ?}
+\footnotesize
+\textbf{Test unitaire :} vérifie une \textbf{unité} isolée (1 fonction, 1 classe). Toutes les dépendances sont \emph{moquées}.\\[0.4em]
+
+\textbf{Test d'intégration :} vérifie que plusieurs unités collaborent correctement ensemble. \\
+On utilise des \textbf{vraies} dépendances --- mais souvent dans une version \emph{contrôlée} (BDD en mémoire, container Docker éphémère).\\[0.5em]
+
+\textbf{Exemples de questions auxquelles seul un test d'intégration répond :}
+\begin{itemize}\itemsep0.08em
+\item Mon code SQL est-il bien interprété par le moteur de BDD réel ?
+\item L'API REST renvoie-t-elle exactement le JSON attendu, avec les bons codes HTTP ?
+\item Mon service de paiement parle-t-il correctement au protocole de la banque ?
+\item Les transactions sont-elles correctement annulées en cas d'erreur ?
+\end{itemize}
+\vspace{0.4cm}
+\textbf{Rappel pyramide (S1) :} 15--20\,\% des tests sont des tests d'intégration. Plus lents que les unitaires, mais critiques pour les \emph{frontières} du système.
+\takeaway{Tests unitaires = composants isolés. Tests d'intégration = contrats entre composants.}
+\end{frame}
+
+% ---- 4.2 BDD en mémoire ----------------------------------------------------
+\begin{frame}[t,shrink=15]{Astuce clé : la base de données en mémoire}
+\footnotesize
+\textbf{Le problème :} démarrer une vraie BDD (PostgreSQL, MySQL) pour chaque test, c'est lent et fragile.\\[0.4em]
+
+\textbf{La solution :} utiliser une BDD \textbf{en mémoire} qui parle le même langage SQL.\\[0.5em]
+
+\centering
+\begin{tabular}{@{}p{3cm} p{4.5cm} p{5cm}@{}}
+\toprule
+\textbf{Écosystème} & \textbf{BDD en mémoire} & \textbf{Caractéristiques} \\
+\midrule
+Python & \texttt{sqlite3 ":memory:"} (built-in) & SQL standard ANSI, 0 install \\
+\addlinespace[0.15em]
+Java & \textbf{H2} (org.h2database) & Modes : MySQL, PostgreSQL compatible \\
+\addlinespace[0.15em]
+Node.js & \texttt{better-sqlite3} & Synchrone, ultra-rapide \\
+\addlinespace[0.15em]
+.NET & \texttt{SQLite InMemory} ou \texttt{EF Core InMemory} & Intégré à Entity Framework \\
+\bottomrule
+\end{tabular}
+
+\\
+\vspace{0.5cm}\raggedright
+\textbf{Bénéfices :}
+\begin{itemize}\itemsep0.05em
+\item Démarrage en quelques ms.
+\item État \textbf{frais} à chaque test (fixture).
+\item Aucun fichier sur disque, aucune coordination entre tests.
+\item Coût d'installation : \textbf{zéro} (sqlite, H2 sont fournis).
+\end{itemize}
+\takeaway{In-memory DB = la voie royale pour respecter FIRST (\textbf{F}ast, \textbf{I}ndependent, \textbf{R}epeatable) en intégration.}
+\end{frame}
+
+% ---- 4.3 Exemple SQLite ----------------------------------------------------
+\begin{frame}[fragile,t,shrink=18]{Exemple : \texttt{LivreRepository} avec SQLite en mémoire}
+\begin{lstlisting}[style=pythondark]
+# src/repository.py
+import sqlite3
+from src.librairie import Livre
+
+class LivreRepository:
+    def __init__(self, conn: sqlite3.Connection):
+        self.conn = conn
+
+    def sauvegarder(self, livre: Livre) -> None:
+        self.conn.execute(
+            "INSERT INTO livres (isbn, titre, prix, stock) VALUES (?, ?, ?, ?)",
+            (livre.isbn, livre.titre, livre.prix, livre.stock))
+        self.conn.commit()
+
+    def trouver(self, isbn: str) -> Livre | None:
+        cur = self.conn.execute(
+            "SELECT isbn, titre, prix, stock FROM livres WHERE isbn = ?", (isbn,))
+        row = cur.fetchone()
+        return Livre(*row) if row else None
+\end{lstlisting}
+\takeaway{Le repository ne connaît que \texttt{sqlite3.Connection}, pas un chemin de fichier. Il devient testable.}
+\end{frame}
+
+% ---- 4.4 Tests d'intégration code ------------------------------------------
+\begin{frame}[fragile,t,shrink=18]{Tests d'intégration avec fixture SQLite}
+\begin{lstlisting}[style=pythondark]
+# tests/test_repository.py
+import sqlite3
+import pytest
+from src.librairie import Livre
+from src.repository import LivreRepository
+
+@pytest.fixture
+def db():
+    conn = sqlite3.connect(":memory:")
+    conn.execute("""CREATE TABLE livres (
+        isbn TEXT PRIMARY KEY, titre TEXT, prix REAL, stock INTEGER)""")
+    yield conn
+    conn.close()
+
+def test_sauvegarder_puis_trouver_retourne_le_livre(db):
+    repo = LivreRepository(db)
+    livre = Livre("978-0", "Clean Code", 29.90, 5)
+    repo.sauvegarder(livre)
+    retrouve = repo.trouver("978-0")
+    assert retrouve == livre
+
+def test_trouver_isbn_inconnu_retourne_none(db):
+    repo = LivreRepository(db)
+    assert repo.trouver("inconnu") is None
+\end{lstlisting}
+\takeaway{La fixture isole chaque test : DB neuve à chaque appel, fermeture automatique après le \texttt{yield}.}
+\end{frame}
+
+% ---- 4.5 Équivalent Java H2 ------------------------------------------------
+\begin{frame}[fragile,t,shrink=20]{\'Equivalent Java : H2 en m\'emoire}
+\begin{lstlisting}[style=javadark]
+// src/test/java/.../LivreRepositoryTest.java
+@Test
+void sauvegarder_puis_trouver_retourne_le_livre() throws SQLException {
+    // H2 en memoire, mode PostgreSQL
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1")) {
+
+        // Schema
+        conn.createStatement().execute(
+            "CREATE TABLE livres (isbn VARCHAR PRIMARY KEY, " +
+            "titre VARCHAR, prix DECIMAL, stock INT)");
+
+        LivreRepository repo = new LivreRepository(conn);
+        Livre livre = new Livre("978-0", "Clean Code", 29.90, 5);
+
+        repo.sauvegarder(livre);
+        Livre retrouve = repo.trouver("978-0");
+
+        assertEquals(livre, retrouve);
+    }
+}
+\end{lstlisting}
+\takeaway{Même technique en Java : URL JDBC \texttt{jdbc:h2:mem:} = base éphémère, prête en quelques ms.}
+\end{frame}
+
+
+% ============================================================================
+\section{TP6 --- Intégration continue avec GitHub Actions}
+% ============================================================================
+\sectionframe{5. TP6 --- CI avec GitHub Actions}{Automatiser la confiance \quad\textbf{\textbar{}}\quad \textbf{50 min}}
+
+% ---- 5.1 Pourquoi CI -------------------------------------------------------
+\begin{frame}[t]{Pourquoi automatiser ?}
+\footnotesize
+\textbf{Sans CI :} \\[0.3em]
+\non{} Le développeur lance \texttt{pytest} \og quand il y pense \fg{}.\\
+\non{} Une régression introduite peut rester non détectée pendant des jours.\\
+\non{} Les revues de pull request reposent sur la confiance, pas sur des faits.\\[0.5em]
+
+\textbf{Avec CI :} \\[0.3em]
+\oui{} Chaque \texttt{git push} déclenche automatiquement la suite de tests.\\
+\oui{} Une pull request affiche \textbf{vert/rouge} avant qu'un humain ne la lise.\\
+\oui{} Les commits qui cassent le build sont \textbf{rejetés} (\emph{branch protection}).\\[0.5em]
+
+\textbf{Rappel cas industriel S1 : Knight Capital (2012).} L'absence d'un déploiement automatisé a permis qu'un serveur sur 8 reçoive l'ancien code par erreur. \textbf{Une CI/CD bien configurée bloquait techniquement ce scénario.}\\[0.4em]
+
+\textbf{Coût d'entrée :} 1 fichier YAML d'environ 20 lignes.\\
+\textbf{Bénéfice :} feedback en quelques minutes, traçable, public.
+\takeaway{La CI est aux tests ce que le compilateur est au code : un partenaire qui ne s'endort jamais.}
+\end{frame}
+
+% ---- 5.2 GitHub Actions concepts ------------------------------------------
+\begin{frame}[t,shrink=10]{GitHub Actions en 4 concepts}
+\footnotesize
+\begin{tabular}{@{}p{2.6cm} p{12cm}@{}}
+\toprule
+\textbf{\color{accent}Workflow} & 
+Fichier YAML dans \texttt{.github/workflows/*.yml} qui décrit \textbf{quand} et \textbf{comment} GitHub doit lancer du code. \\
+\addlinespace[0.15em]
+\textbf{\color{accent}Trigger} (\texttt{on:}) & 
+L'événement déclencheur : \texttt{push}, \texttt{pull\_request}, \texttt{schedule}, \texttt{workflow\_dispatch}\ldots \\
+\addlinespace[0.15em]
+\textbf{\color{accent}Job} & 
+Une unité d'exécution qui tourne sur un \textbf{runner} (machine virtuelle). Plusieurs jobs peuvent s'exécuter en parallèle ou en séquence. \\
+\addlinespace[0.15em]
+\textbf{\color{accent}Step} & 
+Une commande shell (\texttt{run:}) ou une \emph{action} réutilisable (\texttt{uses:}) au sein d'un job. \\
+\bottomrule
+\end{tabular}
+\vspace{0.5cm}
+
+\textbf{Runners gratuits (GitHub Free) :}
+\begin{itemize}\itemsep0.05em
+\item \texttt{ubuntu-latest}, \texttt{windows-latest}, \texttt{macos-latest}.
+\item Quota mensuel généreux pour les dépôts publics ; limité pour les dépôts privés (cf.\ documentation à jour).
+\item Marketplace d'actions communautaires : \texttt{actions/checkout}, \texttt{actions/setup-python}, \texttt{actions/setup-java}, etc.
+\end{itemize}
+\takeaway{4 concepts à mémoriser pour lire ou écrire 90\,\% des workflows que vous croiserez.}
+\end{frame}
+
+% ---- 5.3 Workflow Python ---------------------------------------------------
+\begin{frame}[fragile,t,shrink=18]{Workflow complet Python}
+\begin{lstlisting}[style=yamldark]
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Recuperer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Installer les dependances
+        run: pip install pytest pytest-cov
+
+      - name: Lancer pytest avec couverture
+        run: pytest --cov=src --cov-branch --cov-fail-under=85
+\end{lstlisting}
+\takeaway{15 lignes utiles. Tout commit sur \texttt{main} ou toute PR vers \texttt{main} déclenche désormais la suite + couverture $\geq 85\%$.}
+\end{frame}
+
+% ---- 5.4 Workflow Java + matrix --------------------------------------------
+\begin{frame}[fragile,t,shrink=20]{Aller plus loin : matrice de versions + badge}
+\begin{lstlisting}[style=yamldark]
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install pytest pytest-cov
+      - run: pytest --cov=src --cov-fail-under=85
+\end{lstlisting}
+\vspace{0.2em}\footnotesize
+\textbf{Badge dans le README.md :}
+\begin{lstlisting}[style=bashdark]
+![CI](https://github.com/USER/REPO/actions/workflows/ci.yml/badge.svg)
+\end{lstlisting}
+\takeaway{Matrice = 4 jobs (2 OS × 2 versions) en parallèle. Badge = signal public de qualité.}
+\end{frame}
+
+% ---- 5.5 Exercice TP6 ------------------------------------------------------
+\begin{frame}[t,shrink=20]{Exercice TP6 (30 min sur machine, individuel)}
+\begin{exercice}[Exercice 5.1 --- CI sur votre dépôt Librairie/Panier]
+\textbf{Étapes :}
+\begin{enumerate}\itemsep0.1em
+\item Si non fait : créer un dépôt GitHub public \texttt{librairie-tests} avec votre code des S1/S2.
+\item Créer le fichier \texttt{.github/workflows/ci.yml} avec un workflow Python qui :
+    \begin{itemize}\scriptsize
+    \item se déclenche sur \texttt{push} et \texttt{pull\_request} ;
+    \item installe Python 3.12 et \texttt{pytest} ;
+    \item exécute \texttt{pytest --cov=src --cov-branch --cov-fail-under=85}.
+    \end{itemize}
+\item \texttt{git add . \&\& git commit -m "ci: ajout workflow GitHub Actions"} puis \texttt{push}.
+\item Vérifier sur \texttt{github.com/USER/librairie-tests/actions} que le workflow tourne au vert.
+\item Ajouter le badge correspondant au début de votre \texttt{README.md} et commiter.
+\item (Bonus) Créer une branche \texttt{essai-pr}, y casser intentionnellement un test, ouvrir une PR, observer la CI \textbf{rouge} sur la PR.
+\end{enumerate}
+\end{exercice}
+\takeaway{Compétence transférable : ce workflow ressemble à 90\,\% à ce que vous trouverez en entreprise.}
+\end{frame}
+
+% ============================================================================
+\section{Au-delà : analyse statique, mutation, fuzzing}
+% ============================================================================
+\sectionframe{6. Pour aller plus loin}{Analyse statique, mutation, fuzzing \quad\textbf{\textbar{}}\quad \textbf{20 min}}
+
+% ---- 6.1 Analyse statique --------------------------------------------------
+\begin{frame}[fragile,t,shrink=10]{Analyse statique : trouver des bugs \emph{sans exécuter}}
+\footnotesize
+\textbf{Principe :} parcourir le code source pour détecter des défauts \textbf{sans le lancer}.\\[0.4em]
+
+\textbf{Outils par écosystème :}
+\begin{tabular}{@{}p{2.6cm} p{4.6cm} p{7.3cm}@{}}
+\toprule
+\textbf{Langage} & \textbf{Outil} & \textbf{Détecte typiquement} \\
+\midrule
+Python & \texttt{pylint}, \texttt{ruff}, \texttt{mypy} & variables non utilisées, types incohérents \\
+Java & \texttt{SpotBugs}, \texttt{Checkstyle} & null pointer probables, code mort \\
+JS/TS & \texttt{ESLint}, \texttt{TypeScript} & promesses non attendues, types incompatibles \\
+Multi & \texttt{SonarQube} & vulnérabilités OWASP, dette technique \\
+\bottomrule
+\end{tabular}
+\\
+\vspace{0.5cm}
+\textbf{Exemple :}
+\begin{lstlisting}[style=bashdark]
+$ ruff check src/
+src/panier.py:42:9: F841 [*] Local variable 'remise' assigned but never used
+src/panier.py:55:1: E501 Line too long (102 > 88)
+\end{lstlisting}
+\textbf{Bonus CI :} ajoutez \texttt{ruff check src/} comme step de votre workflow pour rejeter automatiquement les anomalies.
+\takeaway{Analyse statique = filet de sécurité \textbf{instantané}, complémentaire aux tests (qui sont dynamiques).}
+\end{frame}
+
+% ---- 6.2 Tests de mutation -------------------------------------------------
+\begin{frame}[t,shrink=10]{Tests de mutation : tester vos tests}
+\footnotesize
+\textbf{Question subversive :} vos tests détectent-ils \textbf{vraiment} un bug, ou passeraient-ils même si le code de production était cassé ?\\[0.4em]
+
+\textbf{Principe (DeMillo et al., 1978) :}
+\begin{enumerate}\itemsep0.05em
+\item L'outil de mutation altère votre code de production (un \texttt{+} en \texttt{-}, un \texttt{<} en \texttt{<=}, \ldots).
+\item Pour chaque \emph{mutant}, il lance votre suite de tests.
+\item Si la suite passe avec le mutant : c'est un \emph{mutant survivant} $\to$ vos tests ne couvrent pas ce comportement.
+\item \textbf{Score de mutation = mutants tués / mutants totaux}.
+\end{enumerate}
+\vspace{0.4cm}
+\textbf{Outils :}
+\begin{itemize}\itemsep0.05em
+\item Python : \texttt{mutmut} (\texttt{pip install mutmut}).
+\item Java : \textbf{PIT} (\texttt{pitest.org}) --- standard industriel.
+\end{itemize}
+\vspace{0.3cm}
+\textbf{Limite :} très coûteux en CPU (chaque mutant relance toute la suite). Réservé aux modules \textbf{critiques}.
+\takeaway{Couverture 100\,\% + score de mutation 90\,\% = une suite véritablement de qualité.}
+\end{frame}
+
+% ---- 6.3 Fuzzing -----------------------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{Fuzzing : laisser une machine inventer les cas}
+\footnotesize
+\textbf{Principe :} générer aléatoirement \textbf{des milliers d'entrées} pour découvrir des cas inattendus que l'humain n'aurait pas pensé à tester.\\[0.4em]
+
+\textbf{Outils :}
+\begin{itemize}\itemsep0.05em
+\item Python : \texttt{Hypothesis} (\emph{property-based testing}).
+\item Multi-langage : \texttt{AFL}, \texttt{libFuzzer}, \texttt{OSS-Fuzz} (Google).
+\end{itemize}
+\vspace{0.3cm}
+\textbf{Exemple Hypothesis sur la fonction \texttt{appliquer\_tva} (S1) :}
+\begin{lstlisting}[style=pythondark]
+from hypothesis import given, strategies as st
+
+@given(prix=st.floats(min_value=0, max_value=1_000_000, allow_nan=False),
+       taux=st.floats(min_value=0, max_value=1, allow_nan=False))
+def test_tva_jamais_inferieur_au_prix_ht(prix, taux):
+    resultat = appliquer_tva(prix, taux)
+    assert resultat >= prix  # propriete invariante
+\end{lstlisting}
+\vspace{0.3em}
+\textbf{Cas industriel rappel :} \textbf{Heartbleed (OpenSSL, 2014)} aurait été détecté en quelques heures de fuzzing AFL sur la fonction \texttt{tls1\_process\_heartbeat}. C'est ce qui a motivé Google à lancer le projet \emph{OSS-Fuzz} en 2016.
+\takeaway{Fuzzing = tests par \emph{propriétés} plutôt que par exemples. À découvrir après le QCM.}
+\end{frame}
+
+% ============================================================================
+\section{Synthèse et préparation au QCM}
+% ============================================================================
+\sectionframe{7. Synthèse \& préparation     au QCM}{Trois séances, une compétence \quad\textbf{\textbar{}}\quad \textbf{15 min}}
+
+% ---- 7.1 Synthèse 3 séances ------------------------------------------------
+\begin{frame}[t,shrink=10]{Ce que vous savez désormais (3 séances cumulées)}
+\footnotesize
+\begin{tabular}{@{}p{1.3cm} p{7.4cm} p{7.8cm}@{}}
+\toprule
+\textbf{} & \textbf{\color{accent}Concepts} & \textbf{\color{accent2}Outils opérationnels} \\
+\midrule
+\textbf{S1} & ISO 25010, erreur/défaut/panne, V\&V, pyramide, FIRST, AAA
+& \texttt{pytest}, JUnit 5, \texttt{parametrize}, \texttt{approx} \\
+\addlinespace[0.15em]
+\textbf{S2} & Boîte noire vs blanche, partitions, valeurs limites, tables de décision, états, couverture C0/C1/C2, taxonomie Meszaros
+& \texttt{coverage.py}, JaCoCo, \texttt{unittest.mock}, Mockito, \texttt{@patch} \\
+\addlinespace[0.15em]
+\textbf{S3} & TDD \emph{red-green-refactor}, 3 lois de Martin, refactoring catalogue, tests d'intégration, CI, mutation, fuzzing, analyse statique
+& Git, SQLite/H2 in-memory, GitHub Actions, \texttt{ruff}, \texttt{mutmut}, Hypothesis \\
+\bottomrule
+\end{tabular}
+\\
+\vspace{0.5cm}
+\textbf{Compétence-clé acquise :} vous êtes capable, face à un module Python ou Java inconnu, de :
+\begin{itemize}\itemsep0.05em
+\item identifier les classes d'équivalence et les valeurs limites ;
+\item écrire une suite \texttt{pytest} ou JUnit respectant AAA + FIRST ;
+\item mesurer la couverture branche et combler les manques ;
+\item mocker les dépendances externes proprement ;
+\item brancher une CI GitHub Actions.
+\end{itemize}
+\takeaway{Vous êtes \textbf{employables} sur des missions de testeur junior. Le QCM va le valider.}
+\end{frame}
+
+% ---- 7.2 Conseils méthodologiques QCM --------------------------------------
+\begin{frame}[t,shrink=15]{Conseils méthodologiques pour le QCM}
+\footnotesize
+\textbf{Quelques heures avant l'épreuve :}
+\begin{itemize}\itemsep0.08em
+\item Relire vos \textbf{takeaways} (1 par slide) des 3 séances. C'est l'essentiel.
+\item Refaire mentalement le cycle \emph{red-green-refactor} sur FizzBuzz.
+\item Mémoriser les acronymes : \textbf{FIRST}, \textbf{AAA}, \textbf{C0/C1/C2}, \textbf{ISO 25010}.
+\end{itemize}
+\vspace{0.4cm}
+\textbf{Pendant l'épreuve (90 min) :}
+\begin{itemize}\itemsep0.08em
+\item Lire \textbf{toute} la question, puis \textbf{toutes} les réponses, avant de cocher.
+\item Éliminer les distracteurs absurdes en premier (souvent il en reste 2 plausibles).
+\item Pour les questions de lecture de code : tracer mentalement l'exécution, attention aux \texttt{<} vs \texttt{<=}.
+\item Marquer les questions difficiles et y revenir en fin d'épreuve.
+\item Sans pénalité pour réponse fausse : \textbf{ne laissez rien en blanc} (à confirmer en début d'épreuve).
+\end{itemize}
+\vspace{0.4cm}
+\textbf{Pièges classiques :}
+\begin{itemize}\itemsep0.05em
+\item Confondre \emph{vérification} (conformité à la spec) et \emph{validation} (utilité réelle).
+\item Croire que 100\,\% de couverture = absence de bugs (cf.\ S2 §5).
+\item Confondre \emph{mock} (vérifie interactions) et \emph{stub} (retourne valeur prédéfinie).
+\end{itemize}
+\takeaway{Le QCM teste ce que vous \textbf{savez expliquer}, pas ce que vous \textbf{savez coder}. Privilégiez les concepts.}
+\end{frame}
+
+% ============================================================================
+\section{Examen final QCM}
+% ============================================================================
+\sectionframe{8. Examen final QCM}{60\,\% de la note finale \quad\textbf{\textbar{}}\quad \textbf{90 min}}
+
+% ---- 8.1 Format ------------------------------------------------------------
+\begin{frame}[t,shrink=10]{Format de l'examen final QCM}
+\footnotesize
+\textbf{Conditions matérielles :}
+\begin{itemize}\itemsep0.08em
+\item Sur table ou sur plateforme (selon directives EFREI).
+\item \textbf{90 minutes} chrono.
+\item \textbf{Sans documents}, sans téléphone, sans accès web.
+\item Brouillon autorisé (non ramassé).
+\end{itemize}
+\vspace{0.5cm}
+\textbf{Composition du QCM :}
+\begin{itemize}\itemsep0.08em
+\item \textbf{30 à 40 questions} à choix multiples (1 seule réponse correcte par question).
+\item Chaque question est \textbf{indépendante} : pas d'enchaînement contextuel.
+\item Quelques questions impliqueront la \textbf{lecture d'un court extrait} de code Python ou Java.
+\end{itemize}
+\vspace{0.5cm}
+\textbf{Distribution Bloom :}
+\begin{itemize}\itemsep0.05em
+\item \textbf{30\,\%} niveau \textbf{Comprendre} : définitions, vocabulaire (ISO 25010, FIRST, AAA, V\&V).
+\item \textbf{50\,\%} niveau \textbf{Appliquer} : choisir le bon test, lire une assertion, identifier un type de double.
+\item \textbf{20\,\%} niveau \textbf{Analyser} : critiquer une suite de tests, diagnostiquer une violation FIRST.
+\end{itemize}
+\takeaway{Le QCM couvre les 3 séances de manière équilibrée. Aucune révision \og inutile \fg{}.}
+\end{frame}
+
+% ---- 8.2 Exemples de questions ---------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{Trois exemples du format QCM}
+\footnotesize
+\textbf{Exemple 1 (Comprendre) :}\\
+\textit{Lequel des principes FIRST exige qu'un test produise le même résultat à chaque exécution ?}\\
+\hspace{1em} A. Fast \quad B. Independent \quad \textbf{C. Repeatable} \quad D. Self-Validating\\[0.5em]
+
+\textbf{Exemple 2 (Appliquer) :} \texttt{Lire le code Python ci-dessous :}
+\begin{lstlisting}[style=pythondark]
+def remise(montant, est_etudiant):
+    if est_etudiant:
+        return montant * 0.9
+    return montant
+\end{lstlisting}
+\textit{Quelle suite de tests atteint 100\,\% de couverture branche ?}\\
+\hspace{1em} A. \texttt{remise(100, True)} seul \quad
+\textbf{B. \texttt{remise(100, True)} + \texttt{remise(100, False)}}\\
+\hspace{1em} C. \texttt{remise(0, True)} seul \quad
+D. Aucune\\[0.5em]
+
+\textbf{Exemple 3 (Analyser) :}\\
+\textit{Un développeur écrit :} \texttt{def test\_calcul(): assert calcul(2, 3) == 5}\textit{ ; le test passe. Sa suite contient 200 tests similaires, qui passent tous. La couverture branche est de 47\,\%. Quel diagnostic est correct ?}\\
+\hspace{1em} A. La suite est de qualité car les tests passent. \\
+\hspace{1em} \textbf{B. La couverture insuffisante révèle que des branches du code ne sont jamais exercées.}\\
+\hspace{1em} C. C'est normal, 47\,\% est un bon score. \quad
+D. Il manque des mocks.
+\takeaway{Les distracteurs sont \emph{plausibles}, pas absurdes. Lisez attentivement.}
+\end{frame}
+
+% ============================================================================
+% CLÔTURE
+% ============================================================================
+
+% ---- Biblio finale --------------------------------------------------------
+\begin{frame}[t]{Pour aller plus loin --- bibliographie cumulée}
+\scriptsize
+\textbf{TDD et refactoring :}
+\begin{itemize}\itemsep0.1em
+\item Beck, K., \emph{Test-Driven Development: By Example}, Addison-Wesley, 2002.
+\item Fowler, M., \emph{Refactoring: Improving the Design of Existing Code}, 2\textsuperscript{e}~éd., Addison-Wesley, 2018.
+\item Martin, R., \emph{Clean Code}, ch.~9 \og Unit Tests \fg, Prentice Hall, 2008.
+\item Nagappan, N.\ et al., \og Realizing quality improvement through test driven development \fg, \emph{Empirical Software Engineering}, vol.~13, 2008.
+\end{itemize}
+\vspace{0.3em}
+\textbf{Intégration continue et DevOps :}
+\begin{itemize}\itemsep0.1em
+\item Humble, J.\ \& Farley, D., \emph{Continuous Delivery}, Addison-Wesley, 2010.
+\item Forsgren, N., Humble, J., Kim, G., \emph{Accelerate}, IT Revolution Press, 2018.
+\item GitHub Actions docs : \texttt{docs.github.com/actions}
+\end{itemize}
+\vspace{0.3em}
+\textbf{Techniques avancées :}
+\begin{itemize}\itemsep0.1em
+\item DeMillo, R., Lipton, R., Sayward, F., \og Hints on test data selection \fg, \emph{IEEE Computer}, 11(4), 1978 (origine des tests de mutation).
+\item OSS-Fuzz : \texttt{google.github.io/oss-fuzz/}
+\item Hypothesis (Python) : \texttt{hypothesis.readthedocs.io}
+\end{itemize}
+\vspace{0.3em}
+\textbf{Normes et référentiels (rappel S1) :} ISO/IEC 25010:2011, ISO/IEC/IEEE 29119, ISTQB Foundation Level v4.0, SWEBOK v3.0.
+\end{frame}
+
+% ---- Slide finale ---------------------------------------------------------
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture, overlay]
+\fill[accent] (current page.south west) rectangle (current page.north east);
+\end{tikzpicture}
+\vspace{1.8cm}
+\centering
+{\color{white}\Huge\bfseries Bon QCM !}\\[0.5cm]
+{\color{white}\large Et merci pour ces 15 heures de testing.}\\[1.4cm]
+{\color{white!85}\small Le testing est une compétence transférable :\\
+vos prochains stages et projets en bénéficieront.}\\[0.5cm]
+{\color{white!75}\scriptsize \texttt{yvan.guifo-fodjo@efrei.fr}}
+\vfill
+\end{frame}
+
+\end{document}

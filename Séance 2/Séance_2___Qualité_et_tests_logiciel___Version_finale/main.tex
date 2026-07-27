@@ -1,0 +1,1357 @@
+% ============================================================================
+%  Qualité et tests logiciels --- Séance 1 (5h)
+%  Niveau : L2 ingénierie informatique --- Format CTP
+%  Dr. Yvan GUIFO FODJO --- EFREI Paris --- 2025--2026
+%  Style : Slidev-inspired (sobre, moderne, code dark, generous whitespace)
+%  Compilation : pdflatex (Overleaf)
+% ============================================================================
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ---- Encodage et langue ---------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% ---- Math, graphiques, tableaux -------------------------------------------
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{pifont}
+\usepackage{eurosym}
+
+% ---- TikZ -----------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{positioning,calc,arrows.meta,shapes.geometric,shapes.symbols,
+                fit,backgrounds,decorations.pathreplacing,patterns}
+
+% ============================================================================
+%  COULEURS
+% ============================================================================
+\usepackage{xcolor}
+
+% --- palette de marque ---
+\definecolor{accent}{HTML}{3B82F6}
+\definecolor{accent2}{HTML}{0EA5A4}
+\definecolor{accentdark}{HTML}{1D4ED8}
+
+% --- textes & arrière-plans clairs ---
+\definecolor{textmain}{HTML}{0F172A}
+\definecolor{textsoft}{HTML}{64748B}
+\definecolor{bgsoft}{HTML}{F8FAFC}
+\definecolor{bgaccent}{HTML}{EFF6FF}
+\definecolor{bgaccent2}{HTML}{ECFEFB}
+\definecolor{linecolor}{HTML}{E2E8F0}
+
+% --- thème sombre (code Slidev) ---
+\definecolor{darkbg}{HTML}{0F172A}
+\definecolor{darkbg2}{HTML}{1E293B}
+\definecolor{darkfg}{HTML}{E2E8F0}
+\definecolor{darkcomment}{HTML}{64748B}
+\definecolor{darkkey}{HTML}{C084FC}
+\definecolor{darkstr}{HTML}{34D399}
+\definecolor{darknum}{HTML}{FBBF24}
+\definecolor{darkfunc}{HTML}{60A5FA}
+
+% --- sémantique ---
+\definecolor{good}{HTML}{16A34A}
+\definecolor{goodbg}{HTML}{DCFCE7}
+\definecolor{warn}{HTML}{EA580C}
+\definecolor{warnbg}{HTML}{FFEDD5}
+\definecolor{bad}{HTML}{DC2626}
+\definecolor{badbg}{HTML}{FEE2E2}
+\definecolor{exobg}{HTML}{FEF9C3}
+\definecolor{exodraw}{HTML}{A16207}
+\definecolor{solbg}{HTML}{F0F9FF}
+\definecolor{soldraw}{HTML}{0369A1}
+
+\colorlet{greenlight}{good!18}
+\colorlet{orangelight}{warn!18}
+\colorlet{redlight}{bad!15}
+
+% ============================================================================
+%  LISTINGS --- thème sombre Slidev
+% ============================================================================
+\usepackage{listings}
+
+\lstdefinestyle{pythondark}{
+    language=Python,
+    backgroundcolor=\color{darkbg},
+    basicstyle=\ttfamily\footnotesize\color{darkfg},
+    commentstyle=\color{darkcomment}\itshape,
+    keywordstyle=\color{darkkey}\bfseries,
+    stringstyle=\color{darkstr},
+    numberstyle=\tiny\color{darkcomment},
+    emphstyle=\color{darkfunc},
+    numbers=left, numbersep=10pt,
+    showstringspaces=false,
+    breaklines=true, tabsize=4,
+    frame=none,
+    xleftmargin=1.2em, xrightmargin=0.4em,
+    aboveskip=0.6em, belowskip=0.6em,
+    morekeywords={self,True,False,None,assert}
+}
+
+\lstdefinestyle{javadark}{
+    language=Java,
+    backgroundcolor=\color{darkbg},
+    basicstyle=\ttfamily\footnotesize\color{darkfg},
+    commentstyle=\color{darkcomment}\itshape,
+    keywordstyle=\color{darkkey}\bfseries,
+    stringstyle=\color{darkstr},
+    numberstyle=\tiny\color{darkcomment},
+    numbers=left, numbersep=10pt,
+    showstringspaces=false,
+    breaklines=true, tabsize=4,
+    frame=none,
+    xleftmargin=1.2em, xrightmargin=0.4em,
+    aboveskip=0.6em, belowskip=0.6em
+}
+
+\lstdefinestyle{bashdark}{
+    backgroundcolor=\color{darkbg},
+    basicstyle=\ttfamily\footnotesize\color{darkfg},
+    commentstyle=\color{darkcomment}\itshape,
+    keywordstyle=\color{darkkey}\bfseries,
+    showstringspaces=false,
+    breaklines=true,
+    frame=none,
+    xleftmargin=1em, aboveskip=0.5em, belowskip=0.5em,
+    morekeywords={pytest,pip,python,mvn,git,coverage}
+}
+
+\lstset{style=pythondark}
+
+% ============================================================================
+%  THÈME BEAMER  --- "Slidev"
+% ============================================================================
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{normal text}{fg=textmain,bg=white}
+\setbeamercolor{frametitle}{fg=textmain,bg=white}
+\setbeamercolor{structure}{fg=accent}
+\setbeamercolor{item}{fg=accent}
+\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamertemplate{frametitle}{
+  \vspace{0.55cm}
+  {\usebeamerfont{frametitle}\color{textmain}\insertframetitle\par}
+  \vspace{0.18cm}{\color{accent}\rule{0.18\linewidth}{1.2pt}}
+}
+\setbeamertemplate{itemize item}{\color{accent}\small$\bullet$}
+\setbeamertemplate{itemize subitem}{\color{accent2}\small$\blacktriangleright$}
+\setbeamertemplate{itemize subsubitem}{\color{textsoft}\scriptsize$\circ$}
+
+\setbeamertemplate{footline}{
+  \leavevmode\hbox{%
+    \begin{beamercolorbox}[wd=.88\paperwidth,ht=2.8ex,dp=1.2ex,leftskip=1em]{author in head/foot}%
+      \color{textsoft}\scriptsize\insertshorttitle
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.12\paperwidth,ht=2.8ex,dp=1.2ex,center]{date in head/foot}%
+      \color{accent}\scriptsize\bfseries\insertframenumber
+    \end{beamercolorbox}%
+  }\vskip0pt
+}
+\setbeamertemplate{headline}{}
+
+% ============================================================================
+%  COMMANDES & ENVIRONNEMENTS
+% ============================================================================
+\newcommand{\duree}[1]{{\small\color{accent2}\textbf{Durée :} #1}}
+
+\newcommand{\sectionframe}[2]{%
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture, overlay]
+\fill[accent] (current page.south west) rectangle (current page.north east);
+\node[anchor=west, text=white, font=\tiny] at ([xshift=0.6cm,yshift=-0.6cm]current page.north west) {SECTION};
+\node[anchor=east, text=white, font=\tiny] at ([xshift=-0.6cm,yshift=-0.6cm]current page.north east) {Séance 1 --- Qualité et tests logiciels};
+\end{tikzpicture}
+\vspace{0.6cm}
+{\color{white}\rule{0.15\linewidth}{1.6pt}}\\[0.6cm]
+{\color{white}\Huge\bfseries #1}\\[0.3cm]
+{\color{white!85!accent}\large #2}
+\vfill
+\end{frame}}
+
+\newcommand{\takeaway}[1]{%
+\vfill\begin{beamercolorbox}[wd=\linewidth,sep=0.4em]{}
+\color{accent2}\rule[0.6ex]{1.2em}{1.2pt}\hspace{0.4em}%
+\textbf{\color{accent2}\small À retenir} \textcolor{textsoft}{:} %
+{\small\color{textmain}#1}
+\end{beamercolorbox}}
+
+% --- encadrés thématiques (sans tcolorbox pour rester simple) ---
+\newenvironment{infobox}[1][Info]{%
+\begin{beamercolorbox}[wd=\linewidth,sep=0.6em,rounded=true]{block body}%
+\color{accent}\textbf{\small #1}\\[-0.1em]
+\color{textmain}\small
+}{\end{beamercolorbox}}
+
+% --- encadrés thématiques avec tcolorbox (robuste) ---
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{exercice}[1][Exercice]{%
+    enhanced,
+    colback=exobg!40,
+    colframe=exodraw,
+    boxrule=1pt,
+    arc=3pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    fontupper=\small\color{textmain},
+    before upper={{\color{exodraw}\bfseries\small\ding{220}\ #1}\par\vspace{0.3em}}
+}
+
+\newtcolorbox{corrige}[1][Solution]{%
+    enhanced,
+    colback=solbg,
+    colframe=soldraw,
+    boxrule=1pt,
+    arc=3pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    fontupper=\small\color{textmain},
+    before upper={{\color{soldraw}\bfseries\small\ding{51}\ #1}\par\vspace{0.3em}}
+}
+
+\newcommand{\oui}[1]{\textcolor{good}{\ding{51}}~#1}
+\newcommand{\non}[1]{\textcolor{bad}{\ding{55}}~#1}
+
+% ============================================================================
+%  TIKZ STYLES
+% ============================================================================
+\tikzset{
+  iso/.style={rectangle, rounded corners=4pt, thick, draw,
+    minimum width=3.5cm, minimum height=0.75cm,
+    align=center, font=\footnotesize\bfseries},
+  chainbox/.style={rectangle, rounded corners=3pt, thick, draw,
+    minimum width=2.6cm, minimum height=1.0cm,
+    align=center, font=\small},
+  pyramid/.style={thick, font=\footnotesize\bfseries},
+  firstletter/.style={circle, draw, thick, fill=bgaccent,
+    minimum size=0.9cm, font=\bfseries, text=accentdark},
+  arrowstep/.style={-{Latex[length=2.5mm,width=2mm]},
+    line width=0.7pt, draw=textsoft}
+}
+
+% ============================================================================
+%  MÉTADONNÉES
+% ============================================================================
+
+% ============================================================================
+%  MÉTADONNÉES
+% ============================================================================
+\title[Qualité \& Tests Logiciels --- Séance 2]{}
+\author{Dr. Yvan GUIFO FODJO}
+\institute{EFREI Paris}
+\date{2025--2026}
+
+% Section header avec mention Séance 2
+\renewcommand{\sectionframe}[2]{%
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture, overlay]
+\fill[accent] (current page.south west) rectangle (current page.north east);
+\node[anchor=west, text=white, font=\tiny] at ([xshift=0.6cm,yshift=-0.6cm]current page.north west) {SECTION};
+\node[anchor=east, text=white, font=\tiny] at ([xshift=-0.6cm,yshift=-0.6cm]current page.north east) {Séance 2 --- Qualité et tests logiciels};
+\end{tikzpicture}
+\vspace{0.6cm}
+{\color{white}\rule{0.15\linewidth}{1.6pt}}\\[0.6cm]
+{\color{white}\Huge\bfseries #1}\\[0.3cm]
+{\color{white!85!accent}\large #2}
+\vfill
+\end{frame}}
+
+% ============================================================================
+\begin{document}
+% ============================================================================
+
+% ---- TITRE -----------------------------------------------------------------
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture, overlay]
+\node[anchor=north east] at ([xshift=-0.7cm, yshift=-0.6cm]current page.north east)
+    {\includegraphics[width=4.6cm]{Logo_EFREI.png}};
+\end{tikzpicture}
+\vspace{0.8cm}
+{\color{accent}\rule{0.22\linewidth}{1.4pt}}\\[0.5cm]
+{\Huge\bfseries Conception de tests,\\[0.18em] couverture, TP noté}\\[0.35cm]
+{\large\color{textsoft}Séance 2 --- Concevoir, mesurer, isoler}\\[0.9cm]
+\begin{tikzpicture}
+\node[rectangle, rounded corners=4pt, fill=bgsoft, draw=linecolor, line width=0.5pt,
+      minimum width=0.82\linewidth, minimum height=1.9cm, inner sep=10pt]{
+\begin{minipage}{0.76\linewidth}
+{\large\bfseries Dr. Yvan GUIFO FODJO}\\[0.1cm]
+{\color{textsoft}\small EFREI Paris\quad|\quad Séance 2/3\quad|\quad Format CTP\quad|\quad \textbf{5h}}\\[0.1cm]
+{\color{textsoft}\footnotesize Année universitaire 2026--2027\quad|\quad \texttt{yvan.guifo-fodjo@efrei.fr}}
+\end{minipage}};
+\end{tikzpicture}
+\vfill
+\end{frame}
+
+% ---- PLAN ------------------------------------------------------------------
+\begin{frame}[t]{Plan de la séance}
+\duree{5h --- CTP avec TP noté individuel en clôture}
+\vspace{0.4cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{\color{accent}Partie cours}\\[0.2em]
+\footnotesize
+\textbf{1.} Boîte noire vs boîte blanche \hfill {\color{textsoft}30~min}\\
+\textbf{2.} Partitions \& valeurs limites \hfill {\color{textsoft}45~min}\\
+\textbf{3.} Tables de décision \& états \hfill {\color{textsoft}40~min}\\
+\textbf{5.} Couverture de code \hfill {\color{textsoft}40~min}\\
+\textbf{7.} Test doubles (Meszaros) \hfill {\color{textsoft}35~min}\\
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{\color{accent2}Partie travaux pratiques}\\[0.2em]
+\footnotesize
+\textbf{4.} TP3 guidé --- Panier \hfill {\color{textsoft}50~min}\\
+\textbf{6.} TP4 guidé --- coverage \& JaCoCo \hfill {\color{textsoft}40~min}\\
+\textbf{\color{bad}8.} \textbf{TP noté individuel} \hfill \textbf{\color{bad}60~min}\\[0.2em]
+{\color{textsoft}Pauses \hfill 20~min}
+\end{column}
+\end{columns}
+\vspace{0.4cm}
+\begin{beamercolorbox}[wd=\linewidth,sep=0.5em,rounded=true]{block body}
+{\color{accent}\bfseries\small Objectifs Bloom}\\[0.1em]
+\footnotesize
+\textbf{Appliquer} : partitions, valeurs limites, table de décision pour concevoir des tests.\\
+\textbf{Analyser} : couverture instruction/branche/condition d'une suite existante.\\
+\textbf{Appliquer} : substituer des dépendances avec mocks \texttt{unittest.mock} et Mockito.
+\end{beamercolorbox}
+\end{frame}
+
+% ============================================================================
+\section{Boîte noire vs boîte blanche}
+% ============================================================================
+\sectionframe{1. Boîte noire vs boîte blanche}{Deux regards complémentaires \quad\textbf{\textbar{}}\quad \textbf{30 min}}
+
+% ---- 1.1 Rappel S1 ---------------------------------------------------------
+\begin{frame}[t]{Avant de commencer : trois acquis de la Séance 1}
+\vspace{0.2cm}
+\footnotesize
+\begin{tabular}{@{}p{2.4cm} p{10.2cm}@{}}
+\toprule
+\textbf{\color{accent}Concept} & \textbf{\color{accent}Ce qu'il signifie pour aujourd'hui} \\
+\midrule
+\textbf{Patron AAA} & Squelette universel d'un test : Arrange, Act, Assert. Vous l'appliquerez systématiquement.\\
+\addlinespace[0.2em]
+\textbf{Principes FIRST} & Toute technique nouvelle doit produire des tests \textbf{Fast, Independent, Repeatable, Self-validating, Timely}.\\
+\addlinespace[0.2em]
+\textbf{ISO/IEC 25010} & On vise principalement aujourd'hui : \textbf{adéquation fonctionnelle} (vérifier que ça calcule juste) et \textbf{fiabilité} (le résultat est stable).\\
+\bottomrule
+\end{tabular}
+\\
+\vspace{0.4cm}
+\textbf{Question ouverte :} jusqu'ici vos tests s'écrivaient « à l'instinct ». Comment savoir \textbf{quels} tests écrire, \textbf{combien}, et \textbf{quand s'arrêter} ?
+\takeaway{La Séance 2 répond à : « comment concevoir des tests systématiquement, sans en oublier et sans en faire trop ? »}
+\end{frame}
+
+% ---- 1.2 Le problème de la combinatoire ------------------------------------
+\begin{frame}[fragile,t]{Le probl\`eme : on ne peut pas tout tester}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.45\textwidth}
+\begin{lstlisting}[style=pythondark]
+def valider_age(age: int) -> bool:
+    return 13 <= age <= 120
+\end{lstlisting}
+\vspace{0.3cm}\footnotesize
+Un entier Python (32 bits) prend environ \textbf{$4{,}3 \times 10^9$ valeurs}.\\[0.3em]
+À 1\,000 tests par seconde, tester toutes les entrées prendrait :
+\[\frac{4{,}3 \times 10^9}{1000 \times 86400} \approx \textbf{50 jours.}\]
+\end{column}
+\begin{column}{0.52\textwidth}
+\vspace{0.1cm}\footnotesize
+\textbf{Le compromis fondamental :}\\[0.3em]
+\non{\textbf{Tester tout}} = impossible.\\[0.2em]
+\non{\textbf{Tester au hasard}} = peu efficace.\\[0.2em]
+\oui{\textbf{Tester intelligemment}} = sélectionner des \textit{cas représentatifs} qui couvrent les comportements distincts.\\[0.5em]
+\textbf{Question méthodologique :} comment définir cette représentativité de manière \textbf{reproductible} et \textbf{argumentée} ?
+\end{column}
+\end{columns}
+\takeaway{Concevoir des tests = sélectionner un nombre fini de cas qui révèlent la majorité des défauts.}
+\end{frame}
+
+% ---- 1.3 Deux approches ----------------------------------------------------
+\begin{frame}[t]{Deux approches de conception : boîte noire et boîte blanche}
+\vspace{0.2cm}
+\centering
+\begin{tikzpicture}[font=\footnotesize, node distance=1.4cm and 1.6cm]
+% Boite noire
+\node[draw=accent, fill=bgaccent, line width=1pt,
+      minimum width=3cm, minimum height=2.0cm, rounded corners=4pt,
+      align=center, font=\small\bfseries] (bn) {Boîte\\noire};
+\node[font=\scriptsize, above=0.05cm of bn, text=accent]{Spécification};
+\draw[arrowstep] ($(bn.west) + (-1.2,0)$) -- (bn.west) node[midway,above,font=\tiny]{entrée};
+\draw[arrowstep] (bn.east) -- ($(bn.east) + (1.2,0)$) node[midway,above,font=\tiny]{sortie};
+
+% Boite blanche
+\node[draw=accent2, fill=bgaccent2, line width=1pt,
+      minimum width=3cm, minimum height=2.0cm, rounded corners=4pt,
+      align=center, right=2.2cm of bn] (bb) {if x > 0:\\\ \ return x\\else:\\\ \ return -x};
+\node[font=\scriptsize, above=0.05cm of bb, text=accent2]{Code source};
+\draw[arrowstep] ($(bb.west) + (-1.2,0)$) -- (bb.west) node[midway,above,font=\tiny]{entrée};
+\draw[arrowstep] (bb.east) -- ($(bb.east) + (1.2,0)$) node[midway,above,font=\tiny]{sortie};
+\end{tikzpicture}
+\vspace{0.4cm}\footnotesize
+
+\textbf{\color{accent}Boîte noire :} on conçoit les tests à partir de ce que le logiciel \textbf{doit faire} (spécification). Le testeur n'a pas besoin de lire le code.\\[0.5em]
+\textbf{\color{accent2}Boîte blanche :} on conçoit les tests à partir de ce que le logiciel \textbf{fait} (code source). Le testeur exploite la structure interne.
+\takeaway{Les deux approches sont \textbf{complémentaires}, pas concurrentes. On les combine pour atteindre la robustesse.}
+\end{frame}
+
+% ---- 1.4 Tableau comparatif ------------------------------------------------
+\begin{frame}[t]{Quand utiliser quelle approche ?}
+\footnotesize
+\begin{tabular}{@{}p{3.4cm} p{4.5cm} p{4.5cm}@{}}
+\toprule
+& \textbf{\color{accent}Boîte noire} & \textbf{\color{accent2}Boîte blanche} \\
+\midrule
+\textbf{Source des cas} & Spécification, exigences, contrat & Code source, structure de contrôle \\
+\addlinespace[0.15em]
+\textbf{Techniques typiques} & Partitions, valeurs limites, tables de décision, états & Couverture instruction/branche/condition, chemins, MC/DC \\
+\addlinespace[0.15em]
+\textbf{Avantage clé} & Indépendance de l'implémentation. Vérifie les \emph{besoins}. & Détecte le code \textbf{non testé} ou \textbf{mort}. \\
+\addlinespace[0.15em]
+\textbf{Limite} & Peut manquer du code interne (branches non spécifiées). & Ne détecte pas les fonctionnalités \textbf{absentes}. \\
+\addlinespace[0.15em]
+\textbf{Quand l'utiliser} & Spec d'abord, puis tests (TDD, ATDD). & Audit de couverture, code legacy. \\
+\bottomrule
+\end{tabular}
+\vspace{0.4cm}
+\textbf{En pratique industrielle :} on commence par la boîte noire (cas issus de la spec), puis on \textbf{mesure la couverture} pour détecter les branches non testées, et on complète en boîte blanche.
+\takeaway{Aujourd'hui : 3 techniques boîte noire (matin), puis mesure de couverture (après-midi), puis mocks pour tester l'isolation.}
+\end{frame}
+
+% ============================================================================
+\section{Partitions d'équivalence et valeurs limites}
+% ============================================================================
+\sectionframe{2. Partitions \& valeurs limites}{Conception boîte noire systématique \quad\textbf{\textbar{}}\quad \textbf{45 min}}
+
+% ---- 2.1 Idée centrale -----------------------------------------------------
+\begin{frame}[t]{L'idée fondatrice : classes d'équivalence}
+\footnotesize
+\textbf{Hypothèse de Myers (1979) et Beizer (1990) :}\\[0.3em]
+\textit{Si un programme se comporte correctement pour une valeur d'une certaine classe, il se comportera correctement pour toutes les valeurs de cette classe.}\\[0.5em]
+\textbf{Conséquence pratique :} au lieu de tester \textbf{toutes} les valeurs d'une plage, on teste \textbf{une valeur par classe d'équivalence}.\\[0.5em]
+\vspace{0.1cm}\centering
+\begin{tikzpicture}[font=\scriptsize, node distance=0.1cm]
+\draw[thick] (-5,0) -- (5,0);
+\foreach \x in {-5,-4,-3,-2,-1,0,1,2,3,4,5} \draw[thick] (\x,-0.1) -- (\x,0.1);
+\fill[redlight] (-5,-0.5) rectangle (-1,-0.05);
+\fill[greenlight] (-1,-0.5) rectangle (3,-0.05);
+\fill[orangelight] (3,-0.5) rectangle (5,-0.05);
+\node[below, font=\tiny] at (-3,-0.55) {Classe A : refusée};
+\node[below, font=\tiny] at (1,-0.55) {Classe B : acceptée};
+\node[below, font=\tiny] at (4,-0.55) {Classe C : refusée};
+\node[above, font=\scriptsize, text=bad] at (-3,0.15) {ex: $-2$};
+\node[above, font=\scriptsize, text=good] at (1,0.15) {ex: $20$};
+\node[above, font=\scriptsize, text=warn] at (4,0.15) {ex: $200$};
+\end{tikzpicture}
+\vspace{0.6cm}
+\takeaway{1 valeur par classe au lieu de N : explosion combinatoire contenue, couverture des comportements distincts garantie.}
+\end{frame}
+
+% ---- 2.2 Méthode 4 étapes --------------------------------------------------
+\begin{frame}[t]{Méthode systématique en 4 étapes}
+\vspace{0.2cm}
+\footnotesize
+\begin{enumerate}\itemsep0.35em
+\item \textbf{Identifier les conditions d'entrée} dans la spécification (paramètres, contraintes, intervalles).
+\item \textbf{Partitionner} chaque condition en classes d'équivalence \textbf{valides} (qui doivent être acceptées) et \textbf{invalides} (qui doivent être rejetées).
+\item \textbf{Choisir une valeur représentative} pour chaque classe : préférer une valeur \textit{nominale} au milieu de la classe.
+\item \textbf{Ajouter les valeurs limites} : aux frontières exactes ($\min$, $\min+1$, $\max-1$, $\max$) et juste au-delà ($\min-1$, $\max+1$).
+\end{enumerate}
+\vspace{0.5cm}
+
+\begin{beamercolorbox}[sep=0.5em,rounded=true]{block body}
+\scriptsize\textbf{\color{accent}Pourquoi insister sur les limites ?}\\[0.1em]
+Études empiriques (Boris Beizer, \emph{Software Testing Techniques}, 1990) : entre \textbf{50\% et 80\% des défauts} apparaissent aux frontières des domaines. C'est là que les programmeurs hésitent entre \texttt{<} et \texttt{<=}, ou oublient un cas spécial.
+\end{beamercolorbox}
+\takeaway{Partitions + valeurs limites = la base de toute conception de tests par contrat.}
+\end{frame}
+
+% ---- 2.3 Exemple détaillé --------------------------------------------------
+\begin{frame}[fragile,t,shrink=12]{Exemple complet : tarif SNCF \'etudiant}
+\textbf{Spécification :}
+\begin{lstlisting}[style=pythondark]
+def reduction_etudiant(age: int, est_etudiant: bool) -> float:
+    """
+    Retourne le pourcentage de reduction.
+    - Etudiant et 13-25 ans : 50%
+    - Etudiant et 26-30 ans : 30%
+    - Non etudiant ou hors plage : 0%
+    """
+\end{lstlisting}
+\vspace{0.3cm}
+\footnotesize
+\textbf{Identification des partitions pour \texttt{age} (étudiant=True) :}\\[0.2em]
+\begin{tabular}{@{}p{3.0cm} p{2.4cm} p{3.4cm} p{3.6cm}@{}}
+\toprule
+\textbf{Classe} & \textbf{Plage} & \textbf{Représentant nominal} & \textbf{Limites} \\
+\midrule
+Hors plage basse & $< 13$ & 5 & 12 \\
+Réduction 50\% & $13 \le age \le 25$ & 18 & 13, 14, 24, 25 \\
+Réduction 30\% & $26 \le age \le 30$ & 28 & 26, 27, 29, 30 \\
+Hors plage haute & $> 30$ & 50 & 31 \\
+\bottomrule
+\end{tabular}
+\takeaway{Pour 1 paramètre × 4 classes : 4 valeurs nominales + 7 limites = 11 tests représentatifs (à combiner avec étudiant=True/False).}
+\end{frame}
+
+% ---- 2.4 Tests générés -----------------------------------------------------
+\begin{frame}[fragile,t,shrink=10]{Tests g\'en\'er\'es (avec \texttt{parametrize})}
+\begin{lstlisting}[style=pythondark]
+import pytest
+
+@pytest.mark.parametrize("age, etudiant, attendu_pct", [
+    # Classe : hors plage basse (etudiant)
+    (5,   True,  0.0),      # nominal
+    (12,  True,  0.0),      # limite basse - 1
+    # Classe : reduction 50%
+    (13,  True,  50.0),     # limite min
+    (18,  True,  50.0),     # nominal
+    (25,  True,  50.0),     # limite max
+    # Classe : reduction 30%
+    (26,  True,  30.0),     # limite min
+    (28,  True,  30.0),     # nominal
+    (30,  True,  30.0),     # limite max
+    # Classe : hors plage haute
+    (31,  True,  0.0),      # limite max + 1
+    # Classe : non etudiant (peu importe l'age)
+    (18,  False, 0.0),
+    (28,  False, 0.0),
+])
+def test_reduction_etudiant(age, etudiant, attendu_pct):
+    assert reduction_etudiant(age, etudiant) == pytest.approx(attendu_pct)
+\end{lstlisting}
+\takeaway{11 tests générés, intention documentée par les commentaires de classe. Maintenable et exhaustif.}
+\end{frame}
+
+% ---- 2.5 Exercice ----------------------------------------------------------
+\begin{frame}[t]{Exercice 2.1 --- Système de notation universitaire}
+\begin{exercice}[Exercice 2.1 (10 min, en binôme)]
+\textbf{Spécification :} une fonction \texttt{mention(note)} retourne :
+\begin{itemize}\itemsep0.05em
+\item \texttt{"Recalé"} si \texttt{note < 10}
+\item \texttt{"Passable"} si \texttt{10 <= note < 12}
+\item \texttt{"AB"} (Assez Bien) si \texttt{12 <= note < 14}
+\item \texttt{"B"} (Bien) si \texttt{14 <= note < 16}
+\item \texttt{"TB"} (Très Bien) si \texttt{16 <= note <= 20}
+\item Si \texttt{note < 0} ou \texttt{note > 20} : lève \texttt{ValueError}.\\[0.4em]
+\end{itemize}
+\textbf{Travail :} identifier les classes d'équivalence et les valeurs limites, puis lister les cas de test à écrire (valeur + résultat attendu) dans un tableau.
+\end{exercice}
+\end{frame}
+
+\begin{frame}[t,shrink=10]{Solution 2.1}
+\scriptsize
+\begin{tabular}{@{}l l l l@{}}
+\toprule
+\textbf{Classe} & \textbf{Plage} & \textbf{Cas (nominal + limites)} & \textbf{Attendu}\\
+\midrule
+Invalide négatif & $< 0$ & $-1$, $-100$ & \texttt{ValueError} \\
+Recalé & $0 \le n < 10$ & $0$, $5$, $9$, $9{,}99$ & \texttt{"Recalé"} \\
+Passable & $10 \le n < 12$ & $10$, $11$, $11{,}99$ & \texttt{"Passable"} \\
+AB & $12 \le n < 14$ & $12$, $13$, $13{,}99$ & \texttt{"AB"} \\
+B & $14 \le n < 16$ & $14$, $15$, $15{,}99$ & \texttt{"B"} \\
+TB & $16 \le n \le 20$ & $16$, $18$, $19{,}99$, $20$ & \texttt{"TB"} \\
+Invalide haut & $> 20$ & $20{,}01$, $100$ & \texttt{ValueError} \\
+\bottomrule
+\end{tabular}
+\vspace{0.4cm}\footnotesize
+\\
+\textbf{Total :} 21 cas représentatifs (pour 1 paramètre).\\[0.3em]
+\textbf{Attention aux limites flottantes :} \texttt{9.99} et \texttt{9.999999} ne testent pas la même chose. La spécification dit \texttt{< 10} : \textbf{toute} valeur strictement inférieure à 10 doit être recalée. Si vos floats arrivent à $10 - \varepsilon$, vérifiez avec \texttt{pytest.approx}.
+\takeaway{Une spec rigoureuse en classes $\Rightarrow$ jeu de tests reproductible. Si vous ne trouvez pas les classes, votre spec est floue.}
+\end{frame}
+
+% ============================================================================
+\section{Tables de décision et tests basés sur états}
+% ============================================================================
+\sectionframe{3. Tables de décision \& états}{Quand les paramètres se combinent \quad\textbf{\textbar{}}\quad \textbf{40 min}}
+
+% ---- 3.1 Pourquoi tables ---------------------------------------------------
+\begin{frame}[t]{Quand utiliser une table de décision ?}
+\footnotesize
+\textbf{Limite des partitions :} elles fonctionnent bien pour 1 paramètre indépendant. \\
+Mais que faire quand le résultat dépend de la \textbf{combinaison} de plusieurs conditions ?\\[0.4em]
+\textbf{Exemple typique : remise sur commande librairie.} La remise dépend de :
+\begin{itemize}\itemsep0.1em
+\item statut \textbf{étudiant} (oui / non) ;
+\item adhésion \textbf{programme fidélité} (oui / non) ;
+\item \textbf{montant} de la commande (\texttt{< 30}, \texttt{[30, 100]}, \texttt{> 100}).
+\end{itemize}
+\vspace{0.2em}
+Soit \textbf{2 × 2 × 3 = 12 combinaisons}. Une table de décision les liste \textbf{toutes} et associe une règle métier à chacune.\\[0.4em]
+\textbf{Bénéfices :}
+\begin{itemize}\itemsep0.05em
+\item Discussion explicite avec le client / product owner.
+\item Détection des règles \textbf{incohérentes} ou \textbf{manquantes}.
+\item Génération de \textbf{tests dérivés ligne par ligne}.
+\end{itemize}
+\takeaway{Une table de décision = contrat formel quand plusieurs conditions se combinent.}
+\end{frame}
+
+% ---- 3.2 Table de décision exemple ----------------------------------------
+\begin{frame}[t,shrink=10]{Table de décision : remise librairie}
+\centering\scriptsize
+\begin{tabular}{@{}c | c c c | c@{}}
+\toprule
+\textbf{Cas} & \textbf{Étudiant} & \textbf{Fidélité} & \textbf{Montant} & \textbf{Remise} \\
+\midrule
+1 & Non & Non & $< 30$~\euro{}   & 0\,\% \\
+2 & Non & Non & $30$--$100$~\euro{} & 5\,\% \\
+3 & Non & Non & $> 100$~\euro{}  & 10\,\% \\
+\addlinespace[0.1em]
+4 & Non & Oui & $< 30$~\euro{}   & 5\,\% \\
+5 & Non & Oui & $30$--$100$~\euro{} & 10\,\% \\
+6 & Non & Oui & $> 100$~\euro{}  & 15\,\% \\
+\addlinespace[0.1em]
+7 & Oui & Non & $< 30$~\euro{}   & 5\,\% \\
+8 & Oui & Non & $30$--$100$~\euro{} & 10\,\% \\
+9 & Oui & Non & $> 100$~\euro{}  & 15\,\% \\
+\addlinespace[0.1em]
+10 & Oui & Oui & $< 30$~\euro{}   & 10\,\% \\
+11 & Oui & Oui & $30$--$100$~\euro{} & 15\,\% \\
+12 & Oui & Oui & $> 100$~\euro{}  & 20\,\% \\
+\bottomrule
+\end{tabular}
+\vspace{0.3cm}\footnotesize
+
+\textbf{Chaque ligne $\to$ un test \texttt{parametrize}.} Couverture exhaustive des règles métier garantie.\\[0.2em]
+\textbf{Bénéfice caché :} en remplissant cette table avec le client, on découvre les règles \textbf{ambiguës} ou \textbf{contradictoires} avant le code.
+\takeaway{12 lignes $\to$ 12 tests $\to$ règle métier traçable jusqu'au test.}
+\end{frame}
+
+% ---- 3.3 Tests basés sur états ---------------------------------------------
+\begin{frame}[t]{Tests basés sur les états}
+\footnotesize
+\textbf{Quand l'utiliser ?} Lorsque le comportement d'un objet dépend de son \textbf{état actuel} et de \textbf{l'historique} des actions effectuées.\\[0.4em]
+\textbf{Exemples :}
+\begin{itemize}\itemsep0.05em
+\item un panier d'achat (vide $\to$ rempli $\to$ validé $\to$ payé) ;
+\item une session utilisateur (anonyme $\to$ authentifié $\to$ expiré) ;
+\item un fichier (fermé $\to$ ouvert en lecture $\to$ fermé) ;
+\item une commande (créée $\to$ payée $\to$ expédiée $\to$ livrée $\to$ retournée).
+\end{itemize}
+\vspace{0.3cm}
+\textbf{Méthode :}\\[0.2em]
+\begin{enumerate}\itemsep0.1em
+\item Identifier les \textbf{états} possibles.
+\item Identifier les \textbf{transitions} valides entre états (et celles à interdire).
+\item Tester les transitions valides \textbf{et} les transitions \textbf{invalides} (doivent lever une erreur).
+\end{enumerate}
+\takeaway{Le diagramme d'états est le contrat formel d'un objet à comportement dynamique.}
+\end{frame}
+
+% ---- 3.4 Diagramme d'états Panier ------------------------------------------
+\begin{frame}[t]{Machine à états du \texttt{Panier}}
+\centering
+\begin{tikzpicture}[
+    font=\footnotesize,
+    node distance=2.6cm and 1.7cm,    % Espacement vertical et horizontal augmenté
+    scale=0.95, transform shape,      % Échelle légèrement augmentée
+    state/.style={rectangle, rounded corners=4pt, line width=1pt,
+                  minimum width=1.7cm, minimum height=0.9cm, align=center, font=\small\bfseries},
+    valid/.style={->, line width=0.7pt, draw=good},
+    invalid/.style={->, line width=0.7pt, draw=bad, dashed}
+]
+
+\node[state, fill=bgsoft, draw=textsoft] (vide) {Vide};
+\node[state, fill=bgaccent, draw=accent, right=of vide] (actif) {Actif};
+\node[state, fill=bgaccent2, draw=accent2, right=of actif] (valide) {Validé};
+\node[state, fill=greenlight, draw=good, right=of valide] (paye) {Payé};
+
+\draw[valid] (vide) -- node[above, font=\scriptsize]{ajouter()} (actif);
+\draw[valid] (actif) edge[loop above, distance=14pt, in=70, out=110] node[above,font=\scriptsize]{ajouter() / retirer()} (actif);
+\draw[valid] (actif.south) edge[bend right=25] node[below, font=\scriptsize]{vider()} (vide.south);
+\draw[valid] (actif) -- node[above, font=\scriptsize]{valider()} (valide);
+\draw[valid] (valide) -- node[above, font=\scriptsize]{payer()} (paye);
+\draw[invalid] (vide.north) edge[bend left=35] node[above, font=\scriptsize, text=bad]{valider() interdit} (valide.north);
+\end{tikzpicture}
+\vspace{0.5cm}
+\footnotesize
+\\
+\textbf{Transitions à tester :}
+\oui{\textbf{Valides}} : \texttt{Vide $\to$ Actif} (ajouter), \texttt{Actif $\to$ Vide} (vider), \texttt{Actif $\to$ Validé} (valider), \texttt{Validé $\to$ Payé} (payer).\\
+\non{\textbf{Invalides}} : \texttt{Vide $\to$ Validé} (refus), \texttt{Payé $\to$ Actif} (refus), \texttt{Validé $\to$ Vide} (refus).
+\takeaway{Tester les transitions \textbf{interdites} est aussi crucial que tester les transitions valides.}
+\end{frame}
+
+% ============================================================================
+\section{TP3 --- Conception de tests pour le Panier}
+% ============================================================================
+\sectionframe{4. TP3 --- Conception sur Panier}{Mettre les techniques en pratique \quad\textbf{\textbar{}}\quad \textbf{50 min}}
+
+% ---- 4.1 Spec Panier -------------------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{Sp\'ecification du module \texttt{Panier}}
+\begin{lstlisting}[style=pythondark]
+# src/panier.py
+from dataclasses import dataclass, field
+from enum import Enum
+from src.librairie import Livre
+
+class EtatPanier(Enum):
+    VIDE = "vide"
+    ACTIF = "actif"
+    VALIDE = "valide"
+    PAYE = "paye"
+
+@dataclass
+class Panier:
+    articles: dict[str, int] = field(default_factory=dict)  # isbn -> quantite
+    etat: EtatPanier = EtatPanier.VIDE
+
+    def ajouter(self, livre: Livre, quantite: int = 1) -> None:
+        if self.etat in (EtatPanier.VALIDE, EtatPanier.PAYE):
+            raise RuntimeError("Panier non modifiable")
+        if quantite <= 0:
+            raise ValueError("Quantite doit etre > 0")
+        self.articles[livre.isbn] = self.articles.get(livre.isbn, 0) + quantite
+        self.etat = EtatPanier.ACTIF
+\end{lstlisting}
+\takeaway{Le code reflète les règles : transition d'état contrôlée, validation des entrées, exceptions explicites.}
+\end{frame}
+
+% ---- 4.2 Identification des classes ----------------------------------------
+\begin{frame}[t,shrink=10]{Identification des classes pour \texttt{ajouter()}}
+\footnotesize
+\begin{tabular}{@{}p{3.2cm} p{2.8cm} p{6.5cm}@{}}
+\toprule
+\textbf{Paramètre / état} & \textbf{Classes} & \textbf{Comportement attendu} \\
+\midrule
+État du panier & VIDE & Succès, transition vers ACTIF \\
+& ACTIF & Succès, reste ACTIF \\
+& VALIDE & \texttt{RuntimeError} \\
+& PAYE & \texttt{RuntimeError} \\
+\addlinespace[0.15em]
+quantité & $< 0$ (négatif) & \texttt{ValueError} \\
+& $= 0$ & \texttt{ValueError} \\
+& $= 1$ (limite min valide) & Succès \\
+& $> 1$ (nominal) & Succès \\
+\addlinespace[0.15em]
+ISBN déjà présent & Oui & Quantité incrémentée \\
+& Non & Nouvelle entrée créée \\
+\bottomrule
+\end{tabular}
+\vspace{0.4cm}
+\textbf{Sélection :} on dérive \textbf{1 test par ligne du tableau}. On combine état + quantité + présence ISBN pour les cas représentatifs.
+\takeaway{La table de partitionnement précède l'écriture du code de test. C'est un \textbf{document de conception}.}
+\end{frame}
+
+% ---- 4.3 Tests exemple -----------------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{Tests exemples pour \texttt{ajouter()}}
+\begin{lstlisting}[style=pythondark]
+import pytest
+from src.librairie import Livre
+from src.panier import Panier, EtatPanier
+
+@pytest.fixture
+def clean_code():
+    return Livre("978-0", "Clean Code", 29.90, 10)
+
+def test_ajouter_depuis_vide_transite_vers_actif(clean_code):
+    panier = Panier()
+    panier.ajouter(clean_code, 2)
+    assert panier.etat == EtatPanier.ACTIF
+    assert panier.articles["978-0"] == 2
+
+def test_ajouter_quantite_negative_leve_value_error(clean_code):
+    panier = Panier()
+    with pytest.raises(ValueError, match="Quantite doit etre > 0"):
+        panier.ajouter(clean_code, -1)
+
+def test_ajouter_sur_panier_paye_leve_runtime_error(clean_code):
+    panier = Panier(etat=EtatPanier.PAYE)
+    with pytest.raises(RuntimeError, match="non modifiable"):
+        panier.ajouter(clean_code, 1)
+\end{lstlisting}
+\takeaway{Chaque test \textbf{justifie son existence} : un nom explicite, une seule transition ou un seul cas exceptionnel.}
+\end{frame}
+
+% ---- 4.4 Exercice TP3 ------------------------------------------------------
+\begin{frame}[t,shrink=10]{Exercice TP3 (30 min sur machine)}
+\begin{exercice}[Exercice 4.1 --- complétez la suite de tests]
+On vous fournit le module \texttt{panier.py} avec les méthodes \texttt{ajouter}, \texttt{retirer}, \texttt{valider}, \texttt{payer}, \texttt{vider}.\\[0.5em]
+\textbf{À produire :}
+\begin{enumerate}\itemsep0.1em
+\item Un tableau de \textbf{classes d'équivalence} pour la méthode \texttt{retirer(livre, quantite)} (à rendre).
+\item Un test \texttt{parametrize} couvrant ces classes.
+\item Trois tests de \textbf{transitions d'états} : \texttt{Actif$\to$Validé}, \texttt{Validé$\to$Payé}, transition invalide \texttt{Vide$\to$Validé}.
+\item Vérifier que toute votre suite respecte AAA et FIRST.
+\end{enumerate}
+\vspace{0.4em}
+\textbf{Livrable :} un fichier \texttt{tests/test\_panier.py} commenté, exécuté par \texttt{pytest -v}.
+\end{exercice}
+\end{frame}
+
+% ============================================================================
+\section{Couverture de code}
+% ============================================================================
+\sectionframe{5. Couverture de code}{Que mes tests testent-ils vraiment ? \quad\textbf{\textbar{}}\quad \textbf{40 min}}
+
+% ---- 5.1 La question -------------------------------------------------------
+\begin{frame}[fragile,t,shrink=12]{La question qui change tout}
+\textbf{Situation :} vous avez écrit 12 tests qui passent au vert.\\[0.4em]
+\textbf{Question gênante :} comment savez-vous que vos tests \textbf{exécutent vraiment} l'intégralité de votre code ?
+\vspace{0.3cm}
+\begin{lstlisting}[style=pythondark]
+def categoriser_client(age, fidelite):
+    if age >= 18:
+        if fidelite:
+            return "VIP"
+        return "standard"
+    return "mineur"
+\end{lstlisting}
+\footnotesize
+\textbf{Tests existants :}
+\begin{itemize}\scriptsize
+\item \texttt{categoriser\_client(25, True)} $\to$ "VIP" \oui{} OK
+\item \texttt{categoriser\_client(15, False)} $\to$ "mineur" \oui{} OK
+\end{itemize}
+\vspace{0.2em}
+\textbf{Branches manquées :} \texttt{age >= 18} ET \texttt{fidelite == False} (retour "standard") n'a jamais été exécuté. \textbf{Bug latent invisible}.
+\takeaway{La couverture mesure quelles parties du code sont effectivement exercées par les tests.}
+\end{frame}
+
+% ---- 5.2 3 niveaux ---------------------------------------------------------
+\begin{frame}[t,shrink=10]{Trois niveaux de couverture}
+\footnotesize
+\begin{tabular}{@{}p{3.6cm} p{4.5cm} p{4.2cm}@{}}
+\toprule
+\textbf{Niveau} & \textbf{Définition} & \textbf{Question posée} \\
+\midrule
+\textbf{\color{accent}Instruction (C0)} & 
+Chaque ligne exécutable du code a été parcourue au moins une fois.
+& A-t-on touché chaque ligne ? \\
+\addlinespace[0.2em]
+\textbf{\color{accent2}Branche (C1)} & 
+Pour chaque \texttt{if}, on a exécuté à la fois la branche \texttt{True} et la branche \texttt{False}.
+& A-t-on testé les deux issues de chaque décision ? \\
+\addlinespace[0.2em]
+\textbf{\color{warn}Condition (C2 / MC/DC)} & 
+Pour \texttt{if A and B}, on teste les 4 combinaisons de A et B (ou un sous-ensemble \emph{MC/DC}).
+& A-t-on prouvé que chaque sous-condition compte ? \\
+\bottomrule
+\end{tabular}
+\vspace{0.5cm}
+
+\textbf{Hiérarchie d'exigence :} 100\% instruction $<$ 100\% branche $<$ 100\% MC/DC.\\[0.3em]
+\textbf{Norme aéronautique DO-178C :} niveau A (perte de vie probable) impose 100\% MC/DC (Ammann \& Offutt, 2017, ch.~8).
+\takeaway{Le niveau de couverture exigé dépend de la criticité du logiciel.}
+\end{frame}
+
+% ---- 5.3 Exemple progressif ------------------------------------------------
+\begin{frame}[fragile,t,shrink=10]{Exemple progressif sur le code \texttt{categoriser\_client}}
+\begin{lstlisting}[style=pythondark]
+def categoriser_client(age, fidelite):
+    if age >= 18:           # ligne A
+        if fidelite:        # ligne B
+            return "VIP"    # ligne 1
+        return "standard"   # ligne 2
+    return "mineur"         # ligne 3
+\end{lstlisting}
+\vspace{0.2cm}
+\footnotesize
+\begin{tabular}{@{}p{3.0cm} p{4.2cm} p{4.4cm}@{}}
+\toprule
+\textbf{Suite de tests} & \textbf{Couverture instruction} & \textbf{Couverture branche} \\
+\midrule
+\texttt{(25, True)} seul & 4/6 = 67\,\% & 2/4 branches = 50\,\% \\
+\texttt{(25, True) + (15, F)} & 5/6 = 83\,\% & 3/4 = 75\,\% \\
+\texttt{+ (25, False)} & 6/6 = 100\,\% & 4/4 = 100\,\% \\
+\bottomrule
+\end{tabular}
+\vspace{0.4cm}
+
+\textbf{Conclusion :} 100\% instruction \textbf{ne suffit pas}. Il faut au moins 100\% \textbf{branche} pour garantir que toutes les décisions ont été testées dans les deux sens.
+\takeaway{La couverture branche est le minimum professionnel. La couverture instruction seule trompe.}
+\end{frame}
+
+% ---- 5.4 Le mythe du 100% --------------------------------------------------
+\begin{frame}[t,shrink=10]{Mythe : « 100\% de couverture = 0 bug »}
+\footnotesize
+\textbf{La couverture mesure ce qui est exécuté, pas ce qui est vérifié.}\\[0.5em]
+\textbf{Contre-exemple flagrant :}
+\begin{beamercolorbox}[sep=0.5em,rounded=true]{block body}
+\scriptsize
+\texttt{def division(a, b): return a / b}\\
+\texttt{def test\_division(): division(10, 2)  \# pas de assert !}\\[0.3em]
+\textbf{Couverture instruction : 100\%.} Le code est exécuté.\\
+\textbf{Mais le test ne vérifie RIEN.} Bug $b=0$ : passe inaperçu.
+\end{beamercolorbox}
+\vspace{0.4cm}
+\textbf{Cas industriel : Toyota Unintended Acceleration (2009--2011).} \\
+NHTSA Highway Safety Report (2011) : enquête sur des accélérations involontaires. L'analyse du firmware (Koopman \& al., 2014) a révélé \textbf{des défauts non couverts par les tests existants}, malgré un taux de couverture déclaré élevé. Pertes humaines documentées par la NHTSA.\\[0.4em]
+\textbf{Règle d'usage :}
+\begin{itemize}\itemsep0.05em
+\item Visez \textbf{80--90\% branche} sur le code métier critique.
+\item Acceptez 60--70\% sur le code de glue / configuration.
+\item \textbf{Aucune métrique ne remplace la qualité des \texttt{assert}}.
+\end{itemize}
+\takeaway{Couverture = nécessaire mais pas suffisante. Sans assertions sémantiques, c'est une métrique vide.}
+\end{frame}
+
+% ============================================================================
+\section{TP4 --- coverage.py et JaCoCo}
+% ============================================================================
+\sectionframe{6. TP4 --- coverage.py \& JaCoCo}{Mesurer en pratique \quad\textbf{\textbar{}}\quad \textbf{40 min}}
+
+% ---- 6.1 coverage.py installation ------------------------------------------
+\begin{frame}[fragile,t,shrink=10]{\texttt{coverage.py} en pratique}
+\footnotesize
+\textbf{Installation et exécution :}
+\begin{lstlisting}[style=bashdark]
+pip install pytest-cov
+
+# Lancer les tests + couverture
+pytest --cov=src --cov-report=term-missing
+
+# Generer un rapport HTML navigable
+pytest --cov=src --cov-report=html
+# Ouvre htmlcov/index.html dans le navigateur
+\end{lstlisting}
+\vspace{0.3cm}
+\textbf{Sortie typique en terminal :}
+\begin{lstlisting}[style=bashdark]
+Name                Stmts   Miss  Cover   Missing
+---------------------------------------------------
+src/librairie.py       18      0   100%
+src/panier.py          34      4    88%   45-48
+---------------------------------------------------
+TOTAL                  52      4    92%
+\end{lstlisting}
+\vspace{0.3cm}
+\textbf{Colonne \texttt{Missing}} : numéros de lignes \textbf{non couvertes}. Point d'attaque immédiat.
+\takeaway{Une commande $\to$ un rapport actionnable. Intégrez \texttt{--cov} dans votre CI dès maintenant.}
+\end{frame}
+
+% ---- 6.2 Rapport HTML ------------------------------------------------------
+\begin{frame}[fragile,t,shrink=12]{Lecture du rapport HTML}
+\footnotesize
+Le rapport HTML de \texttt{coverage.py} affiche chaque fichier source avec :\\[0.4em]
+\begin{itemize}\itemsep0.15em
+\item \textcolor{good}{\textbf{Lignes vertes}} : exécutées par au moins un test.
+\item \textcolor{bad}{\textbf{Lignes rouges}} : jamais exécutées.
+\item \textcolor{warn}{\textbf{Lignes jaunes}} : branches partiellement couvertes (avec l'option \texttt{--cov-branch}).
+\end{itemize}
+\vspace{0.4cm}
+\textbf{Workflow recommandé :}\\[0.2em]
+\begin{enumerate}\itemsep0.1em
+\item Lancer \texttt{pytest --cov=src --cov-branch --cov-report=html}.
+\item Ouvrir \texttt{htmlcov/index.html}.
+\item Trier par colonne « Missing » décroissante.
+\item Pour chaque ligne rouge : se demander \textit{« quel test l'aurait exécutée ? »}.
+\item Écrire le test manquant ou \textbf{justifier} l'exclusion (\texttt{\# pragma: no cover}).
+\end{enumerate}
+\vspace{0.3cm}
+\textbf{Seuil bloquant en CI :}
+\begin{lstlisting}[style=bashdark]
+pytest --cov=src --cov-fail-under=85
+\end{lstlisting}
+\takeaway{Le rapport HTML transforme la couverture d'une métrique en \textbf{plan d'action ligne par ligne}.}
+\end{frame}
+
+% ---- 6.3 JaCoCo Java -------------------------------------------------------
+\begin{frame}[fragile,t,shrink=10]{\'Equivalent Java : JaCoCo}
+\footnotesize
+\textbf{Configuration dans \texttt{pom.xml} :}
+\begin{lstlisting}[style=javadark, language=XML]
+<plugin>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.11</version>
+    <executions>
+        <execution>
+            <goals><goal>prepare-agent</goal></goals>
+        </execution>
+        <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals><goal>report</goal></goals>
+        </execution>
+    </executions>
+</plugin>
+\end{lstlisting}
+\vspace{0.3cm}
+\textbf{Exécution :}
+\begin{lstlisting}[style=bashdark]
+mvn test
+# Ouvre target/site/jacoco/index.html
+\end{lstlisting}
+\textbf{Rapport produit :} mêmes lignes vertes / rouges / jaunes que coverage.py. JaCoCo distingue aussi la couverture des instructions \textbf{bytecode}, des branches, des cyclomatic complexity.
+\takeaway{Outils différents, métrique identique. Compétence transférable entre écosystèmes.}
+\end{frame}
+
+% ---- 6.4 Exercice TP4 ------------------------------------------------------
+\begin{frame}[t,shrink=10]{Exercice TP4 (15 min sur machine)}
+\begin{exercice}[Exercice 6.1 --- atteindre 90\% de couverture branche]
+\textbf{Sur votre projet \texttt{Panier} :}
+\begin{enumerate}\itemsep0.1em
+\item Lancer \texttt{pytest --cov=src --cov-branch --cov-report=html}.
+\item Ouvrir \texttt{htmlcov/index.html} et identifier les lignes rouges / jaunes.
+\item Pour chaque ligne non couverte, écrire le test manquant correspondant.
+\item Atteindre \textbf{$\geq 90\%$} de couverture branche sur \texttt{src/panier.py}.
+\item Identifier au moins \textbf{une ligne} qui aurait été couverte par un test \textit{sans} véritable \texttt{assert} et expliquer pourquoi c'est une faille.
+\end{enumerate}
+\vspace{0.4em}
+\textbf{Livrable :} capture d'écran du rapport HTML + tests ajoutés + commentaire sur le point 5.
+\end{exercice}
+\takeaway{En 15 min, vous avez vécu le cycle complet : mesurer $\to$ analyser $\to$ combler $\to$ critiquer la métrique.}
+\end{frame}
+
+% ============================================================================
+\section{Test doubles --- la taxonomie Meszaros}
+% ============================================================================
+\sectionframe{7. Test doubles (Meszaros)}{Isoler ce qu'on teste \quad\textbf{\textbar{}}\quad \textbf{35 min}}
+
+% ---- 7.1 Pourquoi des doubles ---------------------------------------------
+\begin{frame}[t]{Pourquoi remplacer les dépendances ?}
+\footnotesize
+\textbf{Problème :} on veut tester \texttt{ServicePaiement.payer(panier)} qui dépend de :
+\begin{itemize}\itemsep0.05em
+\item une \textbf{API bancaire externe} (lente, payante, non disponible offline) ;
+\item une \textbf{base de données} (état partagé, non déterministe) ;
+\item un \textbf{service d'envoi d'email} (effets de bord visibles) ;
+\item l'\textbf{horloge système} (\texttt{datetime.now()}, change à chaque run).
+\end{itemize}
+\vspace{0.3cm}
+\textbf{Violations FIRST si on garde les vraies dépendances :}
+\begin{itemize}\itemsep0.05em
+\item \non{\textbf{F}ast} : appels réseau de centaines de ms.
+\item \non{\textbf{I}ndependent} : un test polue la base pour le suivant.
+\item \non{\textbf{R}epeatable} : l'API change, le test échoue le lendemain.
+\end{itemize}
+\vspace{0.3cm}
+\textbf{Solution :} remplacer la dépendance par un \textbf{test double} --- un objet de substitution contrôlable.
+\takeaway{Test double = mannequin de couture : on l'utilise pour vérifier le comportement du tailleur, pas du client.}
+\end{frame}
+
+% ---- 7.2 Taxonomie Meszaros ------------------------------------------------
+\begin{frame}[t,shrink=10]{La taxonomie de Meszaros (2007)}
+\footnotesize
+\begin{tabular}{@{}p{2.0cm} p{4.5cm} p{6.0cm}@{}}
+\toprule
+\textbf{Nom} & \textbf{Comportement} & \textbf{Usage typique} \\
+\midrule
+\textbf{Dummy} & 
+Objet passé en argument mais jamais utilisé. & 
+Remplir une liste de paramètres obligatoires. \\
+\addlinespace[0.15em]
+\textbf{Stub} & 
+Retourne des valeurs prédéfinies sur appel. & 
+Simuler une API qui retourne « OK » ou un code d'erreur. \\
+\addlinespace[0.15em]
+\textbf{Fake} & 
+Implémentation simplifiée fonctionnelle (mais inadéquate en production). & 
+\texttt{InMemoryDatabase} au lieu d'une vraie BDD. \\
+\addlinespace[0.15em]
+\textbf{Mock} & 
+Pré-programmé avec des \emph{attentes} sur ses appels ; échoue si non respectées. & 
+Vérifier que \texttt{envoyer\_email()} a été appelé exactement une fois. \\
+\addlinespace[0.15em]
+\textbf{Spy} & 
+Comme un stub mais \textbf{enregistre} ses appels pour vérification \emph{a posteriori}. & 
+Vérifier qu'un logger a reçu N messages. \\
+\bottomrule
+\end{tabular}
+\vspace{0.3cm}
+\textbf{Source :} Gerard Meszaros, \emph{xUnit Test Patterns}, Addison-Wesley, 2007, ch.~11.
+\takeaway{Mock et spy vérifient les \textbf{interactions}. Stub et fake vérifient les \textbf{résultats}. Choisissez selon ce que vous testez.}
+\end{frame}
+
+% ---- 7.3 unittest.mock -----------------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{\texttt{unittest.mock} en pratique}
+\begin{lstlisting}[style=pythondark]
+from unittest.mock import Mock, patch
+from src.paiement import ServicePaiement
+
+# STUB : retourne une valeur predefinie
+def test_paiement_reussi_quand_banque_accepte():
+    banque_mock = Mock()
+    banque_mock.debiter.return_value = True  # comportement preprogramme
+
+    service = ServicePaiement(banque=banque_mock)
+    resultat = service.payer(montant=100.0, carte="4111...")
+
+    assert resultat.statut == "valide"
+
+# MOCK : verifie l'interaction
+def test_paiement_appelle_la_banque_avec_le_bon_montant():
+    banque_mock = Mock()
+    banque_mock.debiter.return_value = True
+
+    service = ServicePaiement(banque=banque_mock)
+    service.payer(montant=42.0, carte="4111...")
+
+    banque_mock.debiter.assert_called_once_with(42.0, "4111...")
+\end{lstlisting}
+\takeaway{Un \texttt{Mock} Python sert à la fois de stub (\texttt{return\_value}) et de mock (\texttt{assert\_called\_with}).}
+\end{frame}
+
+% ---- 7.4 patch -------------------------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{\texttt{@patch} pour mocker en place}
+\begin{lstlisting}[style=pythondark]
+from unittest.mock import patch
+from datetime import datetime
+
+# Code metier
+def est_promotion_active():
+    return datetime.now().hour >= 18
+
+# Test avec patch : on remplace datetime pendant la duree du test
+@patch("src.promotion.datetime")
+def test_promotion_active_apres_18h(mock_datetime):
+    mock_datetime.now.return_value = datetime(2026, 6, 28, 19, 30)
+    assert est_promotion_active() is True
+
+@patch("src.promotion.datetime")
+def test_promotion_inactive_avant_18h(mock_datetime):
+    mock_datetime.now.return_value = datetime(2026, 6, 28, 14, 0)
+    assert est_promotion_active() is False
+\end{lstlisting}
+\vspace{0.2cm}\footnotesize
+\textbf{Règle d'or :} on \texttt{@patch} l'endroit où la dépendance est \textbf{importée} (\texttt{src.promotion.datetime}), pas où elle est \textbf{définie} (\texttt{datetime}).
+\takeaway{Avec \texttt{@patch}, les fonctions dépendant du temps deviennent \textbf{Repeatable} (FIRST).}
+\end{frame}
+
+% ---- 7.5 Mockito Java ------------------------------------------------------
+\begin{frame}[fragile,t,shrink=10]{\'Equivalent Java : Mockito}
+\begin{lstlisting}[style=javadark]
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+class ServicePaiementTest {
+
+    @Test
+    void paiement_reussi_quand_banque_accepte() {
+        // ARRANGE
+        Banque banqueMock = mock(Banque.class);
+        when(banqueMock.debiter(anyDouble(), anyString())).thenReturn(true);
+
+        ServicePaiement service = new ServicePaiement(banqueMock);
+
+        // ACT
+        Resultat r = service.payer(100.0, "4111...");
+
+        // ASSERT
+        assertEquals("valide", r.getStatut());
+        verify(banqueMock).debiter(100.0, "4111...");
+    }
+}
+\end{lstlisting}
+\takeaway{Concept identique à Python : \texttt{when(...).thenReturn(...)} = stub, \texttt{verify(...)} = mock.}
+\end{frame}
+
+% ---- 7.6 Cas industriel + warning -----------------------------------------
+\begin{frame}[t]{Cas industriel et garde-fou}
+\footnotesize
+\textbf{Cas Boeing 737 MAX (2018--2019).} \\
+Les deux crashes (Lion Air 610, Ethiopian Airlines 302) ont coûté \textbf{346 vies humaines}. \\
+Le rapport du House Committee on Transportation (2020) indique des défaillances dans le système d'attaque MCAS, et notamment :
+\begin{itemize}\itemsep0.05em
+\item L'algorithme se basait sur \textbf{un seul capteur d'incidence} (AoA) au lieu de croiser deux capteurs.
+\item Des scénarios de défaillance du capteur n'étaient pas testés avec des \textbf{stubs représentatifs} simulant des entrées erronées.
+\end{itemize}
+\vspace{0.3cm}
+\begin{beamercolorbox}[sep=0.5em,rounded=true]{block body}
+\scriptsize\textbf{\color{warn}Piège classique avec les mocks :} mocker trop, c'est tester l'\textbf{implémentation} au lieu du \textbf{comportement}. Si vos tests cassent à chaque refactoring, vos mocks sont trop précis.\\[0.2em]
+\textbf{Règle :} \textit{mock uniquement les frontières externes} (réseau, BDD, horloge, fichiers). Tout ce qui est \og dans vos classes \fg{} doit rester réel.
+\end{beamercolorbox}
+\takeaway{Les mocks sont puissants mais addictifs. La modération est la marque du testeur expérimenté.}
+\end{frame}
+
+% ============================================================================
+\section{TP noté --- présentation du format}
+% ============================================================================
+\sectionframe{8. TP noté individuel (60 min)}{40\% de la note finale \quad\textbf{\textbar{}}\quad \textbf{60 min}}
+
+% ---- 8.1 Format -----------------------------------------------------------
+\begin{frame}[t,shrink=12]{Format du TP noté}
+\footnotesize
+\textbf{Conditions matérielles :}
+\begin{itemize}\itemsep0.1em
+\item Sur machine, \textbf{60 minutes} chrono.
+\item Sujet écrit distribué en début d'épreuve (non communiqué avant).
+\item Code Python fourni : module métier \textbf{contenant un ou plusieurs défauts introduits volontairement}.
+\item Documentation \texttt{pytest} ouverte autorisée (onglet navigateur figé).
+\item \textbf{Aucun assistant IA} (Copilot, Claude, ChatGPT). Détection automatisée + manuelle.
+\end{itemize}
+\vspace{0.4cm}
+\textbf{Ce qui vous est demandé :}
+\begin{enumerate}\itemsep0.1em
+\item Identifier les classes d'équivalence et valeurs limites du module fourni.
+\item Écrire une suite de tests \texttt{pytest} respectant AAA + \texttt{parametrize}.
+\item Atteindre une couverture branche \textbf{$\geq 85\%$}.
+\item Détecter le(s) défaut(s) introduit(s) : votre suite doit échouer dessus avec un message clair.
+\item Documenter en 5 lignes (commentaire) le défaut identifié.
+\end{enumerate}
+\takeaway{Ce TP évalue votre maîtrise des techniques de \textbf{conception}, pas votre rapidité de frappe.}
+\end{frame}
+
+% ---- 8.2 Grille de notation ------------------------------------------------
+\begin{frame}[t,shrink=10]{Grille de notation (sur 20)}
+\footnotesize
+\begin{tabular}{@{}p{8.6cm} c c@{}}
+\toprule
+\textbf{Critère} & \textbf{Pts} & \textbf{Source} \\
+\midrule
+Application stricte du patron AAA + nommage explicite des tests
+& 4 & S1 / S2 \\
+\addlinespace[0.15em]
+Couverture systématique des cas nominaux et des valeurs limites
+& 5 & S2 §2 \\
+\addlinespace[0.15em]
+Usage pertinent de \texttt{@pytest.mark.parametrize}
+& 3 & S1 §5 \\
+\addlinespace[0.15em]
+Détection du / des défaut(s) introduit(s) (assertion + commentaire)
+& 4 & S2 §1 \\
+\addlinespace[0.15em]
+Couverture de code mesurée $\geq 85\%$ branche
+& 3 & S2 §5--6 \\
+\addlinespace[0.15em]
+Lisibilité, indépendance, rapidité (principes FIRST)
+& 1 & S1 §3 \\
+\midrule
+\textbf{Total} & \textbf{20} & \\
+\bottomrule
+\end{tabular}
+\vspace{0.5cm}
+
+\textbf{Pénalités :}
+\begin{itemize}\itemsep0.05em
+\item Test contenant \texttt{print()} sans \texttt{assert} : 0 sur le critère « FIRST ».
+\item Dépendance entre tests : 0 sur le critère « FIRST ».
+\item Tests qui ne passent pas localement : 0 sur le critère « FIRST ».
+\end{itemize}
+\takeaway{La grille est publique : vous savez exactement où concentrer vos efforts pendant les 60 minutes.}
+\end{frame}
+
+% ---- 8.3 Conseils temps ----------------------------------------------------
+\begin{frame}[t,shrink=15]{Conseils de gestion du temps}
+\footnotesize
+\textbf{Suggestion de découpage (60 min) :}\\[0.3em]
+\begin{tabular}{@{}p{1.4cm} p{5.5cm} p{5.5cm}@{}}
+\toprule
+\textbf{Phase} & \textbf{Activité} & \textbf{Pourquoi} \\
+\midrule
+0--10~min & Lire la spec, lister les classes sur papier
+& Cadrer avant d'écrire la moindre ligne \\
+\addlinespace[0.15em]
+10--35~min & Écrire les tests des cas nominaux et limites
+& Volume principal de la note (12/20 sur AAA + cas + parametrize) \\
+\addlinespace[0.15em]
+35--45~min & Lancer \texttt{pytest --cov-branch}, combler les lignes rouges
+& Sécuriser les 3 pts couverture \\
+\addlinespace[0.15em]
+45--55~min & Investiguer les échecs $\to$ écrire l'assertion qui isole le défaut
+& 4 pts pour la détection \\
+\addlinespace[0.15em]
+55--60~min & Relecture FIRST + commentaire défaut
+& Sécuriser le dernier point \\
+\bottomrule
+\end{tabular}
+\vspace{0.4cm}
+\textbf{Pièges classiques :}
+\begin{itemize}\itemsep0.05em
+\item Vouloir écrire \textbf{tous} les tests avant d'en exécuter un seul.
+\item Oublier de lancer \texttt{pytest -v} pour vérifier que chaque test passe au vert avant d'écrire le suivant.
+\item Croire qu'\og un test échoue \fg{} signifie \og j'ai trouvé le défaut \fg{} --- vérifier d'abord que le test est correct.
+\end{itemize}
+\takeaway{60 minutes c'est court. Préparation = relire vos notes des S1 et S2 avant l'épreuve.}
+\end{frame}
+
+% ============================================================================
+% CLÔTURE
+% ============================================================================
+\sectionframe{Synthèse}{Trois acquis pour la Séance 3 \quad\textbf{\textbar{}}\quad \textbf{10 min}}
+
+% ---- Synthèse --------------------------------------------------------------
+\begin{frame}[t]{Synthèse de la Séance 2}
+\footnotesize
+\textbf{Vous avez maîtrisé aujourd'hui :}\\[0.3em]
+\begin{enumerate}\itemsep0.18em
+\item \textbf{Boîte noire vs blanche} : deux regards complémentaires sur la conception.
+\item \textbf{Partitions d'équivalence + valeurs limites} : méthode systématique en 4 étapes.
+\item \textbf{Tables de décision} : conception explicite quand les conditions se combinent.
+\item \textbf{Tests basés sur états} : couverture des transitions valides et interdites.
+\item \textbf{Couverture de code} : 3 niveaux (instruction, branche, condition), avec leur sens.
+\item \textbf{Test doubles} : taxonomie Meszaros (dummy, stub, fake, mock, spy) et limites des mocks.
+\end{enumerate}
+\vspace{0.4cm}
+\textbf{Outils opérationnels :}\\[0.2em]
+\oui{\textbf{coverage.py}} : \texttt{pytest --cov=src --cov-branch}, rapport HTML.\\
+\oui{\textbf{JaCoCo}} : plugin Maven, rapport HTML équivalent.\\
+\oui{\textbf{unittest.mock}} : \texttt{Mock()}, \texttt{return\_value}, \texttt{assert\_called\_with}, \texttt{@patch}.\\
+\oui{\textbf{Mockito}} : \texttt{mock()}, \texttt{when().thenReturn()}, \texttt{verify()}.
+\takeaway{Vous concevez désormais des tests \textbf{par méthode}, pas \textbf{par intuition}.}
+\end{frame}
+
+% ---- Prep séance 3 --------------------------------------------------------
+\begin{frame}[t,shrink=12]{Pour préparer la Séance 3}
+\footnotesize
+\textbf{À faire d'ici la S3 (1h30 à 2h) :}\\[0.3em]
+\begin{enumerate}\itemsep0.18em
+\item Finaliser la suite de tests \texttt{Panier} avec $\geq 90\%$ de couverture branche.
+\item Lire le chapitre 1 (préface + chapitre « Why TDD ? ») de Beck, \emph{TDD: By Example}, 2002.
+\item Visionner la vidéo \emph{Three Rules of TDD} (Robert C.\ Martin, ~5 min, disponible en ligne).
+\item Préparer un dépôt Git public ou privé avec \texttt{src/} et \texttt{tests/} sur \texttt{github.com}.
+\end{enumerate}
+\vspace{0.4cm}
+\textbf{Au programme S3 :}
+\begin{itemize}\itemsep0.08em
+\item Test-Driven Development : cycle \emph{red--green--refactor} (Beck 2002).
+\item Kata TDD : FizzBuzz en binôme.
+\item Tests d'intégration : bases de données en mémoire.
+\item \textbf{Intégration continue avec GitHub Actions} (workflow \texttt{.yml}, badges).
+\item Mention : analyse statique, tests de mutation, fuzzing.
+\item \textbf{Examen final QCM individuel (90 min)} en clôture.
+\end{itemize}
+\takeaway{La S3 boucle la boucle : du code testable, à la CI, à l'examen final.}
+\end{frame}
+
+% ---- Biblio ---------------------------------------------------------------
+\begin{frame}[t]{Pour aller plus loin --- références}
+\scriptsize
+\textbf{Ouvrages :}
+\begin{itemize}\itemsep0.1em
+\item Ammann, P.\ \& Offutt, J., \emph{Introduction to Software Testing}, 2\textsuperscript{e}~éd., Cambridge UP, 2017 (ch.~4 \emph{Input Space Partitioning}, ch.~8 \emph{Logic Coverage}).
+\item Beizer, B., \emph{Software Testing Techniques}, 2\textsuperscript{e}~éd., Van Nostrand Reinhold, 1990.
+\item Meszaros, G., \emph{xUnit Test Patterns: Refactoring Test Code}, Addison-Wesley, 2007 (ch.~11 \emph{Test Doubles}).
+\item Myers, G.\ J., \emph{The Art of Software Testing}, 3\textsuperscript{e}~éd., Wiley, 2011 (ch.~4 \emph{Equivalence Partitioning}).
+\end{itemize}
+\vspace{0.3em}
+\textbf{Normes et rapports :}
+\begin{itemize}\itemsep0.1em
+\item RTCA DO-178C, \emph{Software Considerations in Airborne Systems and Equipment Certification}, 2011.
+\item U.S.\ House Committee on Transportation, \emph{Final Committee Report on the Design, Development and Certification of the Boeing 737 MAX}, sept.\ 2020.
+\item National Highway Traffic Safety Administration, Toyota Unintended Acceleration Investigation, NHTSA-NASA Study, 2011.
+\end{itemize}
+\vspace{0.3em}
+\textbf{Documentation en ligne :}
+\begin{itemize}\itemsep0.1em
+\item \texttt{coverage.py} : \texttt{coverage.readthedocs.io}
+\item JaCoCo : \texttt{www.jacoco.org/jacoco/trunk/doc/}
+\item \texttt{unittest.mock} : \texttt{docs.python.org/3/library/unittest.mock.html}
+\item Mockito : \texttt{site.mockito.org}
+\end{itemize}
+\end{frame}
+
+% ---- Fin ------------------------------------------------------------------
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture, overlay]
+\fill[accent] (current page.south west) rectangle (current page.north east);
+\end{tikzpicture}
+\vspace{1.8cm}
+\centering
+{\color{white}\Huge\bfseries Bon TP noté !}\\[0.5cm]
+{\color{white}\large Et à la Séance 3 pour le TDD, la CI et l'examen final.}\\[1.4cm]
+{\color{white!85}\small Séance 3 : TDD, GitHub Actions, examen final QCM (90 min).}\\[0.4cm]
+{\color{white!75}\scriptsize \texttt{yvan.guifo-fodjo@efrei.fr}}
+\vfill
+\end{frame}
+
+\end{document}

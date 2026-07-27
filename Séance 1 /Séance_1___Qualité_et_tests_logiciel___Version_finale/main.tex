@@ -1,0 +1,1675 @@
+% ============================================================================
+%  Qualité et tests logiciels --- Séance 1 (5h)
+%  Niveau : L2 ingénierie informatique --- Format CTP
+%  Dr. Yvan GUIFO FODJO --- EFREI Paris --- 2025--2026
+%  Style : Slidev-inspired (sobre, moderne, code dark, generous whitespace)
+%  Compilation : pdflatex (Overleaf)
+% ============================================================================
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ---- Encodage et langue ---------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% ---- Math, graphiques, tableaux -------------------------------------------
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{pifont}
+\usepackage{eurosym}
+
+% ---- TikZ -----------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{positioning,calc,arrows.meta,shapes.geometric,shapes.symbols,
+                fit,backgrounds,decorations.pathreplacing,patterns}
+
+% ============================================================================
+%  COULEURS
+% ============================================================================
+\usepackage{xcolor}
+
+% --- palette de marque ---
+\definecolor{accent}{HTML}{3B82F6}
+\definecolor{accent2}{HTML}{0EA5A4}
+\definecolor{accentdark}{HTML}{1D4ED8}
+
+% --- textes & arrière-plans clairs ---
+\definecolor{textmain}{HTML}{0F172A}
+\definecolor{textsoft}{HTML}{64748B}
+\definecolor{bgsoft}{HTML}{F8FAFC}
+\definecolor{bgaccent}{HTML}{EFF6FF}
+\definecolor{bgaccent2}{HTML}{ECFEFB}
+\definecolor{linecolor}{HTML}{E2E8F0}
+
+% --- thème sombre (code Slidev) ---
+\definecolor{darkbg}{HTML}{0F172A}
+\definecolor{darkbg2}{HTML}{1E293B}
+\definecolor{darkfg}{HTML}{E2E8F0}
+\definecolor{darkcomment}{HTML}{64748B}
+\definecolor{darkkey}{HTML}{C084FC}
+\definecolor{darkstr}{HTML}{34D399}
+\definecolor{darknum}{HTML}{FBBF24}
+\definecolor{darkfunc}{HTML}{60A5FA}
+
+% --- sémantique ---
+\definecolor{good}{HTML}{16A34A}
+\definecolor{goodbg}{HTML}{DCFCE7}
+\definecolor{warn}{HTML}{EA580C}
+\definecolor{warnbg}{HTML}{FFEDD5}
+\definecolor{bad}{HTML}{DC2626}
+\definecolor{badbg}{HTML}{FEE2E2}
+\definecolor{exobg}{HTML}{FEF9C3}
+\definecolor{exodraw}{HTML}{A16207}
+\definecolor{solbg}{HTML}{F0F9FF}
+\definecolor{soldraw}{HTML}{0369A1}
+
+\colorlet{greenlight}{good!18}
+\colorlet{orangelight}{warn!18}
+\colorlet{redlight}{bad!15}
+
+% ============================================================================
+%  LISTINGS --- thème sombre Slidev
+% ============================================================================
+\usepackage{listings}
+
+\lstdefinestyle{pythondark}{
+    language=Python,
+    backgroundcolor=\color{darkbg},
+    basicstyle=\ttfamily\footnotesize\color{darkfg},
+    commentstyle=\color{darkcomment}\itshape,
+    keywordstyle=\color{darkkey}\bfseries,
+    stringstyle=\color{darkstr},
+    numberstyle=\tiny\color{darkcomment},
+    emphstyle=\color{darkfunc},
+    numbers=left, numbersep=10pt,
+    showstringspaces=false,
+    breaklines=true, tabsize=4,
+    frame=none,
+    xleftmargin=1.2em, xrightmargin=0.4em,
+    aboveskip=0.6em, belowskip=0.6em,
+    morekeywords={self,True,False,None,assert}
+}
+
+\lstdefinestyle{javadark}{
+    language=Java,
+    backgroundcolor=\color{darkbg},
+    basicstyle=\ttfamily\footnotesize\color{darkfg},
+    commentstyle=\color{darkcomment}\itshape,
+    keywordstyle=\color{darkkey}\bfseries,
+    stringstyle=\color{darkstr},
+    numberstyle=\tiny\color{darkcomment},
+    numbers=left, numbersep=10pt,
+    showstringspaces=false,
+    breaklines=true, tabsize=4,
+    frame=none,
+    xleftmargin=1.2em, xrightmargin=0.4em,
+    aboveskip=0.6em, belowskip=0.6em
+}
+
+\lstdefinestyle{bashdark}{
+    backgroundcolor=\color{darkbg},
+    basicstyle=\ttfamily\footnotesize\color{darkfg},
+    commentstyle=\color{darkcomment}\itshape,
+    keywordstyle=\color{darkkey}\bfseries,
+    showstringspaces=false,
+    breaklines=true,
+    frame=none,
+    xleftmargin=1em, aboveskip=0.5em, belowskip=0.5em,
+    morekeywords={pytest,pip,python,mvn,git,coverage}
+}
+
+\lstset{style=pythondark}
+
+% ============================================================================
+%  THÈME BEAMER  --- "Slidev"
+% ============================================================================
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{normal text}{fg=textmain,bg=white}
+\setbeamercolor{frametitle}{fg=textmain,bg=white}
+\setbeamercolor{structure}{fg=accent}
+\setbeamercolor{item}{fg=accent}
+\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamertemplate{frametitle}{
+  \vspace{0.55cm}
+  {\usebeamerfont{frametitle}\color{textmain}\insertframetitle\par}
+  \vspace{0.18cm}{\color{accent}\rule{0.18\linewidth}{1.2pt}}
+}
+\setbeamertemplate{itemize item}{\color{accent}\small$\bullet$}
+\setbeamertemplate{itemize subitem}{\color{accent2}\small$\blacktriangleright$}
+\setbeamertemplate{itemize subsubitem}{\color{textsoft}\scriptsize$\circ$}
+
+\setbeamertemplate{footline}{
+  \leavevmode\hbox{%
+    \begin{beamercolorbox}[wd=.88\paperwidth,ht=2.8ex,dp=1.2ex,leftskip=1em]{author in head/foot}%
+      \color{textsoft}\scriptsize\insertshorttitle
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.12\paperwidth,ht=2.8ex,dp=1.2ex,center]{date in head/foot}%
+      \color{accent}\scriptsize\bfseries\insertframenumber
+    \end{beamercolorbox}%
+  }\vskip0pt
+}
+\setbeamertemplate{headline}{}
+
+% ============================================================================
+%  COMMANDES & ENVIRONNEMENTS
+% ============================================================================
+\newcommand{\duree}[1]{{\small\color{accent2}\textbf{Durée :} #1}}
+
+\newcommand{\sectionframe}[2]{%
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture, overlay]
+\fill[accent] (current page.south west) rectangle (current page.north east);
+\node[anchor=west, text=white, font=\tiny] at ([xshift=0.6cm,yshift=-0.6cm]current page.north west) {SECTION};
+\node[anchor=east, text=white, font=\tiny] at ([xshift=-0.6cm,yshift=-0.6cm]current page.north east) {Séance 1 --- Qualité et tests logiciels};
+\end{tikzpicture}
+\vspace{0.6cm}
+{\color{white}\rule{0.15\linewidth}{1.6pt}}\\[0.6cm]
+{\color{white}\Huge\bfseries #1}\\[0.3cm]
+{\color{white!85!accent}\large #2}
+\vfill
+\end{frame}}
+
+\newcommand{\takeaway}[1]{%
+\vfill\begin{beamercolorbox}[wd=\linewidth,sep=0.4em]{}
+\color{accent2}\rule[0.6ex]{1.2em}{1.2pt}\hspace{0.4em}%
+\textbf{\color{accent2}\small À retenir} \textcolor{textsoft}{:} %
+{\small\color{textmain}#1}
+\end{beamercolorbox}}
+
+% --- encadrés thématiques (sans tcolorbox pour rester simple) ---
+\newenvironment{infobox}[1][Info]{%
+\begin{beamercolorbox}[wd=\linewidth,sep=0.6em,rounded=true]{block body}%
+\color{accent}\textbf{\small #1}\\[-0.1em]
+\color{textmain}\small
+}{\end{beamercolorbox}}
+
+% --- encadrés thématiques avec tcolorbox (robuste) ---
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{exercice}[1][Exercice]{%
+    enhanced,
+    colback=exobg!40,
+    colframe=exodraw,
+    boxrule=1pt,
+    arc=3pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    fontupper=\small\color{textmain},
+    before upper={{\color{exodraw}\bfseries\small\ding{220}\ #1}\par\vspace{0.3em}}
+}
+
+\newtcolorbox{corrige}[1][Solution]{%
+    enhanced,
+    colback=solbg,
+    colframe=soldraw,
+    boxrule=1pt,
+    arc=3pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    fontupper=\small\color{textmain},
+    before upper={{\color{soldraw}\bfseries\small\ding{51}\ #1}\par\vspace{0.3em}}
+}
+
+\newcommand{\oui}[1]{\textcolor{good}{\ding{51}}~#1}
+\newcommand{\non}[1]{\textcolor{bad}{\ding{55}}~#1}
+
+% ============================================================================
+%  TIKZ STYLES
+% ============================================================================
+\tikzset{
+  iso/.style={rectangle, rounded corners=4pt, thick, draw,
+    minimum width=3.5cm, minimum height=0.75cm,
+    align=center, font=\footnotesize\bfseries},
+  chainbox/.style={rectangle, rounded corners=3pt, thick, draw,
+    minimum width=2.6cm, minimum height=1.0cm,
+    align=center, font=\small},
+  pyramid/.style={thick, font=\footnotesize\bfseries},
+  firstletter/.style={circle, draw, thick, fill=bgaccent,
+    minimum size=0.9cm, font=\bfseries, text=accentdark},
+  arrowstep/.style={-{Latex[length=2.5mm,width=2mm]},
+    line width=0.7pt, draw=textsoft}
+}
+
+% ============================================================================
+%  MÉTADONNÉES
+% ============================================================================
+\title[Qualité \& Tests Logiciels --- Séance 1]{}
+\author{Dr. Yvan GUIFO FODJO}
+\institute{EFREI Paris}
+\date{2025--2026}
+
+% ============================================================================
+\begin{document}
+% ============================================================================
+
+% ---- TITRE -----------------------------------------------------------------
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture, overlay]
+\node[anchor=north east] at ([xshift=-0.7cm, yshift=-0.6cm]current page.north east)
+    {\includegraphics[width=4.6cm]{Logo_EFREI.png}};
+\end{tikzpicture}
+\vspace{0.8cm}
+{\color{accent}\rule{0.22\linewidth}{1.4pt}}\\[0.5cm]
+{\Huge\bfseries Qualité Logicielle\\[0.18em] \& Tests Logiciels}\\[0.35cm]
+{\large\color{textsoft}Séance 1 --- Fondements, terminologie, premiers tests}\\[0.9cm]
+\begin{tikzpicture}
+\node[rectangle, rounded corners=4pt, fill=bgsoft, draw=linecolor, line width=0.5pt,
+      minimum width=0.82\linewidth, minimum height=1.9cm, inner sep=10pt]{
+\begin{minipage}{0.76\linewidth}
+{\large\bfseries Dr. Yvan GUIFO FODJO}\\[0.1cm]
+{\color{textsoft}\small EFREI Paris\quad|\quad Séance 1/3\quad|\quad Format CTP\quad|\quad \textbf{5h}}\\[0.1cm]
+{\color{textsoft}\footnotesize Année universitaire 2025--2026\quad|\quad \texttt{yvan.guifo-fodjo@efrei.fr}}
+\end{minipage}};
+\end{tikzpicture}
+\vfill
+\end{frame}
+
+% ---- PLAN ------------------------------------------------------------------
+\begin{frame}[t]{Plan de la séance}
+\duree{5h --- CTP (Cours + TP intégrés)}
+\vspace{0.4cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{\color{accent}Partie cours}\\[0.2em]
+\footnotesize
+\textbf{1.} Qualité logicielle \hfill {\color{textsoft}40~min}\\
+\textbf{2.} Vocabulaire ISTQB \hfill {\color{textsoft}30~min}\\
+\textbf{3.} Pyramide \& FIRST \hfill {\color{textsoft}50~min}\\
+\textbf{5.} Cas limites, \texttt{parametrize} \hfill {\color{textsoft}45~min}\\
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{\color{accent2}Partie travaux pratiques}\\[0.2em]
+\footnotesize
+\textbf{4.} TP1 --- \texttt{pytest} \& AAA \hfill {\color{textsoft}60~min}\\
+\textbf{6.} TP2 --- \texttt{JUnit 5} \hfill {\color{textsoft}60~min}\\[0.2em]
+{\color{textsoft}Pauses \hfill 15~min}
+\end{column}
+\end{columns}
+\vspace{0.4cm}
+\begin{beamercolorbox}[wd=\linewidth,sep=0.5em,rounded=true]{block body}
+{\color{accent}\bfseries\small Objectifs (Bloom)}\\[0.1em]
+\footnotesize
+\textbf{Comprendre} : qualité, défaut, V\&V, pyramide.\\
+\textbf{Appliquer} : écrire des tests \texttt{pytest} et \texttt{JUnit 5} avec le patron AAA.
+\end{beamercolorbox}
+\end{frame}
+
+% ============================================================================
+\section{Introduction : la qualité logicielle}
+% ============================================================================
+\sectionframe{1. Qualité logicielle}{Pourquoi tester ? Que mesurer ? \quad\textbf{\textbar{}}\quad \textbf{40 min}}
+
+% ---- 1.1 Définition --------------------------------------------------------
+\begin{frame}[t]{Qu'est-ce que la qualité d'un logiciel ?}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.55\textwidth}
+\vspace{0.1cm}
+La \textbf{qualité logicielle} est l'aptitude d'un système à satisfaire :
+\begin{itemize}\footnotesize
+    \item ses besoins \textbf{fonctionnels} \\
+    {\color{textsoft}\scriptsize (ce que fait le logiciel) ;}
+    \item ses besoins \textbf{non-fonctionnels} \\
+    {\color{textsoft}\scriptsize (fiabilité, sécurité, performance) ;}
+    \item les \textbf{normes} et standards applicables.
+\end{itemize}
+\vspace{0.2cm}
+\begin{beamercolorbox}[sep=0.5em,rounded=true]{block body}
+\scriptsize\itshape
+« Quality is never an accident; it is always the result of intelligent effort. »
+\textcolor{textsoft}{--- John Ruskin}
+\end{beamercolorbox}
+\end{column}
+\begin{column}{0.42\textwidth}
+\vspace{0.1cm}
+\textbf{Un logiciel peut être :}\\[0.2em]
+\footnotesize
+\oui{\textbf{Correct} fonctionnellement} \\[0.15em]
+\non{\textbf{Lent} sous charge} \\[0.15em]
+\non{\textbf{Difficile à maintenir}} \\[0.15em]
+\non{\textbf{Vulnérable} aux injections SQL} \\[0.15em]
+\oui{\textbf{Beau} à l'écran}\\[0.4em]
+\textcolor{textsoft}{$\Rightarrow$ La qualité n'est pas binaire mais \textbf{multidimensionnelle}.}
+\end{column}
+\end{columns}
+\takeaway{La qualité d'un logiciel ne se résume pas à « ça marche ». Il existe au moins 8 dimensions normalisées.}
+\end{frame}
+
+% ---- 1.2 Cas Knight Capital ------------------------------------------------
+\begin{frame}[t]{Pourquoi se préoccuper de la qualité ? Cas réel}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.55\textwidth}
+\vspace{0.1cm}
+\textbf{\color{accent}Knight Capital --- 1\textsuperscript{er} août 2012}\\[0.3em]
+\footnotesize
+Société de trading américaine. Déploiement d'un nouveau logiciel sur 8 serveurs de production.\\[0.5em]
+\non{\textbf{Erreur :}} sur \textbf{1 serveur sur 8}, un ancien code « test » (\texttt{Power Peg}) a été réactivé par erreur.\\[0.5em]
+\non{\textbf{Conséquence :}} le système a passé \textbf{4 millions d'ordres} en 45 minutes sur 154 actions.\\[0.5em]
+\non{\textbf{Perte :}} \textbf{440 millions de dollars}.\\[0.5em]
+\non{\textbf{Fin :}} société rachetée le mois suivant.
+\end{column}
+\begin{column}{0.42\textwidth}
+\vspace{0.1cm}
+\textbf{Causes racines identifiées par la SEC :}\\[0.3em]
+\footnotesize
+\begin{itemize}\scriptsize
+    \item Déploiement \textbf{non automatisé} (humain a oublié 1 serveur)
+    \item Pas de \textbf{tests d'intégration} sur le déploiement complet
+    \item Code mort réactivé sans détection
+    \item Absence d'arrêt automatique sur anomalie
+\end{itemize}
+\vspace{0.3em}
+\begin{beamercolorbox}[sep=0.4em,rounded=true]{block body}
+\scriptsize\color{bad}\textbf{45 minutes pour perdre 440 M\$.}\\
+{\color{textsoft}Source : SEC Release No.~70694 (2013).}
+\end{beamercolorbox}
+\end{column}
+\end{columns}
+\takeaway{Un défaut logiciel a un coût qui dépasse largement sa correction technique.}
+\end{frame}
+
+% ---- 1.3 Autres cas --------------------------------------------------------
+\begin{frame}[t]{Quand le logiciel échoue : trois autres cas emblématiques}
+\footnotesize
+\begin{tabular}{@{}p{2.3cm} p{2.0cm} p{8.2cm}@{}}
+\toprule
+\textbf{\color{accent}Cas} & \textbf{\color{accent}Année} & \textbf{\color{accent}Cause logicielle (essentielle)} \\
+\midrule
+\textbf{Therac-25} & 1985--1987 &
+Race condition dans un logiciel de radiothérapie. Surdosages massifs : \textbf{6 incidents documentés, 3 décès}. \\
+\addlinespace[0.3em]
+\textbf{Ariane 5} (Vol 501) & 4 juin 1996 &
+Conversion d'un flottant 64~bits en entier 16~bits non protégée, code réutilisé d'Ariane 4. \textbf{370~M\$ détruits} en 37 secondes de vol. \\
+\addlinespace[0.3em]
+\textbf{Heartbleed} (OpenSSL) & avril 2014 &
+\textit{Buffer over-read} : envoi d'un message « heartbeat » avec longueur mensongère $\Rightarrow$ fuite mémoire serveur. \textbf{17\% des serveurs HTTPS} mondiaux exposés. \\
+\bottomrule
+\end{tabular}
+\vspace{0.3cm}
+\begin{beamercolorbox}[sep=0.5em,rounded=true]{block body}
+\scriptsize Sources : Leveson \& Turner, IEEE Computer, 1993 \quad|\quad ESA Inquiry Board Report, 1996 \quad|\quad CVE-2014-0160.
+\end{beamercolorbox}
+\takeaway{Tests insuffisants $\Rightarrow$ pertes humaines, financières, géopolitiques. Tester n'est pas un luxe.}
+\end{frame}
+
+% ---- 1.4 ISO 25010 --------------------------------------------------------
+\begin{frame}[t]{ISO/IEC 25010 --- les 8 caractéristiques de qualité}
+\centering\footnotesize
+\begin{tikzpicture}[node distance=0.35cm and 0.35cm]
+\node[iso, fill=bgaccent, draw=accent] (func) {Adéquation\\fonctionnelle};
+\node[iso, fill=bgaccent, draw=accent, right=of func] (perf) {Performance\\efficience};
+\node[iso, fill=bgaccent2, draw=accent2, right=of perf] (compa) {Compatibilité};
+\node[iso, fill=bgaccent2, draw=accent2, right=of compa] (usab) {Convivialité\\(usabilité)};
+
+\node[iso, fill=greenlight, draw=good, below=of func] (rel) {Fiabilité};
+\node[iso, fill=redlight, draw=bad, below=of perf] (sec) {Sécurité};
+\node[iso, fill=orangelight, draw=warn, below=of compa] (maint) {Maintenabilité};
+\node[iso, fill=bgsoft, draw=textsoft, below=of usab] (port) {Portabilité};
+\end{tikzpicture}
+\vspace{0.4cm}
+
+\textcolor{textsoft}{Chaque caractéristique se décompose en \textbf{sous-caractéristiques} : ex.\ Sécurité $\to$ confidentialité, intégrité, non-répudiation, traçabilité, authenticité.}
+\takeaway{ISO/IEC 25010:2011 fournit un vocabulaire \textbf{commun} et \textbf{normalisé} pour parler de qualité.}
+\end{frame}
+
+% ---- 1.5 ISO 25010 zoom ---------------------------------------------------
+\begin{frame}[t]{Zoom : 4 caractéristiques en exemples concrets}
+\footnotesize
+\begin{tabular}{@{}p{2.6cm} p{4cm} p{4.8cm}@{}}
+\toprule
+\textbf{\color{accent}Caractéristique} & \textbf{\color{accent}Sous-caractéristiques} & \textbf{\color{accent}Exemple sur une boutique en ligne} \\
+\midrule
+Adéquation fonctionnelle & complétude, exactitude, pertinence
+& Le total du panier est-il bien la somme des articles ?\\
+\addlinespace[0.2em]
+Performance & temps de réponse, capacité
+& La page produit charge en $<$2~s avec 10\,000 visiteurs simultanés ?\\
+\addlinespace[0.2em]
+Fiabilité & maturité, disponibilité, tolérance aux pannes
+& Si le service de paiement tombe, le site continue-t-il de fonctionner ?\\
+\addlinespace[0.2em]
+Sécurité & confidentialité, intégrité, authenticité
+& Un client peut-il voir les commandes d'un autre client ?\\
+\bottomrule
+\end{tabular}
+\takeaway{Une « qualité » sans dimension précise est un slogan : ISO 25010 oblige à nommer le critère.}
+\end{frame}
+
+% ---- 1.6 Coût des défauts --------------------------------------------------
+\begin{frame}[t]{Coût d'un défaut : plus on attend, plus c'est cher}
+\centering
+\begin{tikzpicture}[font=\footnotesize]
+% axes
+\draw[->, thick] (0,0) -- (10,0) node[right, font=\scriptsize]{Phase};
+\draw[->, thick] (0,0) -- (0,4) node[above, font=\scriptsize]{Coût relatif};
+% bars
+\fill[accent] (0.6,0) rectangle (1.6,0.3);
+\fill[accent] (2.0,0) rectangle (3.0,0.6);
+\fill[accent2] (3.4,0) rectangle (4.4,1.2);
+\fill[warn] (4.8,0) rectangle (5.8,2.0);
+\fill[bad] (6.2,0) rectangle (7.2,3.5);
+% labels en X
+\node[below, font=\scriptsize] at (1.1,0) {Conception};
+\node[below, font=\scriptsize] at (2.5,0) {Codage};
+\node[below, font=\scriptsize] at (3.9,0) {Tests};
+\node[below, font=\scriptsize] at (5.3,0) {Recette};
+\node[below, font=\scriptsize] at (6.7,0) {Production};
+% valeurs
+\node[above, font=\scriptsize] at (1.1,0.3) {$\times$1};
+\node[above, font=\scriptsize] at (2.5,0.6) {$\times$2};
+\node[above, font=\scriptsize] at (3.9,1.2) {$\times$4};
+\node[above, font=\scriptsize] at (5.3,2.0) {$\times$10};
+\node[above, font=\scriptsize\bfseries, text=bad] at (6.7,3.5) {$\times$50--100};
+% sources
+\node[anchor=west, font=\scriptsize, text=textsoft, align=left]
+   at (8.3,2.5) {D'après\\Boehm \& Basili\\(2001)};
+\end{tikzpicture}
+\vspace{0.2cm}
+\takeaway{Détecter un défaut en production coûte 50 à 100 fois plus cher qu'en conception. Tester tôt = économiser.}
+\end{frame}
+
+% ---- 1.7 Exercice ----------------------------------------------------------
+\begin{frame}[t]{Exercice 1.1 --- Identifier les caractéristiques affectées}
+\begin{exercice}
+Une plateforme e-commerce affiche des \textbf{prix incorrects} lors de pics de charge\\
+(> 1\,000 utilisateurs simultanés) mais fonctionne parfaitement avec 100 utilisateurs.\\
+Le reste des fonctionnalités est impeccable.\\[0.4em]
+\textbf{(a)} Quelle(s) caractéristique(s) ISO~25010 sont \textbf{affectées} ?\\
+\textbf{(b)} Quelle(s) caractéristique(s) ne sont \textbf{pas} affectées ?\\
+\textbf{(c)} Quelle stratégie de test permettrait de détecter ce problème ?
+\end{exercice}
+\vspace{0.4cm}
+\centering\small\itshape\color{textsoft} Prenez 5~minutes en binôme.
+\end{frame}
+
+\begin{frame}[t]{Solution 1.1}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.50\textwidth}
+\vspace{0.1cm}
+\textbf{(a) Caractéristiques affectées :}
+\begin{itemize}\footnotesize
+    \item \textbf{Adéquation fonctionnelle} : prix incorrect = mauvaise exactitude.
+    \item \textbf{Performance} : dégradation sous charge.
+    \item \textbf{Fiabilité} : résultat non reproductible selon la charge.
+\end{itemize}
+\vspace{0.2em}\pause
+\textbf{(b) Non affectées :}
+\begin{itemize}\footnotesize
+    \item Sécurité, Portabilité, Maintenabilité (sans information contraire).
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\vspace{0.1cm}\pause
+\textbf{(c) Stratégie :}
+\begin{itemize}\footnotesize
+    \item \textbf{Tests de charge} : simuler 1\,000+ utilisateurs.
+    \item \textbf{Tests de stress} : dépasser la limite.
+    \item \textbf{Outils} : JMeter, k6, Locust.
+    \item Tests d'intégration vérifiant la cohérence BDD/affichage sous charge.
+\end{itemize}
+\end{column}
+\end{columns}
+\takeaway{Un logiciel peut satisfaire toutes ses spécifications fonctionnelles et échouer sur des propriétés \textbf{émergentes} comme la performance.}
+\end{frame}
+
+% ============================================================================
+\section{Vocabulaire ISTQB : erreur, défaut, panne}
+% ============================================================================
+\sectionframe{2. Vocabulaire ISTQB}{Erreur, défaut, panne, V\&V \quad\textbf{\textbar{}}\quad \textbf{30 min}}
+
+% ---- 2.1 Chaîne -----------------------------------------------------------
+\begin{frame}[t]{La chaîne erreur $\to$ défaut $\to$ panne}
+\centering
+\begin{tikzpicture}[node distance=1.0cm]
+\node[chainbox, fill=bgaccent, draw=accent] (err) {\textbf{Erreur}\\\scriptsize action humaine};
+\node[chainbox, fill=orangelight, draw=warn, right=of err] (def) {\textbf{Défaut}\\\scriptsize dans le code};
+\node[chainbox, fill=redlight, draw=bad, right=of def] (pan) {\textbf{Panne}\\\scriptsize observée par l'utilisateur};
+\draw[arrowstep] (err) -- (def);
+\draw[arrowstep] (def) -- (pan);
+\node[font=\tiny, text=textsoft, below=0.05cm of err]{(\textit{error / mistake})};
+\node[font=\tiny, text=textsoft, below=0.05cm of def]{(\textit{defect / bug / fault})};
+\node[font=\tiny, text=textsoft, below=0.05cm of pan]{(\textit{failure})};
+\end{tikzpicture}
+\vspace{0.6cm}
+\footnotesize
+\begin{itemize}\itemsep0.15em
+\item Une \textbf{erreur} est faite par un humain (mauvaise interprétation, oubli, faute de frappe).
+\item Elle peut produire un \textbf{défaut} dans le code, la documentation ou la configuration.
+\item Le défaut, s'il est exécuté avec les bonnes données, provoque une \textbf{panne}.
+\end{itemize}
+\takeaway{Tous les défauts ne provoquent pas de panne : c'est l'exécution qui révèle le problème.}
+\end{frame}
+
+% ---- 2.2 Exemple concret ---------------------------------------------------
+\begin{frame}[fragile,t]{Exemple concret : un défaut qui dort}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.55\textwidth}
+\vspace{0.1cm}
+\begin{lstlisting}[style=pythondark]
+def diviser(a, b):
+    # Le developpeur a oublie b == 0
+    return a / b
+
+# Cas nominal :
+diviser(10, 2)   # -> 5.0  OK
+diviser(7, 3.5)  # -> 2.0  OK
+
+# Cas qui revele la panne :
+diviser(5, 0)    # -> ZeroDivisionError
+\end{lstlisting}
+\end{column}
+\begin{column}{0.42\textwidth}
+\vspace{0.1cm}\footnotesize
+\textbf{Décomposition :}\\[0.3em]
+\textcolor{accent}{\textbf{Erreur}} : le développeur a oublié de penser au cas $b = 0$.\\[0.3em]
+\textcolor{warn}{\textbf{Défaut}} : la fonction \texttt{diviser} ne vérifie pas $b$ avant la division.\\[0.3em]
+\textcolor{bad}{\textbf{Panne}} : exception non gérée renvoyée à l'utilisateur quand $b = 0$.\\[0.3em]
+\textcolor{textsoft}{Le défaut existait dès l'écriture, mais ne s'est révélé qu'à l'exécution avec une donnée particulière.}
+\end{column}
+\end{columns}
+\takeaway{Tester, c'est créer des conditions d'exécution qui forcent les défauts dormants à devenir des pannes.}
+\end{frame}
+
+% ---- 2.3 V&V ---------------------------------------------------------------
+\begin{frame}[t]{Vérification et validation : deux questions différentes}
+\vspace{0.1cm}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{beamercolorbox}[sep=0.6em,rounded=true]{block body}
+\centering\textbf{\color{accent}Vérification}\\[0.2em]
+\large\itshape « Avons-nous bien construit le logiciel ? »\\[0.4em]
+\footnotesize\normalfont
+On compare le produit à sa \textbf{spécification}.\\
+$\Rightarrow$ \textbf{conformité} au cahier des charges.
+\end{beamercolorbox}
+\vspace{0.4em}\footnotesize
+\textbf{Exemples :}
+\begin{itemize}\scriptsize
+\item Revue de code
+\item Tests unitaires automatisés
+\item Compilation sans warning
+\item Vérification de types statique
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{beamercolorbox}[sep=0.6em,rounded=true]{block body}
+\centering\textbf{\color{accent2}Validation}\\[0.2em]
+\large\itshape « Avons-nous construit le bon logiciel ? »\\[0.4em]
+\footnotesize\normalfont
+On compare le produit aux \textbf{besoins réels} de l'utilisateur.\\
+$\Rightarrow$ \textbf{utilité} du produit.
+\end{beamercolorbox}
+\vspace{0.4em}\footnotesize
+\textbf{Exemples :}
+\begin{itemize}\scriptsize
+\item Tests utilisateurs / UAT
+\item Démo client
+\item Mise en bêta sur un échantillon
+\item Analyse de feedback en production
+\end{itemize}
+\end{column}
+\end{columns}
+\takeaway{Un logiciel \textbf{vérifié} peut être \textbf{invalide} : conforme à un cahier des charges erroné.}
+\end{frame}
+
+% ---- 2.4 Exemple V&V librairie --------------------------------------------
+\begin{frame}[t]{Fil rouge : la librairie en ligne}
+\footnotesize
+\textbf{Scénario :} on développe un site de librairie. Spécification écrite : \textit{le panier additionne le prix des livres}.
+\vspace{0.4cm}
+\begin{tabular}{@{}c p{4.2cm} c p{4.4cm}@{}}
+\toprule
+\textbf{\#} & \textbf{Activité} & \textbf{Type} & \textbf{Justification} \\
+\midrule
+1 & Relecture du code de \texttt{Panier} par un collègue
+& \textcolor{accent}{\bfseries Vérif.}
+& On compare code et spec interne \\
+2 & Démo aux libraires
+& \textcolor{accent2}{\bfseries Valid.}
+& On confronte au besoin réel \\
+3 & Exécution \texttt{pytest} sur le module panier
+& \textcolor{accent}{\bfseries Vérif.}
+& Tests = spec encodée \\
+4 & Test par 5 utilisateurs réels en boutique
+& \textcolor{accent2}{\bfseries Valid.}
+& Mesure de satisfaction client \\
+5 & Conformité au cahier des charges
+& \textcolor{accent}{\bfseries Vérif.}
+& Document de référence existe \\
+\bottomrule
+\end{tabular}
+\takeaway{Des tests unitaires qui passent garantissent la vérification --- pas la validation. Les deux sont nécessaires.}
+\end{frame}
+
+% ---- 2.5 Exercice 2 --------------------------------------------------------
+\begin{frame}[fragile,t]{Exercice 2.1 --- Identifier erreur, défaut, panne}
+\begin{exercice}
+Un développeur écrit la fonction Python suivante :
+\begin{lstlisting}[style=pythondark]
+def moyenne(notes):
+    # somme divisee par 10 (oubli de len(notes))
+    return sum(notes) / 10
+\end{lstlisting}
+Un étudiant entre ses 12 notes (moyennes mensuelles).\\
+Affichage : \textbf{« Moyenne = 14,5 / 20 »} alors qu'il devrait s'afficher \textbf{« 17,4 / 20 »}.\\[0.3em]
+\textbf{Identifiez :} \textit{(a)} l'erreur, \textit{(b)} le défaut, \textit{(c)} la panne.
+\end{exercice}
+\end{frame}
+
+\begin{frame}[t]{Solution 2.1}
+\begin{itemize}\footnotesize
+\item \textcolor{accent}{\textbf{Erreur} (humaine)} : le développeur a confondu « moyenne » et « somme divisée par un nombre fixe ». Il a peut-être codé en pensant à un cas particulier (10 notes) puis a oublié de généraliser.
+\vspace{0.3em}
+\item \textcolor{warn}{\textbf{Défaut} (dans le code)} : la ligne \texttt{return sum(notes)~/~10} ; le diviseur correct est \texttt{len(notes)}.
+\vspace{0.3em}
+\item \textcolor{bad}{\textbf{Panne} (observable)} : pour 12 notes dont la somme est 209, le programme affiche \textbf{20,9} (ou 14,5 dans l'énoncé) au lieu de \textbf{17,4}.
+\end{itemize}
+\vspace{0.4cm}
+\textbf{Note pédagogique :} \footnotesize ce défaut n'est révélé que si on teste avec une liste \textit{de longueur différente de 10}. Une bonne suite de tests \textbf{paramétrée} l'aurait détecté immédiatement.
+\takeaway{Un défaut peut produire 0 ou plusieurs pannes selon les données. Tester = explorer les entrées.}
+\end{frame}
+
+% ============================================================================
+\section{La pyramide de tests et les principes FIRST}
+% ============================================================================
+\sectionframe{3. Pyramide de tests \& FIRST}{Organiser ses efforts \quad\textbf{\textbar{}}\quad \textbf{50 min}}
+
+% ---- 3.1 Pourquoi structurer ----------------------------------------------
+\begin{frame}[t]{Pourquoi structurer ses tests ?}
+\footnotesize
+On ne teste pas tout au même niveau. Imaginons une application web :\\[0.4em]
+\begin{tabular}{@{}p{3.8cm} p{4.4cm} p{3.8cm}@{}}
+\toprule
+\textbf{\color{accent}Niveau} & \textbf{\color{accent}Ce qu'on teste} & \textbf{\color{accent}Vitesse} \\
+\midrule
+Unitaire & Une fonction, isolée & ms (très rapide) \\
+Intégration & Plusieurs modules ensemble & 100 ms à quelques s \\
+End-to-End (E2E) & Le système complet via UI & secondes à minutes \\
+\bottomrule
+\end{tabular}
+\vspace{0.4cm}
+\\
+Si je n'écris que des tests E2E :
+\begin{itemize}\scriptsize
+\item ma suite met 30~min à tourner $\to$ feedback trop tardif ;
+\item un test rouge ne dit pas où est le défaut ;
+\item les tests sont fragiles (changement UI = tests cassés).
+\end{itemize}
+\takeaway{La \textbf{pyramide de tests} donne une heuristique d'investissement : beaucoup en bas, peu en haut.}
+\end{frame}
+
+% ---- 3.2 Pyramide ----------------------------------------------------------
+\begin{frame}[t]{La pyramide de Cohn (2009)}
+\centering
+\begin{tikzpicture}[x=1cm, y=0.78cm, font=\footnotesize]
+% base
+\fill[greenlight, draw=good, line width=0.9pt]
+    (-3.4,0) -- (3.4,0) -- (2.7,1.4) -- (-2.7,1.4) -- cycle;
+\node[font=\footnotesize\bfseries, text=good] at (0,0.78) {Tests Unitaires};
+\node[font=\scriptsize, text=textsoft] at (0,0.22) {isolés, rapides, déterministes};
+% milieu
+\fill[orangelight, draw=warn, line width=0.9pt]
+    (-2.7,1.6) -- (2.7,1.6) -- (1.8,3.0) -- (-1.8,3.0) -- cycle;
+\node[font=\footnotesize\bfseries, text=warn] at (0,2.40) {Tests d'Intégration};
+\node[font=\scriptsize, text=textsoft] at (0,1.92) {composants, contrats, BDD};
+% sommet
+\fill[redlight, draw=bad, line width=0.9pt]
+    (-1.8,3.2) -- (1.8,3.2) -- (0.8,4.4) -- (-0.8,4.4) -- cycle;
+\node[font=\footnotesize\bfseries, text=bad] at (0,3.86) {E2E};
+\node[font=\scriptsize, text=textsoft] at (0,3.40) {scénarios complets};
+% pourcentages
+\draw[dashed, gray!45] (3.5,0.78) -- (4.3,0.78);
+\draw[dashed, gray!45] (2.8,2.40) -- (4.3,2.40);
+\draw[dashed, gray!45] (1.9,3.86) -- (4.3,3.86);
+\node[anchor=west, font=\scriptsize, text=textsoft] at (4.35,0.78) {\textbf{70--80\,\%}};
+\node[anchor=west, font=\scriptsize, text=textsoft] at (4.35,2.40) {\textbf{15--20\,\%}};
+\node[anchor=west, font=\scriptsize, text=textsoft] at (4.35,3.86) {\textbf{5--10\,\%}};
+% côté gauche
+\node[anchor=east, font=\scriptsize, text=textsoft, align=right] at (-3.7,0.78){beaucoup\\rapides};
+\node[anchor=east, font=\scriptsize, text=textsoft, align=right] at (-3.7,3.86){peu\\lents, coûteux};
+\end{tikzpicture}
+\takeaway{Investir massivement en tests unitaires garantit un feedback rapide et un débogage facile.}
+\end{frame}
+
+% ---- 3.3 Anti-patterns -----------------------------------------------------
+\begin{frame}[t]{Deux anti-patterns à reconnaître}
+\centering
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\centering\textbf{\color{bad}Cornet de glace}\\[0.4em]
+\begin{tikzpicture}[x=0.7cm, y=0.5cm, font=\tiny]
+\fill[redlight, draw=bad, line width=0.7pt]
+    (-3,3.5) -- (3,3.5) -- (2.6,4.5) -- (-2.6,4.5) -- cycle;
+\fill[orangelight, draw=warn, line width=0.7pt]
+    (-2.6,2.0) -- (2.6,2.0) -- (1.8,3.3) -- (-1.8,3.3) -- cycle;
+\fill[greenlight, draw=good, line width=0.7pt]
+    (-1.8,0) -- (1.8,0) -- (0.6,1.8) -- (-0.6,1.8) -- cycle;
+\node[font=\tiny\bfseries] at (0,4.0) {E2E};
+\node[font=\tiny\bfseries] at (0,2.65) {Intégration};
+\node[font=\tiny\bfseries] at (0,0.9) {Unit};
+\end{tikzpicture}\\[0.3em]
+\scriptsize Trop de tests E2E, peu d'unitaires.\\
+{\color{textsoft}\textit{Lent, fragile, coût élevé.}}
+\end{column}
+\begin{column}{0.48\textwidth}
+\centering\textbf{\color{warn}Sablier}\\[0.4em]
+\begin{tikzpicture}[x=0.7cm, y=0.5cm, font=\tiny]
+\fill[redlight, draw=bad, line width=0.7pt]
+    (-2.4,3.0) -- (2.4,3.0) -- (2.0,4.5) -- (-2.0,4.5) -- cycle;
+\fill[orangelight, draw=warn, line width=0.7pt]
+    (-0.6,1.5) -- (0.6,1.5) -- (0.4,2.7) -- (-0.4,2.7) -- cycle;
+\fill[greenlight, draw=good, line width=0.7pt]
+    (-2.4,0) -- (2.4,0) -- (1.6,1.4) -- (-1.6,1.4) -- cycle;
+\node[font=\tiny\bfseries] at (0,3.8) {E2E};
+\node[font=\tiny\bfseries] at (0,2.1) {Int};
+\node[font=\tiny\bfseries] at (0,0.65) {Unit};
+\end{tikzpicture}\\[0.3em]
+\scriptsize Pas assez de tests d'intégration.\\
+{\color{textsoft}\textit{Les bugs aux frontières passent.}}
+\end{column}
+\end{columns}
+\takeaway{Une suite saine concentre la majorité des tests \textbf{au niveau unitaire}, où ils sont rapides et précis.}
+\end{frame}
+
+% ---- 3.4 FIRST -------------------------------------------------------------
+\begin{frame}[t,shrink=10]{Les principes FIRST d'un bon test unitaire}
+\vspace{0.2cm}
+\centering
+\begin{tikzpicture}[node distance=0.45cm and 0.6cm, font=\footnotesize]
+\node[firstletter] (F) {F};
+\node[firstletter, right=of F] (I) {I};
+\node[firstletter, right=of I] (R) {R};
+\node[firstletter, right=of R] (S) {S};
+\node[firstletter, right=of S] (T) {T};
+\end{tikzpicture}
+\vspace{0.5cm}
+\footnotesize
+\begin{tabular}{@{}p{1.4cm} p{2.6cm} p{8.4cm}@{}}
+\toprule
+\textbf{\color{accent}Lettre} & \textbf{\color{accent}Principe} & \textbf{\color{accent}Définition opérationnelle} \\
+\midrule
+\textbf{F} & \textbf{Fast} (rapide)
+& Quelques ms par test. Toute la suite doit tourner en quelques secondes.\\
+\textbf{I} & \textbf{Independent} (indépendant)
+& Un test ne dépend pas d'un autre. Ordre d'exécution indifférent.\\
+\textbf{R} & \textbf{Repeatable} (reproductible)
+& Même résultat à chaque exécution, sur toute machine, sans dépendance externe.\\
+\textbf{S} & \textbf{Self-Validating} (auto-valide)
+& Le test affirme lui-même son verdict via \texttt{assert}. Pas d'inspection humaine.\\
+\textbf{T} & \textbf{Timely} (au moment opportun)
+& Écrit \textbf{avec} ou \textbf{avant} le code de production (anticipation $\to$ TDD).\\
+\bottomrule
+\end{tabular}
+\vspace{0.2cm}
+\\
+\centering{\scriptsize\color{textsoft}Source : Beck (2002), Martin (2008).}
+\takeaway{FIRST = mnémonique simple pour audit rapide d'une suite de tests existante.}
+\end{frame}
+
+% ---- 3.5 FIRST violations exemples -----------------------------------------
+\begin{frame}[fragile,t]{FIRST : exemples de violations à reconnaître}
+\footnotesize
+\begin{tabular}{@{}p{1.2cm} p{10.4cm}@{}}
+\toprule
+\textbf{F} & Test qui fait une requête HTTP réelle vers \texttt{api.github.com} (lent, dépend du réseau).\\
+\textbf{I} & Test \texttt{test\_b} suppose que \texttt{test\_a} a déjà créé un utilisateur dans la base.\\
+\textbf{R} & Test qui utilise \texttt{datetime.now()} : passe le matin, échoue le soir.\\
+\textbf{S} & Test qui affiche un résultat avec \texttt{print()} sans \texttt{assert} : passe toujours.\\
+\textbf{T} & Tests écrits 6 mois après le code, sur du code intestable.\\
+\bottomrule
+\end{tabular}
+\vspace{0.4cm}
+\begin{lstlisting}[style=pythondark]
+# Violation S : ce "test" passe TOUJOURS car aucun assert
+def test_addition_pas_self_validating():
+    resultat = 2 + 3
+    print(resultat)  # Sortie visuelle, pas d'assertion
+\end{lstlisting}
+\takeaway{Un test sans \texttt{assert} est pire qu'un test absent : il donne une fausse confiance.}
+\end{frame}
+
+% ---- 3.6 Exercice 3 --------------------------------------------------------
+\begin{frame}[t]{Exercice 3.1 --- Diagnostiquer une suite de tests}
+\begin{exercice}
+Une équipe vous montre sa suite de tests avec ces caractéristiques :\\[0.3em]
+\begin{itemize}\footnotesize
+\item 4 tests unitaires, 38 tests E2E via Selenium, 0 test d'intégration ;
+\item la suite met 22~minutes à s'exécuter ;
+\item parfois les tests passent, parfois ils échouent --- l'équipe relance ;
+\item le test \texttt{test\_panier\_total} suppose que \texttt{test\_panier\_creation} a déjà été exécuté.
+\end{itemize}
+\vspace{0.3em}
+\textbf{Question :} identifiez \textbf{tous les problèmes} en mobilisant pyramide + FIRST. Proposez 2 corrections prioritaires.
+\end{exercice}
+\end{frame}
+
+\begin{frame}[t]{Solution 3.1}
+\footnotesize
+\begin{itemize}
+\item \textbf{Pyramide inversée} (cornet de glace) : 4 unitaires vs 38 E2E. Coûteux, lent.
+\item \textbf{Violation F} : 22 min de suite $\Rightarrow$ feedback impraticable en CI.
+\item \textbf{Violation R} : tests « flaky » (passent / échouent au hasard) $\Rightarrow$ relance = perte de confiance.
+\item \textbf{Violation I} : dépendance entre \texttt{test\_panier\_total} et \texttt{test\_panier\_creation}.
+\end{itemize}
+\vspace{0.4cm}
+\textbf{Corrections prioritaires :}\\[0.2em]
+\begin{enumerate}\footnotesize
+\item \textcolor{accent}{Réinvestir} : remplacer 30 tests E2E par 100+ tests unitaires couvrant la même logique.
+\item \textcolor{accent2}{Rendre chaque test autonome} : créer ses propres données via \textbf{fixtures}, pas via un autre test.
+\end{enumerate}
+\takeaway{Une suite saine = pyramide respectée + FIRST honoré sur chaque test pris isolément.}
+\end{frame}
+
+% ============================================================================
+\section{TP1 --- Premiers tests avec pytest et le patron AAA}
+% ============================================================================
+\sectionframe{4. TP1 --- pytest \& AAA}{Premiers tests automatisés \quad\textbf{\textbar{}}\quad \textbf{60 min}}
+
+% ---- 4.1 Pourquoi un framework --------------------------------------------
+\begin{frame}[fragile,t,shrink=10]{Pourquoi un framework de test ?}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.49\textwidth}
+\textbf{\color{bad}Sans framework}
+\begin{lstlisting}[style=pythondark]
+def test_addition():
+    if 2 + 3 != 5:
+        print("ECHEC : 2+3 != 5")
+    else:
+        print("OK : addition")
+
+def test_division():
+    if 10/2 != 5:
+        print("ECHEC")
+
+test_addition()
+test_division()
+\end{lstlisting}
+\scriptsize\color{textsoft} Lecture humaine, pas de bilan, pas de découverte automatique.
+\end{column}
+\begin{column}{0.49\textwidth}
+\textbf{\color{good}Avec \texttt{pytest}}
+\begin{lstlisting}[style=pythondark]
+def test_addition():
+    assert 2 + 3 == 5
+
+def test_division():
+    assert 10 / 2 == 5
+\end{lstlisting}
+\begin{lstlisting}[style=bashdark]
+$ pytest
+collected 2 items
+test_calc.py ..  [100%]
+==== 2 passed in 0.02s ====
+\end{lstlisting}
+\scriptsize\color{textsoft} Découverte auto, bilan, code de retour pour la CI.
+\end{column}
+\end{columns}
+\takeaway{Un framework apporte : découverte, isolation, reporting, intégration CI.}
+\end{frame}
+
+% ---- 4.2 Installation ------------------------------------------------------
+\begin{frame}[fragile,t,shrink=20]{Installer et lancer pytest}
+\footnotesize
+\textbf{1. Installation (Python 3.12+) :}
+\begin{lstlisting}[style=bashdark]
+python -m venv .venv
+source .venv/bin/activate         # Linux/macOS
+.venv\Scripts\activate            # Windows PowerShell
+pip install pytest pytest-cov
+\end{lstlisting}
+\vspace{0.2cm}
+\textbf{2. Arborescence conventionnelle :}
+\begin{lstlisting}[style=bashdark]
+mon_projet/
+  src/
+    librairie.py
+  tests/
+    test_librairie.py
+  pyproject.toml
+\end{lstlisting}
+\vspace{0.2cm}
+\textbf{3. Lancement :}
+\begin{lstlisting}[style=bashdark]
+$ pytest                # decouvre et execute
+$ pytest -v             # mode verbeux
+$ pytest tests/test_librairie.py::test_get_prix  # un test precis
+\end{lstlisting}
+\takeaway{\texttt{pytest} découvre automatiquement les fichiers \texttt{test\_*.py} et les fonctions \texttt{test\_*}.}
+\end{frame}
+
+% ---- 4.3 Conventions -------------------------------------------------------
+\begin{frame}[t]{Conventions de découverte}
+\footnotesize
+\texttt{pytest} suit des règles \textbf{simples et strictes} pour découvrir tests et assertions :\\[0.3em]
+\begin{tabular}{@{}p{4.4cm} p{8cm}@{}}
+\toprule
+\textbf{\color{accent}Convention} & \textbf{\color{accent}Détail} \\
+\midrule
+Fichiers & Commencent par \texttt{test\_} ou finissent par \texttt{\_test.py} \\
+Fonctions & Commencent par \texttt{test\_} \\
+Classes (optionnel) & Commencent par \texttt{Test} et n'ont \emph{pas} de \texttt{\_\_init\_\_} \\
+Assertions & Utilisent le mot-clé Python \texttt{assert} (pas de méthode spéciale) \\
+Rapport d'échec & Affichage automatique avec valeurs intermédiaires \\
+\bottomrule
+\end{tabular}
+\vspace{0.4cm}
+\textbf{Pourquoi c'est élégant :} pas d'héritage de \texttt{TestCase} comme en \texttt{unittest}. On écrit du Python naturel.
+\takeaway{Convention plutôt que configuration : on écrit des fonctions Python, le framework les trouve.}
+\end{frame}
+
+% ---- 4.4 Patron AAA --------------------------------------------------------
+\begin{frame}[t]{Le patron AAA --- Arrange, Act, Assert}
+\centering
+\begin{tikzpicture}[node distance=1.1cm, font=\footnotesize]
+\node[chainbox, fill=bgaccent, draw=accent, minimum width=2.8cm] (a) {\textbf{Arrange}\\\scriptsize préparer les données};
+\node[chainbox, fill=bgaccent2, draw=accent2, minimum width=2.8cm, right=of a] (b) {\textbf{Act}\\\scriptsize exécuter le comportement};
+\node[chainbox, fill=greenlight, draw=good, minimum width=2.8cm, right=of b] (c) {\textbf{Assert}\\\scriptsize vérifier le résultat};
+\draw[arrowstep] (a) -- (b);
+\draw[arrowstep] (b) -- (c);
+\end{tikzpicture}
+\\
+\vspace{0.8cm}
+\footnotesize
+\begin{tabular}{@{}p{1.7cm} p{10.5cm}@{}}
+\toprule
+\textbf{Étape} & \textbf{Rôle} \\
+\midrule
+\textbf{Arrange} & On instancie les objets nécessaires, on prépare les entrées. \\
+\textbf{Act} & On appelle \textbf{une seule fois} la méthode testée. \\
+\textbf{Assert} & On vérifie via \texttt{assert} que le résultat est conforme à l'attendu. \\
+\bottomrule
+\end{tabular}
+\takeaway{Un test = un comportement, structuré en 3 étapes visuellement séparées par des lignes vides.}
+\end{frame}
+
+% ---- 4.5 Fil rouge code ----------------------------------------------------
+\begin{frame}[fragile,t,shrink=20]{Fil rouge : module \texttt{librairie.py}}
+\begin{lstlisting}[style=pythondark]
+# src/librairie.py
+from dataclasses import dataclass
+
+@dataclass
+class Livre:
+    isbn: str
+    titre: str
+    prix: float
+    stock: int
+
+class LibraireService:
+    def __init__(self, catalogue: dict[str, Livre]):
+        self.catalogue = catalogue
+
+    def get_prix(self, isbn: str) -> float:
+        return self.catalogue[isbn].prix
+
+    def est_disponible(self, isbn: str, quantite: int = 1) -> bool:
+        livre = self.catalogue.get(isbn)
+        return livre is not None and livre.stock >= quantite
+\end{lstlisting}
+\takeaway{Ce module sera testé tout au long de la séance --- accumulez vos tests dans \texttt{tests/test\_librairie.py}.}
+\end{frame}
+
+% ---- 4.6 Exemple AAA -------------------------------------------------------
+\begin{frame}[fragile,t,shrink=25]{Exemple AAA en pratique}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.52\textwidth}
+\begin{lstlisting}[style=pythondark]
+# tests/test_librairie.py
+from src.librairie import Livre, LibraireService
+
+def test_get_prix_retourne_prix_du_livre():
+    # ARRANGE
+    catalogue = {
+        "978-0": Livre("978-0", "Clean Code",
+                       29.90, 5)
+    }
+    service = LibraireService(catalogue)
+
+    # ACT
+    prix = service.get_prix("978-0")
+
+    # ASSERT
+    assert prix == 29.90
+\end{lstlisting}
+\end{column}
+\begin{column}{0.45\textwidth}
+\vspace{0.2cm}\footnotesize
+\textbf{Lecture du test :}\\[0.3em]
+{\color{accent}\textbf{Arrange}} : on crée un mini-catalogue contenant 1 livre, puis le service.\\[0.5em]
+{\color{accent2}\textbf{Act}} : on appelle \textbf{une seule} méthode : \texttt{get\_prix}.\\[0.5em]
+{\color{good}\textbf{Assert}} : on vérifie l'égalité stricte avec la valeur attendue.\\[0.8em]
+\textcolor{textsoft}{Lecture en 30 secondes.}
+\end{column}
+\end{columns}
+\takeaway{Un test bien structuré se lit comme une mini-histoire à 3 actes.}
+\end{frame}
+
+% ---- 4.7 Plusieurs tests ---------------------------------------------------
+\begin{frame}[fragile,t,shrink=20]{Un test = un comportement}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.49\textwidth}
+\begin{lstlisting}[style=pythondark]
+def test_est_disponible_vrai_si_stock_suffisant():
+    catalogue = {
+        "978-0": Livre("978-0", "Clean Code",
+                       29.90, 5)
+    }
+    service = LibraireService(catalogue)
+
+    assert service.est_disponible("978-0", 3)
+\end{lstlisting}
+\end{column}
+\begin{column}{0.49\textwidth}
+\begin{lstlisting}[style=pythondark]
+def test_est_disponible_faux_si_stock_zero():
+    catalogue = {
+        "978-1": Livre("978-1", "TDD",
+                       24.50, 0)
+    }
+    service = LibraireService(catalogue)
+
+    assert not service.est_disponible("978-1")
+\end{lstlisting}
+\end{column}
+\end{columns}
+\vspace{0.4cm}
+\footnotesize
+\textbf{Règle d'or :} \textbf{un seul \texttt{assert} sémantique par test}. Si vous écrivez « \texttt{assert ... and ...} », c'est probablement deux tests.\\[0.3em]
+\textbf{Nommage :} \texttt{test\_<sujet>\_<condition>\_<résultat\_attendu>}.\\
+\textcolor{textsoft}{Exemple : \texttt{test\_est\_disponible\_vrai\_si\_stock\_suffisant}.}
+\takeaway{Le nom du test est sa première documentation. Visez la phrase complète et lisible.}
+\end{frame}
+
+% ---- 4.8 Output pytest -----------------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{Sortie de pytest : interpréter le rapport}
+\begin{lstlisting}[style=bashdark]
+$ pytest -v
+============================ test session starts =============================
+collected 3 items
+
+tests/test_librairie.py::test_get_prix_retourne_prix_du_livre        PASSED
+tests/test_librairie.py::test_est_disponible_vrai_si_stock_suffisant PASSED
+tests/test_librairie.py::test_est_disponible_faux_si_stock_zero      PASSED
+
+============================= 3 passed in 0.04s ==============================
+\end{lstlisting}
+\vspace{0.3cm}
+\footnotesize
+\textbf{En cas d'échec :}
+\begin{lstlisting}[style=bashdark]
+FAILED tests/test_librairie.py::test_get_prix - assert 30.0 == 29.9
+\end{lstlisting}
+\textcolor{textsoft}{\texttt{pytest} affiche la ligne, le \texttt{assert}, et les deux valeurs comparées.}
+\takeaway{Un rapport vert : \texttt{N passed}. Un rapport rouge : \texttt{FAILED} + raison exacte.}
+\end{frame}
+
+% ---- 4.9 Exercice TP -------------------------------------------------------
+\begin{frame}[fragile,t]{Exercice TP --- \texttt{calculer\_total}}
+\begin{exercice}[Exercice 4.1 (sur machine, 15 min)]
+On ajoute au service la méthode \texttt{calculer\_total} :
+\begin{lstlisting}[style=pythondark]
+def calculer_total(self, isbn: str, quantite: int) -> float:
+    livre = self.catalogue[isbn]
+    return livre.prix * quantite
+\end{lstlisting}
+\vspace{0.3em}
+En appliquant strictement le patron AAA, écrire \textbf{trois tests} :\\[0.2em]
+\textbf{(1)} \texttt{calculer\_total("978-0", 1)} retourne \texttt{29.90}.\\
+\textbf{(2)} \texttt{calculer\_total("978-0", 3)} retourne le prix total correct (3 unités).\\
+\textbf{(3)} \texttt{calculer\_total("978-0", 0)} retourne \texttt{0.0}.\\[0.2em]
+\textbf{Indication :} \texttt{Livre("978-0", "Clean Code", 29.90, 10)} comme donnée.
+\end{exercice}
+\end{frame}
+
+\begin{frame}[fragile,t,shrink=18]{Solution 4.1}
+\begin{lstlisting}[style=pythondark]
+def _service_avec_clean_code():
+    return LibraireService({
+        "978-0": Livre("978-0", "Clean Code", 29.90, 10)
+    })
+
+def test_total_pour_un_livre_egal_prix_unitaire():
+    service = _service_avec_clean_code()        # Arrange
+    total = service.calculer_total("978-0", 1)  # Act
+    assert total == 29.90                       # Assert
+
+def test_total_pour_trois_livres_egal_triple():
+    service = _service_avec_clean_code()
+    total = service.calculer_total("978-0", 3)
+    assert total == 89.70
+
+def test_total_pour_quantite_nulle_egal_zero():
+    service = _service_avec_clean_code()
+    total = service.calculer_total("978-0", 0)
+    assert total == 0.0
+\end{lstlisting}
+\takeaway{Une fonction utilitaire réduit la duplication sans casser l'indépendance des tests.}
+\end{frame}
+
+% ============================================================================
+\section{Cas limites, parametrize et tolérance flottants}
+% ============================================================================
+\sectionframe{5. Cas limites \& \texttt{parametrize}}{Tester intelligemment \quad\textbf{\textbar{}}\quad \textbf{45 min}}
+
+% ---- 5.1 Pourquoi cas limites ---------------------------------------------
+\begin{frame}[t]{Pourquoi les cas limites trouvent les bugs}
+\footnotesize
+La plupart des défauts se cachent aux \textbf{frontières} des domaines de valeurs.\\[0.4em]
+\textbf{Heuristique des valeurs limites} : pour un paramètre dans $[\min, \max]$, testez :
+\begin{itemize}\itemsep0.1em
+\item $\min - 1$, $\min$, $\min + 1$
+\item une valeur \og typique \fg{} au milieu
+\item $\max - 1$, $\max$, $\max + 1$
+\item les cas \textbf{spéciaux} : 0, négatif, chaîne vide, \texttt{None}, liste vide
+\end{itemize}
+\vspace{0.4cm}
+\textbf{Cas réel :} \texttt{Ariane 5} --- conversion \texttt{double} (64 bits) en \texttt{short} (16 bits). \\
+Valeur testée sur Ariane 4 : OK. Valeur sur Ariane 5 : dépassait $2^{15}$. \\
+\textit{Aucun test n'avait exploré la limite supérieure dans le contexte d'Ariane 5.}
+\takeaway{« Ça marche sur mes exemples » $\neq$ « ça marche sur les limites ». Tester les frontières est non négociable.}
+\end{frame}
+
+% ---- 5.2 Exemple valider_age ----------------------------------------------
+\begin{frame}[fragile,t,shrink=10]{Exemple : la fonction \texttt{valider\_age}}
+\begin{lstlisting}[style=pythondark]
+# Specification : un client doit avoir entre 13 et 120 ans inclus
+def valider_age(age: int) -> bool:
+    return 13 <= age <= 120
+\end{lstlisting}
+\vspace{0.3cm}
+\textbf{Quels cas tester ?}\\[0.3em]
+\footnotesize
+\begin{tabular}{@{}l l l l@{}}
+\toprule
+\textbf{Entrée} & \textbf{Catégorie} & \textbf{Attendu} & \textbf{Type de cas} \\
+\midrule
+12 & juste avant min & \texttt{False} & limite \\
+13 & exactement min & \texttt{True}  & limite \\
+14 & juste après min & \texttt{True}  & limite \\
+50 & nominal & \texttt{True} & nominal \\
+119 & juste avant max & \texttt{True} & limite \\
+120 & exactement max & \texttt{True} & limite \\
+121 & juste après max & \texttt{False} & limite \\
+-5 & négatif & \texttt{False} & spécial \\
+0  & zéro & \texttt{False} & spécial \\
+\bottomrule
+\end{tabular}
+\takeaway{Une bonne suite explore systématiquement les 7+ cas, pas juste 50.}
+\end{frame}
+
+% ---- 5.3 Sans parametrize : duplication -----------------------------------
+\begin{frame}[fragile,t]{Naïvement : 9 fonctions très similaires...}
+\begin{lstlisting}[style=pythondark]
+def test_valider_age_12_faux():  assert not valider_age(12)
+def test_valider_age_13_vrai():  assert valider_age(13)
+def test_valider_age_14_vrai():  assert valider_age(14)
+def test_valider_age_50_vrai():  assert valider_age(50)
+def test_valider_age_119_vrai(): assert valider_age(119)
+def test_valider_age_120_vrai(): assert valider_age(120)
+def test_valider_age_121_faux(): assert not valider_age(121)
+def test_valider_age_neg5_faux(): assert not valider_age(-5)
+def test_valider_age_0_faux():   assert not valider_age(0)
+\end{lstlisting}
+\vspace{0.2cm}
+\textbf{Problèmes :}
+\begin{itemize}\footnotesize
+\item Duplication massive (9 fonctions ne diffèrent que par l'entrée).
+\item Ajouter un cas = copier-coller un bloc.
+\item Modifier le comportement attendu = modifier 9 endroits.
+\end{itemize}
+\takeaway{La duplication dans les tests trahit un manque de \textbf{paramétrage}.}
+\end{frame}
+
+% ---- 5.4 Parametrize ------------------------------------------------------
+\begin{frame}[fragile,t,shrink=10]{La solution : \texttt{@pytest.mark.parametrize}}
+\begin{lstlisting}[style=pythondark]
+import pytest
+
+@pytest.mark.parametrize("age, attendu", [
+    (12,  False),  # juste avant min
+    (13,  True),   # exactement min
+    (14,  True),   # juste apres min
+    (50,  True),   # nominal
+    (119, True),   # juste avant max
+    (120, True),   # exactement max
+    (121, False),  # juste apres max
+    (-5,  False),  # negatif
+    (0,   False),  # zero
+])
+def test_valider_age(age, attendu):
+    assert valider_age(age) == attendu
+\end{lstlisting}
+\vspace{0.2cm}
+\footnotesize\texttt{pytest} génère \textbf{9 tests indépendants}, chacun avec son propre identifiant et son propre rapport.
+\takeaway{Un seul corps de test, N jeux de données. Lisibilité maximale, duplication zéro.}
+\end{frame}
+
+% ---- 5.5 Output parametrize -----------------------------------------------
+\begin{frame}[fragile,t]{Sortie de \texttt{parametrize}}
+\begin{lstlisting}[style=bashdark]
+$ pytest -v
+collected 9 items
+
+test_age.py::test_valider_age[12-False]  PASSED
+test_age.py::test_valider_age[13-True]   PASSED
+test_age.py::test_valider_age[14-True]   PASSED
+test_age.py::test_valider_age[50-True]   PASSED
+test_age.py::test_valider_age[119-True]  PASSED
+test_age.py::test_valider_age[120-True]  PASSED
+test_age.py::test_valider_age[121-False] PASSED
+test_age.py::test_valider_age[-5-False]  PASSED
+test_age.py::test_valider_age[0-False]   PASSED
+========== 9 passed in 0.04s ==========
+\end{lstlisting}
+\vspace{0.3cm}
+\footnotesize Chaque ligne est un test indépendant. Si un seul échoue, on voit exactement \textbf{lequel}.
+\takeaway{Le rapport reste lisible : un test paramétré $\neq$ un mégatest.}
+\end{frame}
+
+% ---- 5.6 Le piège des flottants -------------------------------------------
+\begin{frame}[fragile,t]{Piège classique : les flottants}
+\begin{lstlisting}[style=pythondark]
+>>> 0.1 + 0.2
+0.30000000000000004
+>>> 0.1 + 0.2 == 0.3
+False
+\end{lstlisting}
+\vspace{0.3cm}
+\textbf{Pourquoi ?} Représentation IEEE 754 binaire : \texttt{0.1} n'a pas de représentation exacte en base 2 (cf.\ IEEE Std 754-2019).\\[0.4em]
+\footnotesize
+\textbf{En production, conséquences :}
+\begin{itemize}\scriptsize
+\item Le total d'un panier de 0,99~\euro{} $\times$ 3 vaut 2,97 \textit{ou} 2,9700000000000004 selon les versions.
+\item Les comparaisons strictes \texttt{==} sur des prix calculés sont fragiles.
+\end{itemize}
+\takeaway{N'utilisez jamais \texttt{==} sur des résultats flottants calculés. Utilisez une tolérance.}
+\end{frame}
+
+% ---- 5.7 pytest.approx -----------------------------------------------------
+\begin{frame}[fragile,t,shrink=15]{Solution : \texttt{pytest.approx}}
+\begin{lstlisting}[style=pythondark]
+import pytest
+
+def test_total_panier_avec_approx():
+    service = LibraireService({
+        "978-0": Livre("978-0", "Clean Code", 0.99, 10)
+    })
+
+    total = service.calculer_total("978-0", 3)
+
+    # Tolerance relative par defaut : 1e-6
+    assert total == pytest.approx(2.97)
+
+    # Tolerance personnalisable :
+    assert total == pytest.approx(2.97, rel=1e-3)
+    assert total == pytest.approx(2.97, abs=0.01)
+\end{lstlisting}
+\vspace{0.3cm}
+\footnotesize \texttt{pytest.approx} accepte des paramètres \texttt{rel} (relative) ou \texttt{abs} (absolue), ainsi que des listes/dictionnaires.
+\takeaway{Pour tout calcul flottant : \texttt{== pytest.approx(valeur)}. Reflexe à intégrer dès aujourd'hui.}
+\end{frame}
+
+% ---- 5.8 Exercice 5 -------------------------------------------------------
+\begin{frame}[fragile,t]{Exercice 5.1 --- TVA paramétrée}
+\begin{exercice}[Exercice 5.1 (10 min)]
+On vous demande de tester la fonction suivante :
+\begin{lstlisting}[style=pythondark]
+def appliquer_tva(prix_ht: float, taux: float) -> float:
+    return prix_ht * (1 + taux)
+\end{lstlisting}
+\vspace{0.3em}
+Écrire \textbf{un seul} test paramétré couvrant :\\[0.2em]
+\textbf{(a)} TVA française 20\% : 100~\euro{} HT $\to$ 120~\euro{} TTC ;\\
+\textbf{(b)} TVA réduite 5{,}5\% : 100~\euro{} HT $\to$ 105{,}50~\euro{} TTC ;\\
+\textbf{(c)} TVA 0\% (export) : 50~\euro{} HT $\to$ 50~\euro{} TTC ;\\
+\textbf{(d)} prix 0~\euro{} avec n'importe quel taux $\to$ 0~\euro{}.\\[0.3em]
+\textbf{Attention :} les multiplications flottantes nécessitent \texttt{pytest.approx}.
+\end{exercice}
+\end{frame}
+
+\begin{frame}[fragile,t,shrink=10]{Solution 5.1}
+\begin{lstlisting}[style=pythondark]
+import pytest
+
+@pytest.mark.parametrize("prix_ht, taux, attendu", [
+    (100.0, 0.20,  120.0),   # TVA 20%
+    (100.0, 0.055, 105.50),  # TVA reduite
+    (50.0,  0.0,   50.0),    # exoneration
+    (0.0,   0.20,  0.0),     # prix nul
+    (0.0,   0.0,   0.0),     # double zero
+])
+def test_appliquer_tva(prix_ht, taux, attendu):
+    resultat = appliquer_tva(prix_ht, taux)
+    assert resultat == pytest.approx(attendu)
+\end{lstlisting}
+\vspace{0.3cm}
+\footnotesize \textbf{Bonus :} en lançant la suite, vérifiez les identifiants générés (\texttt{[100.0-0.2-120.0]}, etc.).\\
+\textbf{Question pour aller plus loin :} comment tester que \texttt{appliquer\_tva(-100, 0.20)} retourne \texttt{-120.0} ? Faut-il l'autoriser ?
+\takeaway{Le triplet (entrée, paramètre, attendu) en \texttt{parametrize} + \texttt{approx} = pattern standard de tests numériques.}
+\end{frame}
+
+% ============================================================================
+\section{TP2 --- JUnit 5 en Java}
+% ============================================================================
+\sectionframe{6. TP2 --- JUnit 5}{Mêmes principes, autre écosystème \quad\textbf{\textbar{}}\quad \textbf{60 min}}
+
+% ---- 6.1 JUnit 5 archi -----------------------------------------------------
+\begin{frame}[t]{JUnit 5 : architecture en 3 modules}
+\centering
+\begin{tikzpicture}[font=\footnotesize, node distance=0.6cm and 0.4cm]
+\node[chainbox, fill=bgaccent, draw=accent, minimum width=3.0cm] (jup) {\textbf{Jupiter}\\\scriptsize API moderne\\\scriptsize (\texttt{@Test}, etc.)};
+\node[chainbox, fill=bgaccent2, draw=accent2, minimum width=3.0cm, right=of jup] (vint) {\textbf{Vintage}\\\scriptsize Compatibilité\\\scriptsize JUnit 3 / 4};
+\node[chainbox, fill=bgsoft, draw=textsoft, minimum width=3.0cm, right=of vint] (plat) {\textbf{Platform}\\\scriptsize Lance les tests,\\\scriptsize gère IDE/Maven};
+\draw[arrowstep] (jup) -- (plat);
+\draw[arrowstep] (vint) -- (plat);
+\end{tikzpicture}
+\vspace{0.5cm}
+\footnotesize
+\begin{itemize}\itemsep0.15em
+\item \textbf{Jupiter} : ce qu'on utilise en pratique (annotations modernes, lambdas).
+\item \textbf{Vintage} : permet de migrer progressivement depuis JUnit 4.
+\item \textbf{Platform} : l'orchestrateur que Maven, Gradle ou IntelliJ appellent.
+\end{itemize}
+\takeaway{En 2026, on écrit du \textbf{JUnit Jupiter}. Tout le reste sert à la coexistence ou à l'outillage.}
+\end{frame}
+
+% ---- 6.2 Installation Maven ------------------------------------------------
+\begin{frame}[fragile,t,shrink=20]{Installation : dépendance Maven (\texttt{pom.xml})}
+\begin{lstlisting}[style=javadark, language=XML, morekeywords={dependency,groupId,artifactId,version,scope,build,plugin}]
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.10.2</version>
+    <scope>test</scope>
+</dependency>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.2.5</version>
+        </plugin>
+    </plugins>
+</build>
+\end{lstlisting}
+\vspace{0.2cm}
+\textbf{Lancement :}
+\begin{lstlisting}[style=bashdark]
+$ mvn test
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+\end{lstlisting}
+\takeaway{Une dépendance + un plugin = JUnit 5 opérationnel sous Maven.}
+\end{frame}
+
+% ---- 6.3 Premier test JUnit ------------------------------------------------
+\begin{frame}[fragile,t,shrink=25]{Hello, JUnit 5}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.55\textwidth}
+\begin{lstlisting}[style=javadark]
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class CalculatriceTest {
+
+    @Test
+    void addition_deux_plus_trois_egal_cinq() {
+        // Arrange
+        Calculatrice c = new Calculatrice();
+
+        // Act
+        int resultat = c.additionner(2, 3);
+
+        // Assert
+        assertEquals(5, resultat);
+    }
+}
+\end{lstlisting}
+\end{column}
+\begin{column}{0.42\textwidth}
+\vspace{0.2cm}\footnotesize
+\textbf{Conventions :}\\[0.2em]
+\begin{itemize}\scriptsize
+\item Classe en \texttt{*Test}.
+\item \texttt{@Test} annotation au-dessus de chaque méthode.
+\item Méthode \texttt{void}, sans paramètre par défaut.
+\item Visibilité \texttt{package-private} (pas de \texttt{public} nécessaire en JUnit 5).
+\item Assertions dans \texttt{org.junit.jupiter.api.Assertions}.
+\end{itemize}
+\end{column}
+\end{columns}
+\takeaway{Mêmes principes que \texttt{pytest} : AAA, un comportement par test, nom explicite.}
+\end{frame}
+
+% ---- 6.4 @BeforeEach -------------------------------------------------------
+\begin{frame}[fragile,t,shrink=20]{\texttt{@BeforeEach} et \texttt{@AfterEach}}
+\begin{lstlisting}[style=javadark]
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class LibraireServiceTest {
+
+    private LibraireService service;  // recreee avant chaque test
+
+    @BeforeEach
+    void setUp() {
+        Map<String, Livre> catalogue = Map.of(
+            "978-0", new Livre("978-0", "Clean Code", 29.90, 5)
+        );
+        service = new LibraireService(catalogue);
+    }
+
+    @Test
+    void getPrix_retourne_prix_du_livre() {
+        assertEquals(29.90, service.getPrix("978-0"), 0.001);
+    }
+}
+\end{lstlisting}
+\takeaway{\texttt{@BeforeEach} = équivalent d'une \emph{fixture} \texttt{pytest}. Garantit l'\textbf{indépendance} (FIRST).}
+\end{frame}
+
+% ---- 6.5 Fixtures comparaison ---------------------------------------------
+\begin{frame}[t]{Fixtures : pytest vs JUnit 5}
+\footnotesize
+\begin{tabular}{@{}p{4.8cm} p{4.0cm} p{4.0cm}@{}}
+\toprule
+\textbf{\color{accent}Objectif} & \textbf{\color{accent}pytest} & \textbf{\color{accent}JUnit 5} \\
+\midrule
+Préparer avant \textbf{chaque} test & \texttt{@pytest.fixture} +\\ argument injecté & \texttt{@BeforeEach} \\
+\addlinespace[0.2em]
+Nettoyer après chaque test & \texttt{yield} + code suivant & \texttt{@AfterEach} \\
+\addlinespace[0.2em]
+Préparer une seule fois pour toute la classe & \texttt{scope="class"} & \texttt{@BeforeAll} (méthode \texttt{static}) \\
+\addlinespace[0.2em]
+Nettoyer une seule fois & \texttt{scope="class"} + \texttt{yield} & \texttt{@AfterAll} (méthode \texttt{static}) \\
+\bottomrule
+\end{tabular}
+\vspace{0.5cm}
+\textbf{Règle commune :} la fixture doit créer un \textbf{état frais}. Jamais d'état partagé entre tests : c'est la voie royale vers les tests « flaky ».
+\takeaway{Le concept est universel. Seule la syntaxe change selon le framework.}
+\end{frame}
+
+% ---- 6.6 Assertions JUnit --------------------------------------------------
+\begin{frame}[fragile,t,shrink=20]{Assertions JUnit 5 essentielles}
+\begin{lstlisting}[style=javadark]
+import static org.junit.jupiter.api.Assertions.*;
+
+// Egalite
+assertEquals(expected, actual);
+assertEquals(29.90, prix, 0.001);  // tolerance pour floats
+
+// Booleens
+assertTrue(service.estDisponible("978-0", 3));
+assertFalse(panier.estVide());
+
+// Nullite
+assertNull(service.chercher("inconnu"));
+assertNotNull(service.chercher("978-0"));
+
+// Exceptions
+ArithmeticException ex = assertThrows(
+    ArithmeticException.class,
+    () -> calculatrice.diviser(5, 0)
+);
+assertEquals("/ by zero", ex.getMessage());
+\end{lstlisting}
+\takeaway{\texttt{assertThrows} prend une lambda --- on attrape l'exception sans \texttt{try/catch} verbeux.}
+\end{frame}
+
+% ---- 6.7 ParameterizedTest -------------------------------------------------
+\begin{frame}[fragile,t,shrink=18]{Tests paramétrés en JUnit 5}
+\begin{lstlisting}[style=javadark]
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+class ValidationTest {
+
+    @ParameterizedTest(name = "age={0} -> {1}")
+    @CsvSource({
+        "12,  false",
+        "13,  true",
+        "50,  true",
+        "120, true",
+        "121, false"
+    })
+    void valider_age_renvoie_resultat_attendu(int age, boolean attendu) {
+        assertEquals(attendu, Validation.validerAge(age));
+    }
+}
+\end{lstlisting}
+\vspace{0.3cm}
+\footnotesize
+Sources possibles : \texttt{@CsvSource}, \texttt{@ValueSource}, \texttt{@MethodSource}, \texttt{@CsvFileSource}.
+\takeaway{JUnit 5 offre des \emph{ParameterizedTest} aussi expressifs que \texttt{pytest.mark.parametrize}.}
+\end{frame}
+
+% ---- 6.8 TP exercice ------------------------------------------------------
+\begin{frame}[fragile,t]{Exercice TP --- Librairie en Java}
+\begin{exercice}[Exercice 6.1 (sur machine, 20 min)]
+On vous fournit la classe \texttt{LibraireService} en Java (équivalente à la version Python).\\[0.4em]
+\textbf{Écrire en JUnit 5 :}\\[0.2em]
+\textbf{(1)} Un test pour \texttt{getPrix("978-0")} retourne \texttt{29.90}.\\
+\textbf{(2)} Un test pour \texttt{estDisponible("978-0", 3)} retourne \texttt{true} si stock = 5.\\
+\textbf{(3)} Un test pour \texttt{estDisponible("978-0", 10)} retourne \texttt{false} si stock = 5.\\
+\textbf{(4)} Un test paramétré \texttt{@CsvSource} couvrant la méthode \texttt{calculerTotal} avec : (1 livre, 1 unité), (3 unités), (0 unité).\\[0.3em]
+\textbf{Contraintes :} utilisez \texttt{@BeforeEach}, respectez AAA et le nommage de méthodes.
+\end{exercice}
+\end{frame}
+
+\begin{frame}[fragile,t,shrink=25]{Solution 6.1 (extrait)}
+\begin{lstlisting}[style=javadark]
+class LibraireServiceTest {
+    private LibraireService service;
+
+    @BeforeEach
+    void setUp() {
+        service = new LibraireService(Map.of(
+            "978-0", new Livre("978-0", "Clean Code", 29.90, 5)
+        ));
+    }
+
+    @Test
+    void estDisponible_retourne_vrai_si_stock_suffisant() {
+        assertTrue(service.estDisponible("978-0", 3));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1, 29.90", "3, 89.70", "0, 0.0"})
+    void calculerTotal_retourne_prix_multiplie(int qte, double attendu) {
+        assertEquals(attendu, service.calculerTotal("978-0", qte), 0.001);
+    }
+}
+\end{lstlisting}
+\takeaway{Mêmes principes pédagogiques que pytest. Vos réflexes AAA et FIRST sont \textbf{transférables}.}
+\end{frame}
+
+% ============================================================================
+% CLÔTURE
+% ============================================================================
+\sectionframe{Synthèse}{Ce que nous avons couvert \quad\textbf{\textbar{}}\quad \textbf{10 min}}
+
+% ---- Synth ----------------------------------------------------------------
+\begin{frame}[t]{Synthèse de la séance 1}
+\footnotesize
+\textbf{6 concepts fondateurs maîtrisés :}\\[0.3em]
+\begin{enumerate}\itemsep0.18em
+\item \textbf{Qualité} = multidimensionnelle, normée par ISO/IEC 25010.
+\item \textbf{Erreur / défaut / panne} = trois maillons distincts d'une chaîne.
+\item \textbf{Vérification vs validation} = deux questions complémentaires.
+\item \textbf{Pyramide de tests} = 70 / 20 / 10 entre unitaires, intégration, E2E.
+\item \textbf{FIRST} = audit rapide de toute suite (Fast, Independent, Repeatable, Self-validating, Timely).
+\item \textbf{Patron AAA} = squelette universel d'un test, en pytest comme en JUnit 5.
+\end{enumerate}
+\vspace{0.4cm}
+\textbf{2 compétences techniques opérationnelles :}\\[0.2em]
+\oui{\textbf{pytest}} : tests simples, \texttt{parametrize}, \texttt{approx}.\\
+\oui{\textbf{JUnit 5}} : \texttt{@Test}, \texttt{@BeforeEach}, \texttt{@ParameterizedTest}, \texttt{assertThrows}.
+\takeaway{Vous êtes équipé·e pour écrire et lire des tests dans deux écosystèmes industriels majeurs.}
+\end{frame}
+
+% ---- Prep séance 2 --------------------------------------------------------
+\begin{frame}[t]{Pour préparer la Séance 2}
+\footnotesize
+\textbf{À faire (1 à 2 heures de travail personnel) :}\\[0.4em]
+\begin{enumerate}\itemsep0.18em
+\item Finaliser les tests des modules \texttt{LibraireService} (Python ET Java) dans votre dépôt Git personnel.
+\item Lancer \texttt{pytest --cov=src} et observer la couverture obtenue : nous y reviendrons.
+\item Lire l'article de blog \textit{« The Practical Test Pyramid »} de Ham Vocke (Martin Fowler's blog, 2018).
+\item (Optionnel) Tenter d'introduire volontairement un défaut dans \texttt{calculer\_total} et vérifier que vos tests le détectent.
+\end{enumerate}
+\vspace{0.4cm}
+\textbf{Au programme S2 :}
+\begin{itemize}\itemsep0.1em
+\item Partitions d'équivalence et valeurs limites (méthode formelle).
+\item Couverture de code : instruction, branche, condition.
+\item Test doubles : dummies, stubs, fakes, mocks, spies.
+\item \textbf{TP noté individuel sur machine (60 min)} en fin de séance.
+\end{itemize}
+\takeaway{La qualité de votre TP noté de S2 dépend directement de la maîtrise de la S1.}
+\end{frame}
+
+% ---- Biblio ---------------------------------------------------------------
+\begin{frame}[t]{Pour aller plus loin --- références}
+\scriptsize
+\textbf{Ouvrages :}
+\begin{itemize}\itemsep0.1em
+\item Ammann \& Offutt, \emph{Introduction to Software Testing}, 2\textsuperscript{e}~éd., Cambridge UP, 2017.
+\item Beck, K., \emph{Test-Driven Development: By Example}, Addison-Wesley, 2002.
+\item Cohn, M., \emph{Succeeding with Agile}, ch.~16, Addison-Wesley, 2009.
+\item Martin, R., \emph{Clean Code}, ch.~9 (« Unit Tests »), Prentice Hall, 2008.
+\item Meszaros, G., \emph{xUnit Test Patterns}, Addison-Wesley, 2007.
+\end{itemize}
+\vspace{0.3em}
+\textbf{Standards :}
+\begin{itemize}\itemsep0.1em
+\item ISO/IEC 25010:2011 --- Systems and software Quality Requirements and Evaluation.
+\item ISTQB Foundation Level Syllabus v4.0, 2023.
+\item SWEBOK v3.0, ch.~4 « Software Testing », IEEE, 2014.
+\end{itemize}
+\vspace{0.3em}
+\textbf{Documentation en ligne :}
+\begin{itemize}\itemsep0.1em
+\item \texttt{pytest} : \texttt{docs.pytest.org}
+\item JUnit 5 User Guide : \texttt{junit.org/junit5/docs/current/user-guide/}
+\item Ham Vocke, \textit{The Practical Test Pyramid}, Martin Fowler's blog (2018).
+\end{itemize}
+\end{frame}
+
+% ---- Fin ------------------------------------------------------------------
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture, overlay]
+\fill[accent] (current page.south west) rectangle (current page.north east);
+\end{tikzpicture}
+\vspace{1.8cm}
+\centering
+{\color{white}\Huge\bfseries Merci.}\\[0.5cm]
+{\color{white}\large Questions ?}\\[1.4cm]
+{\color{white!85}\small Séance 2 : Conception de tests, couverture, TP noté.}\\[0.4cm]
+{\color{white!75}\scriptsize \texttt{yvan.guifo-fodjo@efrei.fr}}
+\vfill
+\end{frame}
+
+\end{document}

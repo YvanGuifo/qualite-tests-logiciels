@@ -1,0 +1,95 @@
+site_name: "Qualité et Tests Logiciels"
+site_description: "Cours L2 — École d'ingénieurs EFREI Paris — Dr. Yvan GUIFO FODJO"
+site_author: "Dr. Yvan GUIFO FODJO"
+
+theme:
+  name: material
+  language: fr
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Mode sombre
+    - scheme: slate
+      primary: indigo
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Mode clair
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - search.suggest
+    - search.highlight
+    - toc.follow
+  icon:
+    logo: material/flask-outline
+    repo: fontawesome/brands/github
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/YvanGuifo
+  generator: false
+
+copyright: "© 2025–2026 Dr. Yvan GUIFO FODJO — EFREI Paris"
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_guess: false
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - def_list
+  - tables
+  - footnotes
+  - toc:
+      permalink: true
+
+plugins:
+  - search:
+      lang: fr
+
+nav:
+  - Accueil: index.md
+  - "Séance 1 — Fondamentaux":
+    - Cours: seance1/index.md
+    - "TP1 — Premiers tests avec pytest": seance1/tp1-pytest-aaa.md
+    - "TP2 — Tests unitaires en Java avec JUnit 5": seance1/tp2-junit5.md
+  - "Séance 2 — Conception et couverture":
+    - Cours: seance2/index.md
+    - "TP3 — Conception de tests pour le Panier": seance2/tp3-panier.md
+    - "TP4 — Couverture de code": seance2/tp4-coverage.md
+  - "Séance 3 — Pratiques avancées":
+    - Cours: seance3/index.md
+    - "TP5 — Kata FizzBuzz en TDD": seance3/tp5-tdd-fizzbuzz.md
+    - "TP6 — Intégration continue avec GitHub Actions": seance3/tp6-ci-github-actions.md
+  - Évaluation: evaluation.md
+  - Ressources: ressources.md
