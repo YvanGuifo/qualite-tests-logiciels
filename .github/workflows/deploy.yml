@@ -20,15 +20,18 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install MkDocs Material and dependencies (versions compatibles)
+      - name: Installer des versions compatibles
         run: |
-          pip install mkdocs-material==9.5.49
-          pip install pymdown-extensions==10.14.3
+          pip install mkdocs-material==9.4.14
+          pip install pymdown-extensions==9.11
 
-      - name: Configurer Git pour gh-deploy
+      - name: Configurer Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Déployer sur gh-pages
+      - name: Vérifier la configuration (optionnel)
+        run: mkdocs build --strict  # pour voir si l'erreur est résolue avant de déployer
+
+      - name: Déployer
         run: mkdocs gh-deploy --force
