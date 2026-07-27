@@ -1,4 +1,3 @@
-# .github/workflows/deploy.yml
 name: Deploy MkDocs
 
 on:
@@ -11,6 +10,9 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site-qualite
     steps:
       - uses: actions/checkout@v4
 
@@ -20,4 +22,5 @@ jobs:
 
       - run: pip install mkdocs-material
 
-      - run: mkdocs gh-deploy --force
+      - run: mkdocs gh-deploy --force --config-file ../site-qualite/mkdocs.yml
+        working-directory: .
