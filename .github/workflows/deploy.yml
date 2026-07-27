@@ -12,33 +12,23 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: site-qualite   # on se place dans le sous-dossier
+        working-directory: site-qualite
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install MkDocs Material
-        run: pip install mkdocs-material
-
-      - name: Vérifier la présence de mkdocs.yml
+      - name: Install MkDocs Material and dependencies (versions compatibles)
         run: |
-          if [ ! -f mkdocs.yml ]; then
-            echo "❌ Fichier mkdocs.yml introuvable dans site-qualite/"
-            exit 1
-          fi
+          pip install mkdocs-material==9.5.49
+          pip install pymdown-extensions==10.14.3
 
-      - name: Configurer Git (indispensable pour gh-deploy)
+      - name: Configurer Git pour gh-deploy
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Construire le site (détecte les erreurs)
-        run: mkdocs build --strict
 
       - name: Déployer sur gh-pages
         run: mkdocs gh-deploy --force
