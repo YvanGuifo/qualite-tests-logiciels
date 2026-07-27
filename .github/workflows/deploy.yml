@@ -2,7 +2,7 @@ name: Deploy MkDocs
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 permissions:
   contents: write
@@ -12,15 +12,33 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: site-qualite
+        working-directory: site-qualite   # on se place dans le sous-dossier
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - run: pip install mkdocs-material
+      - name: Install MkDocs Material
+        run: pip install mkdocs-material
 
-      - run: mkdocs gh-deploy --force
-        working-directory: site-qualite
+      - name: Vérifier la présence de mkdocs.yml
+        run: |
+          if [ ! -f mkdocs.yml ]; then
+            echo "❌ Fichier mkdocs.yml introuvable dans site-qualite/"
+            exit 1
+          fi
+
+      - name: Configurer Git (indispensable pour gh-deploy)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Construire le site (détecte les erreurs)
+        run: mkdocs build --strict
+
+      - name: Déployer sur gh-pages
+        run: mkdocs gh-deploy --force
