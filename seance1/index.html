@@ -1,0 +1,2120 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cours L2 — École d'ingénieurs EFREI Paris — Dr. Yvan GUIFO FODJO">
+      
+      
+        <meta name="author" content="Dr. Yvan GUIFO FODJO">
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="tp1-pytest-aaa/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
+    
+    
+      
+        <title>Cours - Qualité et Tests Logiciels</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.35e1ed30.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#seance-1-fondamentaux-de-la-qualite-et-premiers-tests" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href=".." title="Qualité et Tests Logiciels" class="md-header__button md-logo" aria-label="Qualité et Tests Logiciels" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1c0-.21-.07-.41-.18-.57L13 8.35V4h-2v4.35L5.18 18.43c-.11.16-.18.36-.18.57m1 3a3 3 0 0 1-3-3c0-.6.18-1.16.5-1.63L9 7.81V6a1 1 0 0 1-1-1V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v1.81l5.5 9.56c.32.47.5 1.03.5 1.63a3 3 0 0 1-3 3H6m7-6 1.34-1.34L16.27 18H7.73l2.66-4.61L13 16m-.5-4a.5.5 0 0 1 .5.5.5.5 0 0 1-.5.5.5.5 0 0 1-.5-.5.5.5 0 0 1 .5-.5Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Qualité et Tests Logiciels
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cours
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Mode sombre"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mode sombre" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Mode clair"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Mode clair" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  Séance 1 — Fondamentaux
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../seance2/" class="md-tabs__link">
+          
+  
+  Séance 2 — Conception et couverture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../seance3/" class="md-tabs__link">
+          
+  
+  Séance 3 — Pratiques avancées
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../evaluation/" class="md-tabs__link">
+        
+  
+    
+  
+  Évaluation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ressources/" class="md-tabs__link">
+        
+  
+    
+  
+  Ressources
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Qualité et Tests Logiciels" class="md-nav__button md-logo" aria-label="Qualité et Tests Logiciels" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1c0-.21-.07-.41-.18-.57L13 8.35V4h-2v4.35L5.18 18.43c-.11.16-.18.36-.18.57m1 3a3 3 0 0 1-3-3c0-.6.18-1.16.5-1.63L9 7.81V6a1 1 0 0 1-1-1V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v1.81l5.5 9.56c.32.47.5 1.03.5 1.63a3 3 0 0 1-3 3H6m7-6 1.34-1.34L16.27 18H7.73l2.66-4.61L13 16m-.5-4a.5.5 0 0 1 .5.5.5.5 0 0 1-.5.5.5.5 0 0 1-.5-.5.5.5 0 0 1 .5-.5Z"/></svg>
+
+    </a>
+    Qualité et Tests Logiciels
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Accueil
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Séance 1 — Fondamentaux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Séance 1 — Fondamentaux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Cours
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Cours
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-pourquoi-tester" class="md-nav__link">
+    1. Pourquoi tester ?
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Pourquoi tester ?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#le-cout-des-bugs-en-production" class="md-nav__link">
+    Le coût des bugs en production
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-la-qualite-logicielle-isoiec-25010" class="md-nav__link">
+    2. La qualité logicielle — ISO/IEC 25010
+  </a>
+  
+    <nav class="md-nav" aria-label="2. La qualité logicielle — ISO/IEC 25010">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-8-caracteristiques" class="md-nav__link">
+    Les 8 caractéristiques
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qualite-interne-vs-externe" class="md-nav__link">
+    Qualité interne vs. externe
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-vocabulaire-istqb-la-chaine-erreur-defaut-panne" class="md-nav__link">
+    3. Vocabulaire ISTQB : la chaîne erreur → défaut → panne
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Vocabulaire ISTQB : la chaîne erreur → défaut → panne">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definitions-precises" class="md-nav__link">
+    Définitions précises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pourquoi-cette-distinction-est-importante" class="md-nav__link">
+    Pourquoi cette distinction est importante
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-verification-vs-validation-vv" class="md-nav__link">
+    4. Vérification vs. Validation (V&amp;V)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-la-pyramide-des-tests" class="md-nav__link">
+    5. La pyramide des tests
+  </a>
+  
+    <nav class="md-nav" aria-label="5. La pyramide des tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-trois-niveaux" class="md-nav__link">
+    Les trois niveaux
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-patterns" class="md-nav__link">
+    Anti-patterns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-les-principes-first" class="md-nav__link">
+    6. Les principes FIRST
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-le-pattern-aaa-arrange-act-assert" class="md-nav__link">
+    7. Le pattern AAA (Arrange-Act-Assert)
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Le pattern AAA (Arrange-Act-Assert)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-trois-phases-en-detail" class="md-nav__link">
+    Les trois phases en détail
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-nommer-ses-tests" class="md-nav__link">
+    8. Nommer ses tests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-le-code-du-fil-rouge-seance-1" class="md-nav__link">
+    9. Le code du fil rouge — Séance 1
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Le code du fil rouge — Séance 1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#librairiepy" class="md-nav__link">
+    librairie.py
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fonctions-utilitaires" class="md-nav__link">
+    Fonctions utilitaires
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-pytest-le-framework-de-test-python" class="md-nav__link">
+    10. pytest — le framework de test Python
+  </a>
+  
+    <nav class="md-nav" aria-label="10. pytest — le framework de test Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conventions" class="md-nav__link">
+    Conventions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution" class="md-nav__link">
+    Exécution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parametrisation-avec-pytestmarkparametrize" class="md-nav__link">
+    Paramétrisation avec @pytest.mark.parametrize
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytestapprox-pour-les-flottants" class="md-nav__link">
+    pytest.approx pour les flottants
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-junit-5-le-framework-de-test-java" class="md-nav__link">
+    11. JUnit 5 — le framework de test Java
+  </a>
+  
+    <nav class="md-nav" aria-label="11. JUnit 5 — le framework de test Java">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structure-dun-test-junit-5" class="md-nav__link">
+    Structure d'un test JUnit 5
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#annotations-essentielles" class="md-nav__link">
+    Annotations essentielles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests-parametres-en-java" class="md-nav__link">
+    Tests paramétrés en Java
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assertions-principales" class="md-nav__link">
+    Assertions principales
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif-de-la-seance" class="md-nav__link">
+    Récapitulatif de la séance
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tp1-pytest-aaa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP1 — Premiers tests avec pytest
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tp2-junit5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP2 — Tests unitaires en Java avec JUnit 5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Séance 2 — Conception et couverture
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Séance 2 — Conception et couverture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cours
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance2/tp3-panier/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP3 — Conception de tests pour le Panier
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance2/tp4-coverage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP4 — Couverture de code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Séance 3 — Pratiques avancées
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Séance 3 — Pratiques avancées
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cours
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance3/tp5-tdd-fizzbuzz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP5 — Kata FizzBuzz en TDD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance3/tp6-ci-github-actions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP6 — Intégration continue avec GitHub Actions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Évaluation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ressources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ressources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-pourquoi-tester" class="md-nav__link">
+    1. Pourquoi tester ?
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Pourquoi tester ?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#le-cout-des-bugs-en-production" class="md-nav__link">
+    Le coût des bugs en production
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-la-qualite-logicielle-isoiec-25010" class="md-nav__link">
+    2. La qualité logicielle — ISO/IEC 25010
+  </a>
+  
+    <nav class="md-nav" aria-label="2. La qualité logicielle — ISO/IEC 25010">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-8-caracteristiques" class="md-nav__link">
+    Les 8 caractéristiques
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qualite-interne-vs-externe" class="md-nav__link">
+    Qualité interne vs. externe
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-vocabulaire-istqb-la-chaine-erreur-defaut-panne" class="md-nav__link">
+    3. Vocabulaire ISTQB : la chaîne erreur → défaut → panne
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Vocabulaire ISTQB : la chaîne erreur → défaut → panne">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definitions-precises" class="md-nav__link">
+    Définitions précises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pourquoi-cette-distinction-est-importante" class="md-nav__link">
+    Pourquoi cette distinction est importante
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-verification-vs-validation-vv" class="md-nav__link">
+    4. Vérification vs. Validation (V&amp;V)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-la-pyramide-des-tests" class="md-nav__link">
+    5. La pyramide des tests
+  </a>
+  
+    <nav class="md-nav" aria-label="5. La pyramide des tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-trois-niveaux" class="md-nav__link">
+    Les trois niveaux
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-patterns" class="md-nav__link">
+    Anti-patterns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-les-principes-first" class="md-nav__link">
+    6. Les principes FIRST
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-le-pattern-aaa-arrange-act-assert" class="md-nav__link">
+    7. Le pattern AAA (Arrange-Act-Assert)
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Le pattern AAA (Arrange-Act-Assert)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#les-trois-phases-en-detail" class="md-nav__link">
+    Les trois phases en détail
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-nommer-ses-tests" class="md-nav__link">
+    8. Nommer ses tests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-le-code-du-fil-rouge-seance-1" class="md-nav__link">
+    9. Le code du fil rouge — Séance 1
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Le code du fil rouge — Séance 1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#librairiepy" class="md-nav__link">
+    librairie.py
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fonctions-utilitaires" class="md-nav__link">
+    Fonctions utilitaires
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-pytest-le-framework-de-test-python" class="md-nav__link">
+    10. pytest — le framework de test Python
+  </a>
+  
+    <nav class="md-nav" aria-label="10. pytest — le framework de test Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conventions" class="md-nav__link">
+    Conventions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#execution" class="md-nav__link">
+    Exécution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parametrisation-avec-pytestmarkparametrize" class="md-nav__link">
+    Paramétrisation avec @pytest.mark.parametrize
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytestapprox-pour-les-flottants" class="md-nav__link">
+    pytest.approx pour les flottants
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-junit-5-le-framework-de-test-java" class="md-nav__link">
+    11. JUnit 5 — le framework de test Java
+  </a>
+  
+    <nav class="md-nav" aria-label="11. JUnit 5 — le framework de test Java">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structure-dun-test-junit-5" class="md-nav__link">
+    Structure d'un test JUnit 5
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#annotations-essentielles" class="md-nav__link">
+    Annotations essentielles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests-parametres-en-java" class="md-nav__link">
+    Tests paramétrés en Java
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assertions-principales" class="md-nav__link">
+    Assertions principales
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif-de-la-seance" class="md-nav__link">
+    Récapitulatif de la séance
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="seance-1-fondamentaux-de-la-qualite-et-premiers-tests">Séance 1 — Fondamentaux de la qualité et premiers tests<a class="headerlink" href="#seance-1-fondamentaux-de-la-qualite-et-premiers-tests" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Objectifs de la séance</p>
+<p>À l'issue de cette séance, vous serez capables de :</p>
+<ul>
+<li><strong>Définir</strong> la qualité logicielle selon la norme ISO/IEC 25010</li>
+<li><strong>Distinguer</strong> erreur, défaut et panne (vocabulaire ISTQB)</li>
+<li><strong>Expliquer</strong> la pyramide des tests et les principes FIRST</li>
+<li><strong>Écrire</strong> des tests unitaires structurés avec pytest (Python) et JUnit 5 (Java)</li>
+<li><strong>Utiliser</strong> le pattern AAA (Arrange-Act-Assert) et la paramétrisation</li>
+</ul>
+</div>
+<hr />
+<h2 id="1-pourquoi-tester">1. Pourquoi tester ?<a class="headerlink" href="#1-pourquoi-tester" title="Permanent link">&para;</a></h2>
+<h3 id="le-cout-des-bugs-en-production">Le coût des bugs en production<a class="headerlink" href="#le-cout-des-bugs-en-production" title="Permanent link">&para;</a></h3>
+<p>L'histoire du logiciel regorge de défaillances spectaculaires causées par des tests insuffisants :</p>
+<table>
+<thead>
+<tr>
+<th>Incident</th>
+<th>Année</th>
+<th>Conséquence</th>
+<th>Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Therac-25</strong></td>
+<td>1985–87</td>
+<td>6 patients irradiés, 3 décès</td>
+<td>Condition de course non testée</td>
+</tr>
+<tr>
+<td><strong>Ariane 5 vol 501</strong></td>
+<td>1996</td>
+<td>Fusée détruite (370 M$)</td>
+<td>Dépassement d'entier non géré</td>
+</tr>
+<tr>
+<td><strong>Knight Capital</strong></td>
+<td>2012</td>
+<td>440 M$ perdus en 45 min</td>
+<td>Déploiement défectueux sans tests</td>
+</tr>
+<tr>
+<td><strong>Heartbleed</strong></td>
+<td>2014</td>
+<td>Fuite de données massives</td>
+<td>Absence de vérification de bornes dans OpenSSL</td>
+</tr>
+<tr>
+<td><strong>Boeing 737 MAX</strong></td>
+<td>2018–19</td>
+<td>346 décès</td>
+<td>Défaut MCAS, tests insuffisants</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Règle du ×10</p>
+<p>Le coût de correction d'un défaut est multiplié par <strong>10</strong> à chaque phase du cycle de vie. Un bug trouvé en production coûte 100 à 1 000 fois plus cher qu'un bug trouvé pendant le développement (Boehm &amp; Basili, 2001<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>).</p>
+</div>
+<hr />
+<h2 id="2-la-qualite-logicielle-isoiec-25010">2. La qualité logicielle — ISO/IEC 25010<a class="headerlink" href="#2-la-qualite-logicielle-isoiec-25010" title="Permanent link">&para;</a></h2>
+<p>La norme <strong>ISO/IEC 25010:2011</strong> définit un modèle de qualité structuré en <strong>8 caractéristiques</strong>, chacune divisée en sous-caractéristiques.</p>
+<h3 id="les-8-caracteristiques">Les 8 caractéristiques<a class="headerlink" href="#les-8-caracteristiques" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Caractéristique</th>
+<th>Description</th>
+<th>Exemple concret</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Adéquation fonctionnelle</strong></td>
+<td>Le logiciel fait-il ce qu'on lui demande ?</td>
+<td>La calculatrice calcule correctement</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Performance</strong></td>
+<td>Temps de réponse, débit, utilisation des ressources</td>
+<td>Page chargée en &lt; 2 secondes</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Compatibilité</strong></td>
+<td>Coexistence et interopérabilité avec d'autres systèmes</td>
+<td>Fonctionne sur Chrome, Firefox et Safari</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Convivialité</strong> (Usability)</td>
+<td>Facilité d'apprentissage et d'utilisation</td>
+<td>Interface intuitive, accessible</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Fiabilité</strong></td>
+<td>Fonctionnement correct dans le temps, tolérance aux pannes</td>
+<td>Disponibilité 99,9 %</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Sécurité</strong></td>
+<td>Confidentialité, intégrité, authenticité</td>
+<td>Protection contre les injections SQL</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Maintenabilité</strong></td>
+<td>Facilité de modification, modularité, testabilité</td>
+<td>Code modulaire, bien documenté</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Portabilité</strong></td>
+<td>Facilité d'adaptation à d'autres environnements</td>
+<td>Fonctionne sur Linux, Windows, macOS</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">À retenir</p>
+<p>La qualité ne se réduit pas à « ça marche ». Un logiciel fonctionnel mais lent, vulnérable ou impossible à maintenir n'est <strong>pas</strong> un logiciel de qualité.</p>
+</div>
+<h3 id="qualite-interne-vs-externe">Qualité interne vs. externe<a class="headerlink" href="#qualite-interne-vs-externe" title="Permanent link">&para;</a></h3>
+<p>La norme distingue deux perspectives :</p>
+<ul>
+<li><strong>Qualité interne</strong> : propriétés du code source (lisibilité, modularité, couverture de tests). Visible par les développeurs.</li>
+<li><strong>Qualité externe</strong> : comportement observé par l'utilisateur (performance, fiabilité, ergonomie).</li>
+</ul>
+<p>La qualité interne <em>conditionne</em> la qualité externe : un code mal structuré finira par produire des bugs visibles.</p>
+<hr />
+<h2 id="3-vocabulaire-istqb-la-chaine-erreur-defaut-panne">3. Vocabulaire ISTQB : la chaîne erreur → défaut → panne<a class="headerlink" href="#3-vocabulaire-istqb-la-chaine-erreur-defaut-panne" title="Permanent link">&para;</a></h2>
+<p>L'<strong>ISTQB</strong> (International Software Testing Qualifications Board) standardise le vocabulaire du test logiciel. La chaîne causale fondamentale est :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Erreur (humaine) → Défaut (dans le code) → Panne (à l&#39;exécution)
+</span></code></pre></div>
+<h3 id="definitions-precises">Définitions précises<a class="headerlink" href="#definitions-precises" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Terme</th>
+<th>Synonymes</th>
+<th>Définition</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Erreur</strong> (<em>error</em>, <em>mistake</em>)</td>
+<td>Faute humaine</td>
+<td>Action humaine produisant un résultat incorrect</td>
+<td>Le développeur écrit <code>&lt;</code> au lieu de <code>&lt;=</code></td>
+</tr>
+<tr>
+<td><strong>Défaut</strong> (<em>defect</em>, <em>bug</em>, <em>fault</em>)</td>
+<td>Bug</td>
+<td>Imperfection dans le code résultant d'une erreur</td>
+<td><code>if age &lt; 18</code> au lieu de <code>if age &lt;= 18</code></td>
+</tr>
+<tr>
+<td><strong>Panne</strong> (<em>failure</em>)</td>
+<td>Défaillance</td>
+<td>Comportement incorrect observable à l'exécution</td>
+<td>Un mineur de 18 ans est accepté alors qu'il ne devrait pas</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition example">
+<p class="admonition-title">Illustration concrète</p>
+<ol>
+<li><strong>Erreur</strong> : le développeur confond « strictement inférieur » et « inférieur ou égal »</li>
+<li><strong>Défaut</strong> : le code contient <code>if age &lt; 18</code> au lieu de <code>if age &lt;= 18</code></li>
+<li><strong>Panne</strong> : l'application accepte un utilisateur de 17 ans dans une section réservée aux adultes</li>
+</ol>
+<p>Un défaut n'entraîne pas toujours une panne. Si personne ne déclenche le chemin de code concerné, le bug reste dormant — mais il est toujours là.</p>
+</div>
+<h3 id="pourquoi-cette-distinction-est-importante">Pourquoi cette distinction est importante<a class="headerlink" href="#pourquoi-cette-distinction-est-importante" title="Permanent link">&para;</a></h3>
+<p>Comprendre cette chaîne permet de cibler les actions correctives :</p>
+<ul>
+<li><strong>Réduire les erreurs</strong> → revues de code, formation, pair programming</li>
+<li><strong>Détecter les défauts</strong> → tests, analyse statique, revues</li>
+<li><strong>Prévenir les pannes</strong> → tests automatisés, CI/CD, monitoring</li>
+</ul>
+<hr />
+<h2 id="4-verification-vs-validation-vv">4. Vérification vs. Validation (V&amp;V)<a class="headerlink" href="#4-verification-vs-validation-vv" title="Permanent link">&para;</a></h2>
+<p>Deux activités complémentaires, souvent confondues :</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Vérification</th>
+<th>Validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Question</strong></td>
+<td>« Construisons-nous le produit <strong>correctement</strong> ? »</td>
+<td>« Construisons-nous le <strong>bon</strong> produit ? »</td>
+</tr>
+<tr>
+<td><strong>Focus</strong></td>
+<td>Conformité aux spécifications techniques</td>
+<td>Satisfaction des besoins utilisateur</td>
+</tr>
+<tr>
+<td><strong>Moyens</strong></td>
+<td>Tests unitaires, revues de code, analyse statique</td>
+<td>Tests d'acceptation, démos, feedback utilisateur</td>
+</tr>
+<tr>
+<td><strong>Analogie</strong></td>
+<td>Vérifier que le pont supporte 10 tonnes</td>
+<td>Vérifier que le pont est au bon endroit</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Mnémonique de Boehm (1981)</p>
+<ul>
+<li><strong>Vérification</strong> : le produit est-il <em>bien construit</em> ?</li>
+<li><strong>Validation</strong> : est-ce le <em>bon produit</em> ?</li>
+</ul>
+</div>
+<hr />
+<h2 id="5-la-pyramide-des-tests">5. La pyramide des tests<a class="headerlink" href="#5-la-pyramide-des-tests" title="Permanent link">&para;</a></h2>
+<p>La <strong>pyramide des tests</strong> (Mike Cohn, 2009<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>) est un modèle d'architecture de la suite de tests qui recommande une répartition en trois niveaux :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>         ╱  E2E  ╲          5–10 %
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>        ╱──────────╲
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>       ╱ Intégration ╲      15–20 %
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      ╱────────────────╲
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>     ╱  Tests unitaires  ╲  70–80 %
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    ╱──────────────────────╲
+</span></code></pre></div>
+<h3 id="les-trois-niveaux">Les trois niveaux<a class="headerlink" href="#les-trois-niveaux" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Niveau</th>
+<th>Portée</th>
+<th>Vitesse</th>
+<th>Coût</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Unitaire</strong></td>
+<td>Une fonction ou classe isolée</td>
+<td>Très rapide (ms)</td>
+<td>Faible</td>
+<td><code>test_calculer_total()</code></td>
+</tr>
+<tr>
+<td><strong>Intégration</strong></td>
+<td>Interaction entre composants</td>
+<td>Moyen (s)</td>
+<td>Moyen</td>
+<td>Service + base de données</td>
+</tr>
+<tr>
+<td><strong>E2E (bout en bout)</strong></td>
+<td>Parcours utilisateur complet</td>
+<td>Lent (min)</td>
+<td>Élevé</td>
+<td>Scénario d'achat complet via navigateur</td>
+</tr>
+</tbody>
+</table>
+<h3 id="anti-patterns">Anti-patterns<a class="headerlink" href="#anti-patterns" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">Le cornet de glace (Ice Cream Cone)</p>
+<p>Pyramide inversée : beaucoup de tests E2E, peu de tests unitaires. Résultat : suite lente, fragile et coûteuse à maintenir.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Le sablier (Hourglass)</p>
+<p>Beaucoup de tests unitaires et E2E, mais quasi aucun test d'intégration. Résultat : les composants fonctionnent isolément mais échouent ensemble.</p>
+</div>
+<hr />
+<h2 id="6-les-principes-first">6. Les principes FIRST<a class="headerlink" href="#6-les-principes-first" title="Permanent link">&para;</a></h2>
+<p>Les tests unitaires de qualité respectent les cinq principes <strong>FIRST</strong> :</p>
+<table>
+<thead>
+<tr>
+<th>Lettre</th>
+<th>Principe</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F</strong></td>
+<td><em>Fast</em></td>
+<td>Exécution rapide (millisecondes). Un test lent sera ignoré.</td>
+</tr>
+<tr>
+<td><strong>I</strong></td>
+<td><em>Independent</em></td>
+<td>Chaque test est autonome, ne dépend pas de l'ordre d'exécution.</td>
+</tr>
+<tr>
+<td><strong>R</strong></td>
+<td><em>Repeatable</em></td>
+<td>Même résultat à chaque exécution, quel que soit l'environnement.</td>
+</tr>
+<tr>
+<td><strong>S</strong></td>
+<td><em>Self-validating</em></td>
+<td>Résultat binaire : PASS ou FAIL. Pas de vérification manuelle.</td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td><em>Timely</em></td>
+<td>Écrit au bon moment — idéalement avant ou en même temps que le code.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-le-pattern-aaa-arrange-act-assert">7. Le pattern AAA (Arrange-Act-Assert)<a class="headerlink" href="#7-le-pattern-aaa-arrange-act-assert" title="Permanent link">&para;</a></h2>
+<p>Tout test unitaire bien structuré suit le pattern <strong>AAA</strong> :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span> <span class="nf">test_calculer_total_deux_exemplaires</span><span class="p">():</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="c1"># Arrange — préparer les données</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">catalogue</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        <span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">:</span> <span class="n">Livre</span><span class="p">(</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>            <span class="n">isbn</span><span class="o">=</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>            <span class="n">titre</span><span class="o">=</span><span class="s2">&quot;Le Petit Prince&quot;</span><span class="p">,</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>            <span class="n">prix</span><span class="o">=</span><span class="mf">7.50</span><span class="p">,</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>            <span class="n">stock</span><span class="o">=</span><span class="mi">100</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="p">)</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="p">}</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="n">service</span> <span class="o">=</span> <span class="n">LibraireService</span><span class="p">(</span><span class="n">catalogue</span><span class="p">)</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="c1"># Act — exécuter l&#39;action à tester</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="n">total</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">calculer_total</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="c1"># Assert — vérifier le résultat</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="k">assert</span> <span class="n">total</span> <span class="o">==</span> <span class="mf">15.0</span>
+</span></code></pre></div>
+<h3 id="les-trois-phases-en-detail">Les trois phases en détail<a class="headerlink" href="#les-trois-phases-en-detail" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Rôle</th>
+<th>Bonnes pratiques</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Arrange</strong></td>
+<td>Préparer le contexte : objets, données, mocks</td>
+<td>Minimal : juste le nécessaire pour ce test</td>
+</tr>
+<tr>
+<td><strong>Act</strong></td>
+<td>Exécuter l'action ou la méthode testée</td>
+<td><strong>Une seule</strong> action par test</td>
+</tr>
+<tr>
+<td><strong>Assert</strong></td>
+<td>Vérifier que le résultat est conforme</td>
+<td>Assertions claires, message explicite si échec</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Règle d'or</p>
+<p><strong>Un test = un comportement.</strong> Si vous avez besoin de plusieurs <code>assert</code> indépendants, c'est probablement plusieurs tests.</p>
+</div>
+<hr />
+<h2 id="8-nommer-ses-tests">8. Nommer ses tests<a class="headerlink" href="#8-nommer-ses-tests" title="Permanent link">&para;</a></h2>
+<p>Un bon nom de test documente le comportement attendu. Convention recommandée :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>test_&lt;methode&gt;_&lt;scenario&gt;_&lt;resultat_attendu&gt;
+</span></code></pre></div>
+<p>Exemples :</p>
+<ul>
+<li><code>test_calculer_total_quantite_positive_retourne_prix_fois_quantite</code></li>
+<li><code>test_est_disponible_stock_zero_retourne_false</code></li>
+<li><code>test_get_prix_isbn_inexistant_leve_KeyError</code></li>
+</ul>
+<hr />
+<h2 id="9-le-code-du-fil-rouge-seance-1">9. Le code du fil rouge — Séance 1<a class="headerlink" href="#9-le-code-du-fil-rouge-seance-1" title="Permanent link">&para;</a></h2>
+<h3 id="librairiepy"><code>librairie.py</code><a class="headerlink" href="#librairiepy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nd">@dataclass</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">class</span> <span class="nc">Livre</span><span class="p">:</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">isbn</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">titre</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">prix</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">stock</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="k">class</span> <span class="nc">LibraireService</span><span class="p">:</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Service de gestion du catalogue de la librairie.&quot;&quot;&quot;</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalogue</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Livre</span><span class="p">]):</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">catalogue</span> <span class="o">=</span> <span class="n">catalogue</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="k">def</span> <span class="nf">get_prix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">isbn</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Retourne le prix d&#39;un livre par son ISBN.</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="sd">        Raises:</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="sd">            KeyError: si l&#39;ISBN n&#39;existe pas dans le catalogue.</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalogue</span><span class="p">[</span><span class="n">isbn</span><span class="p">]</span><span class="o">.</span><span class="n">prix</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    <span class="k">def</span> <span class="nf">est_disponible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">isbn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">quantite</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Vérifie si un livre est disponible en quantité suffisante.&quot;&quot;&quot;</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>        <span class="n">livre</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalogue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">isbn</span><span class="p">)</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>        <span class="k">return</span> <span class="n">livre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">livre</span><span class="o">.</span><span class="n">stock</span> <span class="o">&gt;=</span> <span class="n">quantite</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    <span class="k">def</span> <span class="nf">calculer_total</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">isbn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">quantite</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Calcule le prix total pour un nombre d&#39;exemplaires donné.</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="sd">        Raises:</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="sd">            KeyError: si l&#39;ISBN n&#39;existe pas.</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>        <span class="n">livre</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalogue</span><span class="p">[</span><span class="n">isbn</span><span class="p">]</span>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>        <span class="k">return</span> <span class="n">livre</span><span class="o">.</span><span class="n">prix</span> <span class="o">*</span> <span class="n">quantite</span>
+</span></code></pre></div>
+<h3 id="fonctions-utilitaires">Fonctions utilitaires<a class="headerlink" href="#fonctions-utilitaires" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">valider_age</span><span class="p">(</span><span class="n">age</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Valide qu&#39;un âge est dans la plage acceptable [13, 120].&quot;&quot;&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">return</span> <span class="mi">13</span> <span class="o">&lt;=</span> <span class="n">age</span> <span class="o">&lt;=</span> <span class="mi">120</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="k">def</span> <span class="nf">appliquer_tva</span><span class="p">(</span><span class="n">prix_ht</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">taux</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Applique un taux de TVA à un prix hors taxe.</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="sd">    Args:</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="sd">        prix_ht: prix hors taxe (&gt;= 0)</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="sd">        taux: taux de TVA (ex: 0.20 pour 20%)</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="sd">    Returns:</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="sd">        Le prix TTC.</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="k">return</span> <span class="n">prix_ht</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">taux</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="10-pytest-le-framework-de-test-python">10. pytest — le framework de test Python<a class="headerlink" href="#10-pytest-le-framework-de-test-python" title="Permanent link">&para;</a></h2>
+<h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pip<span class="w"> </span>install<span class="w"> </span>pytest
+</span></code></pre></div>
+<h3 id="conventions">Conventions<a class="headerlink" href="#conventions" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Les fichiers de test commencent par <code>test_</code> (ex : <code>test_librairie.py</code>)</li>
+<li>Les fonctions de test commencent par <code>test_</code></li>
+<li>Les assertions utilisent le mot-clé <code>assert</code> natif de Python</li>
+</ul>
+<h3 id="execution">Exécution<a class="headerlink" href="#execution" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Lancer tous les tests</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>pytest
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Mode verbeux</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>pytest<span class="w"> </span>-v
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Un fichier spécifique</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>pytest<span class="w"> </span>tests/test_librairie.py
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># Un test spécifique</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>pytest<span class="w"> </span>tests/test_librairie.py::test_calculer_total_deux_exemplaires
+</span></code></pre></div>
+<h3 id="parametrisation-avec-pytestmarkparametrize">Paramétrisation avec <code>@pytest.mark.parametrize</code><a class="headerlink" href="#parametrisation-avec-pytestmarkparametrize" title="Permanent link">&para;</a></h3>
+<p>La paramétrisation permet de tester plusieurs cas avec le même code de test :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span> <span class="nn">pytest</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">librairie</span> <span class="kn">import</span> <span class="n">appliquer_tva</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;prix_ht, taux, attendu&quot;</span><span class="p">,</span> <span class="p">[</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">),</span>   <span class="c1"># TVA standard 20%</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.055</span><span class="p">,</span> <span class="mf">105.5</span><span class="p">),</span>   <span class="c1"># TVA réduite 5,5%</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>        <span class="c1"># Prix nul</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="p">(</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">),</span>       <span class="c1"># Taux nul</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">])</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="k">def</span> <span class="nf">test_appliquer_tva</span><span class="p">(</span><span class="n">prix_ht</span><span class="p">,</span> <span class="n">taux</span><span class="p">,</span> <span class="n">attendu</span><span class="p">):</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    <span class="k">assert</span> <span class="n">appliquer_tva</span><span class="p">(</span><span class="n">prix_ht</span><span class="p">,</span> <span class="n">taux</span><span class="p">)</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="n">attendu</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="pytestapprox-pour-les-flottants"><code>pytest.approx</code> pour les flottants<a class="headerlink" href="#pytestapprox-pour-les-flottants" title="Permanent link">&para;</a></h3>
+<p>Les nombres à virgule flottante ne se comparent pas avec <code>==</code> à cause des erreurs d'arrondi :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">==</span> <span class="mf">0.3</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kc">False</span>  <span class="c1"># Surprise !</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.2</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="mf">0.30000000000000004</span>
+</span></code></pre></div>
+<p>La solution : <code>pytest.approx</code> qui tolère une petite marge d'erreur :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">assert</span> <span class="n">appliquer_tva</span><span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.055</span><span class="p">)</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mf">105.5</span><span class="p">)</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">assert</span> <span class="n">appliquer_tva</span><span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.055</span><span class="p">)</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="mf">105.5</span><span class="p">,</span> <span class="n">rel</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="11-junit-5-le-framework-de-test-java">11. JUnit 5 — le framework de test Java<a class="headerlink" href="#11-junit-5-le-framework-de-test-java" title="Permanent link">&para;</a></h2>
+<h3 id="structure-dun-test-junit-5">Structure d'un test JUnit 5<a class="headerlink" href="#structure-dun-test-junit-5" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.*</span><span class="p">;</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">import static</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Assertions.*</span><span class="p">;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="kd">class</span> <span class="nc">LibraireServiceTest</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">LibraireService</span><span class="w"> </span><span class="n">service</span><span class="p">;</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="nd">@BeforeEach</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">setUp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Livre</span><span class="o">&gt;</span><span class="w"> </span><span class="n">catalogue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">        </span><span class="n">catalogue</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">Livre</span><span class="p">(</span><span class="s">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Le Petit Prince&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">7.50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">));</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">        </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LibraireService</span><span class="p">(</span><span class="n">catalogue</span><span class="p">);</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">    </span><span class="nd">@Test</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">    </span><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;calculerTotal retourne prix × quantité&quot;</span><span class="p">)</span>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">calculerTotal_quantitePositive_retourneProduit</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">        </span><span class="c1">// Arrange (fait dans setUp)</span>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">        </span><span class="c1">// Act</span>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="na">calculerTotal</span><span class="p">(</span><span class="s">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="w">        </span><span class="c1">// Assert</span>
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="mf">15.0</span><span class="p">,</span><span class="w"> </span><span class="n">total</span><span class="p">,</span><span class="w"> </span><span class="mf">0.001</span><span class="p">);</span>
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a><span class="w">    </span><span class="nd">@Test</span>
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a><span class="w">    </span><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;getPrix lève une exception pour un ISBN inexistant&quot;</span><span class="p">)</span>
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">getPrix_isbnInexistant_leveException</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a><span class="w">        </span><span class="n">assertThrows</span><span class="p">(</span><span class="n">NoSuchElementException</span><span class="p">.</span><span class="na">class</span><span class="p">,</span>
+</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a><span class="w">            </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="na">getPrix</span><span class="p">(</span><span class="s">&quot;000-0-00-000000-0&quot;</span><span class="p">));</span>
+</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-11-32"><a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="annotations-essentielles">Annotations essentielles<a class="headerlink" href="#annotations-essentielles" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Test</code></td>
+<td>Marque une méthode comme test</td>
+</tr>
+<tr>
+<td><code>@BeforeEach</code></td>
+<td>Exécuté avant chaque test (setup)</td>
+</tr>
+<tr>
+<td><code>@AfterEach</code></td>
+<td>Exécuté après chaque test (teardown)</td>
+</tr>
+<tr>
+<td><code>@DisplayName("...")</code></td>
+<td>Nom lisible pour les rapports</td>
+</tr>
+<tr>
+<td><code>@ParameterizedTest</code></td>
+<td>Test paramétré (plusieurs jeux de données)</td>
+</tr>
+<tr>
+<td><code>@CsvSource({...})</code></td>
+<td>Source de données CSV pour <code>@ParameterizedTest</code></td>
+</tr>
+<tr>
+<td><code>@Disabled("raison")</code></td>
+<td>Désactive temporairement un test</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tests-parametres-en-java">Tests paramétrés en Java<a class="headerlink" href="#tests-parametres-en-java" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nd">@ParameterizedTest</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nd">@CsvSource</span><span class="p">({</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="s">&quot;100.0, 0.20, 120.0&quot;</span><span class="p">,</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="s">&quot;100.0, 0.055, 105.5&quot;</span><span class="p">,</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="s">&quot;0.0, 0.20, 0.0&quot;</span><span class="p">,</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="s">&quot;50.0, 0.0, 50.0&quot;</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="p">})</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;appliquerTva avec différents taux&quot;</span><span class="p">)</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="kt">void</span><span class="w"> </span><span class="nf">appliquerTva_parametres</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">prixHt</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">taux</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">attendu</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">attendu</span><span class="p">,</span><span class="w"> </span><span class="n">appliquerTva</span><span class="p">(</span><span class="n">prixHt</span><span class="p">,</span><span class="w"> </span><span class="n">taux</span><span class="p">),</span><span class="w"> </span><span class="mf">0.001</span><span class="p">);</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="assertions-principales">Assertions principales<a class="headerlink" href="#assertions-principales" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Assertion</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>assertEquals(attendu, réel)</code></td>
+<td>Vérifie l'égalité</td>
+</tr>
+<tr>
+<td><code>assertTrue(condition)</code></td>
+<td>Vérifie que la condition est vraie</td>
+</tr>
+<tr>
+<td><code>assertFalse(condition)</code></td>
+<td>Vérifie que la condition est fausse</td>
+</tr>
+<tr>
+<td><code>assertThrows(Exception.class, () -&gt; ...)</code></td>
+<td>Vérifie qu'une exception est levée</td>
+</tr>
+<tr>
+<td><code>assertNull(objet)</code></td>
+<td>Vérifie que l'objet est null</td>
+</tr>
+<tr>
+<td><code>assertNotNull(objet)</code></td>
+<td>Vérifie que l'objet n'est pas null</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="recapitulatif-de-la-seance">Récapitulatif de la séance<a class="headerlink" href="#recapitulatif-de-la-seance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Points clés</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISO 25010</td>
+<td>8 caractéristiques de qualité (fonctionnalité → portabilité)</td>
+</tr>
+<tr>
+<td>ISTQB</td>
+<td>Erreur → Défaut → Panne</td>
+</tr>
+<tr>
+<td>V&amp;V</td>
+<td>Vérification (bien construit) vs. Validation (bon produit)</td>
+</tr>
+<tr>
+<td>Pyramide</td>
+<td>70-80 % unitaires, 15-20 % intégration, 5-10 % E2E</td>
+</tr>
+<tr>
+<td>FIRST</td>
+<td>Fast, Independent, Repeatable, Self-validating, Timely</td>
+</tr>
+<tr>
+<td>AAA</td>
+<td>Arrange → Act → Assert</td>
+</tr>
+<tr>
+<td>pytest</td>
+<td><code>assert</code>, <code>@pytest.mark.parametrize</code>, <code>pytest.approx</code></td>
+</tr>
+<tr>
+<td>JUnit 5</td>
+<td><code>@Test</code>, <code>@BeforeEach</code>, <code>@ParameterizedTest</code>, <code>@CsvSource</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Passez aux travaux pratiques : <a href="tp1-pytest-aaa/">TP1 — Premiers tests avec pytest</a> puis <a href="tp2-junit5/">TP2 — JUnit 5</a>.</em></p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Boehm, B. &amp; Basili, V. (2001). Software Defect Reduction Top 10 List. <em>IEEE Computer</em>, 34(1), 135–137. DOI: <a href="https://doi.org/10.1109/2.962984">10.1109/2.962984</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Cohn, M. (2009). <em>Succeeding with Agile: Software Development Using Scrum</em>. Addison-Wesley. ISBN: 978-0321579362.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pied de page" >
+        
+          
+          <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Précédent: Accueil">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              <div class="md-ellipsis">
+                Accueil
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="tp1-pytest-aaa/" class="md-footer__link md-footer__link--next" aria-label="Suivant: TP1 — Premiers tests avec pytest">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Suivant
+              </span>
+              <div class="md-ellipsis">
+                TP1 — Premiers tests avec pytest
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2025–2026 Dr. Yvan GUIFO FODJO — EFREI Paris
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/YvanGuifo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.aecac24b.min.js"></script>
+      
+    
+  </body>
+</html>

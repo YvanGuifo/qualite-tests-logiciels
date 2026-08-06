@@ -1,0 +1,1869 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cours L2 — École d'ingénieurs EFREI Paris — Dr. Yvan GUIFO FODJO">
+      
+      
+        <meta name="author" content="Dr. Yvan GUIFO FODJO">
+      
+      
+      
+        <link rel="prev" href="../seance2/tp4-coverage/">
+      
+      
+        <link rel="next" href="tp5-tdd-fizzbuzz/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
+    
+    
+      
+        <title>Cours - Qualité et Tests Logiciels</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.35e1ed30.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#seance-3-tdd-integration-continue-et-pratiques-avancees" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href=".." title="Qualité et Tests Logiciels" class="md-header__button md-logo" aria-label="Qualité et Tests Logiciels" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1c0-.21-.07-.41-.18-.57L13 8.35V4h-2v4.35L5.18 18.43c-.11.16-.18.36-.18.57m1 3a3 3 0 0 1-3-3c0-.6.18-1.16.5-1.63L9 7.81V6a1 1 0 0 1-1-1V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v1.81l5.5 9.56c.32.47.5 1.03.5 1.63a3 3 0 0 1-3 3H6m7-6 1.34-1.34L16.27 18H7.73l2.66-4.61L13 16m-.5-4a.5.5 0 0 1 .5.5.5.5 0 0 1-.5.5.5.5 0 0 1-.5-.5.5.5 0 0 1 .5-.5Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Qualité et Tests Logiciels
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cours
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Mode sombre"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mode sombre" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Mode clair"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Mode clair" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../seance1/" class="md-tabs__link">
+          
+  
+  Séance 1 — Fondamentaux
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../seance2/" class="md-tabs__link">
+          
+  
+  Séance 2 — Conception et couverture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  Séance 3 — Pratiques avancées
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../evaluation/" class="md-tabs__link">
+        
+  
+    
+  
+  Évaluation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ressources/" class="md-tabs__link">
+        
+  
+    
+  
+  Ressources
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Qualité et Tests Logiciels" class="md-nav__button md-logo" aria-label="Qualité et Tests Logiciels" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1c0-.21-.07-.41-.18-.57L13 8.35V4h-2v4.35L5.18 18.43c-.11.16-.18.36-.18.57m1 3a3 3 0 0 1-3-3c0-.6.18-1.16.5-1.63L9 7.81V6a1 1 0 0 1-1-1V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v1.81l5.5 9.56c.32.47.5 1.03.5 1.63a3 3 0 0 1-3 3H6m7-6 1.34-1.34L16.27 18H7.73l2.66-4.61L13 16m-.5-4a.5.5 0 0 1 .5.5.5.5 0 0 1-.5.5.5.5 0 0 1-.5-.5.5.5 0 0 1 .5-.5Z"/></svg>
+
+    </a>
+    Qualité et Tests Logiciels
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Accueil
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Séance 1 — Fondamentaux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Séance 1 — Fondamentaux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cours
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance1/tp1-pytest-aaa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP1 — Premiers tests avec pytest
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance1/tp2-junit5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP2 — Tests unitaires en Java avec JUnit 5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Séance 2 — Conception et couverture
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Séance 2 — Conception et couverture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cours
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance2/tp3-panier/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP3 — Conception de tests pour le Panier
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seance2/tp4-coverage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP4 — Couverture de code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Séance 3 — Pratiques avancées
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Séance 3 — Pratiques avancées
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Cours
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Cours
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-test-driven-development-tdd" class="md-nav__link">
+    1. Test-Driven Development (TDD)
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Test-Driven Development (TDD)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#le-cycle-red-green-refactor" class="md-nav__link">
+    Le cycle Red-Green-Refactor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#les-3-lois-de-robert-c-martin" class="md-nav__link">
+    Les 3 lois de Robert C. Martin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pourquoi-tdd" class="md-nav__link">
+    Pourquoi TDD ?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-refactoring" class="md-nav__link">
+    2. Refactoring
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Refactoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition" class="md-nav__link">
+    Définition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#catalogue-de-refactorings-courants" class="md-nav__link">
+    Catalogue de refactorings courants
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemple-extract-method" class="md-nav__link">
+    Exemple : Extract Method
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-tests-dintegration" class="md-nav__link">
+    3. Tests d'intégration
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Tests d'intégration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#difference-avec-les-tests-unitaires" class="md-nav__link">
+    Différence avec les tests unitaires
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#base-de-donnees-en-memoire" class="md-nav__link">
+    Base de données en mémoire
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-sqlite-in-memory" class="md-nav__link">
+    Python — SQLite in-memory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixture-de-base-de-donnees" class="md-nav__link">
+    Fixture de base de données
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-dintegration" class="md-nav__link">
+    Test d'intégration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-h2-in-memory" class="md-nav__link">
+    Java — H2 in-memory
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-integration-continue-ci" class="md-nav__link">
+    4. Intégration continue (CI)
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Intégration continue (CI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quest-ce-que-la-ci" class="md-nav__link">
+    Qu'est-ce que la CI ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    GitHub Actions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-minimal" class="md-nav__link">
+    Workflow minimal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-avec-matrice" class="md-nav__link">
+    Workflow avec matrice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#badge-de-statut" class="md-nav__link">
+    Badge de statut
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-analyse-statique" class="md-nav__link">
+    5. Analyse statique
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tests-de-mutation" class="md-nav__link">
+    6. Tests de mutation
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Tests de mutation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principe" class="md-nav__link">
+    Principe
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outils" class="md-nav__link">
+    Outils
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-fuzzing-et-tests-property-based" class="md-nav__link">
+    7. Fuzzing et tests property-based
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Fuzzing et tests property-based">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fuzzing" class="md-nav__link">
+    Fuzzing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hypothesis-python" class="md-nav__link">
+    Hypothesis (Python)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif-de-la-seance" class="md-nav__link">
+    Récapitulatif de la séance
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tp5-tdd-fizzbuzz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP5 — Kata FizzBuzz en TDD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tp6-ci-github-actions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TP6 — Intégration continue avec GitHub Actions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Évaluation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ressources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ressources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-test-driven-development-tdd" class="md-nav__link">
+    1. Test-Driven Development (TDD)
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Test-Driven Development (TDD)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#le-cycle-red-green-refactor" class="md-nav__link">
+    Le cycle Red-Green-Refactor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#les-3-lois-de-robert-c-martin" class="md-nav__link">
+    Les 3 lois de Robert C. Martin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pourquoi-tdd" class="md-nav__link">
+    Pourquoi TDD ?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-refactoring" class="md-nav__link">
+    2. Refactoring
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Refactoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition" class="md-nav__link">
+    Définition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#catalogue-de-refactorings-courants" class="md-nav__link">
+    Catalogue de refactorings courants
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemple-extract-method" class="md-nav__link">
+    Exemple : Extract Method
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-tests-dintegration" class="md-nav__link">
+    3. Tests d'intégration
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Tests d'intégration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#difference-avec-les-tests-unitaires" class="md-nav__link">
+    Différence avec les tests unitaires
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#base-de-donnees-en-memoire" class="md-nav__link">
+    Base de données en mémoire
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-sqlite-in-memory" class="md-nav__link">
+    Python — SQLite in-memory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixture-de-base-de-donnees" class="md-nav__link">
+    Fixture de base de données
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-dintegration" class="md-nav__link">
+    Test d'intégration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-h2-in-memory" class="md-nav__link">
+    Java — H2 in-memory
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-integration-continue-ci" class="md-nav__link">
+    4. Intégration continue (CI)
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Intégration continue (CI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quest-ce-que-la-ci" class="md-nav__link">
+    Qu'est-ce que la CI ?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-actions" class="md-nav__link">
+    GitHub Actions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-minimal" class="md-nav__link">
+    Workflow minimal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-avec-matrice" class="md-nav__link">
+    Workflow avec matrice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#badge-de-statut" class="md-nav__link">
+    Badge de statut
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-analyse-statique" class="md-nav__link">
+    5. Analyse statique
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tests-de-mutation" class="md-nav__link">
+    6. Tests de mutation
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Tests de mutation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principe" class="md-nav__link">
+    Principe
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outils" class="md-nav__link">
+    Outils
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-fuzzing-et-tests-property-based" class="md-nav__link">
+    7. Fuzzing et tests property-based
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Fuzzing et tests property-based">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fuzzing" class="md-nav__link">
+    Fuzzing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hypothesis-python" class="md-nav__link">
+    Hypothesis (Python)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recapitulatif-de-la-seance" class="md-nav__link">
+    Récapitulatif de la séance
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="seance-3-tdd-integration-continue-et-pratiques-avancees">Séance 3 — TDD, intégration continue et pratiques avancées<a class="headerlink" href="#seance-3-tdd-integration-continue-et-pratiques-avancees" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Objectifs de la séance</p>
+<p>À l'issue de cette séance, vous serez capables de :</p>
+<ul>
+<li><strong>Appliquer</strong> le cycle TDD Red-Green-Refactor sur un kata complet</li>
+<li><strong>Refactorer</strong> du code en toute confiance grâce aux tests</li>
+<li><strong>Écrire</strong> des tests d'intégration avec une base de données en mémoire</li>
+<li><strong>Configurer</strong> un pipeline CI avec GitHub Actions</li>
+<li><strong>Connaître</strong> les pratiques avancées : analyse statique, tests de mutation, fuzzing</li>
+</ul>
+</div>
+<hr />
+<h2 id="1-test-driven-development-tdd">1. Test-Driven Development (TDD)<a class="headerlink" href="#1-test-driven-development-tdd" title="Permanent link">&para;</a></h2>
+<h3 id="le-cycle-red-green-refactor">Le cycle Red-Green-Refactor<a class="headerlink" href="#le-cycle-red-green-refactor" title="Permanent link">&para;</a></h3>
+<p>Le TDD (Beck, 2002<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>) inverse l'ordre habituel : on écrit le test <strong>avant</strong> le code.</p>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>     ┌─────────────────────────────────┐
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>     │                                 │
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>     ▼                                 │
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   RED ──────► GREEN ──────► REFACTOR ─┘
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  (test        (code          (nettoyer
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  échoue)      minimal)       le code)
+</span></code></pre></div>
+<ol>
+<li><strong>RED</strong> — Écrire un test qui échoue (le comportement n'existe pas encore)</li>
+<li><strong>GREEN</strong> — Écrire le <strong>minimum</strong> de code pour que le test passe</li>
+<li><strong>REFACTOR</strong> — Améliorer le code sans changer le comportement (les tests garantissent la non-régression)</li>
+</ol>
+<h3 id="les-3-lois-de-robert-c-martin">Les 3 lois de Robert C. Martin<a class="headerlink" href="#les-3-lois-de-robert-c-martin" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Ne pas écrire de code de production tant qu'un test unitaire ne l'exige pas</li>
+<li>Ne pas écrire plus d'un test que ce qui est nécessaire pour échouer</li>
+<li>Ne pas écrire plus de code de production que ce qui est nécessaire pour faire passer le test</li>
+</ol>
+<h3 id="pourquoi-tdd">Pourquoi TDD ?<a class="headerlink" href="#pourquoi-tdd" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Conception émergente</strong> : le code est conçu pour être testable dès le départ</li>
+<li><strong>Filet de sécurité</strong> : chaque ligne de code est couverte par un test</li>
+<li><strong>Documentation vivante</strong> : les tests décrivent le comportement attendu</li>
+<li><strong>Confiance pour refactorer</strong> : on peut restructurer sans crainte</li>
+</ul>
+<hr />
+<h2 id="2-refactoring">2. Refactoring<a class="headerlink" href="#2-refactoring" title="Permanent link">&para;</a></h2>
+<h3 id="definition">Définition<a class="headerlink" href="#definition" title="Permanent link">&para;</a></h3>
+<p>Le <strong>refactoring</strong> (Fowler, 2018<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>) consiste à modifier la structure interne du code <strong>sans changer son comportement observable</strong>. Les tests existants garantissent la non-régression.</p>
+<h3 id="catalogue-de-refactorings-courants">Catalogue de refactorings courants<a class="headerlink" href="#catalogue-de-refactorings-courants" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Refactoring</th>
+<th>Quand l'utiliser</th>
+<th>Avant</th>
+<th>Après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rename Variable/Method</strong></td>
+<td>Nom pas clair</td>
+<td><code>x = p * q</code></td>
+<td><code>total = prix * quantite</code></td>
+</tr>
+<tr>
+<td><strong>Extract Method</strong></td>
+<td>Méthode trop longue</td>
+<td>Bloc de 50 lignes</td>
+<td>3 méthodes courtes</td>
+</tr>
+<tr>
+<td><strong>Inline Method</strong></td>
+<td>Méthode triviale qui obscurcit</td>
+<td><code>def get_x(): return self.x</code></td>
+<td>Accès direct</td>
+</tr>
+<tr>
+<td><strong>Extract Variable</strong></td>
+<td>Expression complexe</td>
+<td><code>if a &gt; 0 and b &lt; 10 and c:</code></td>
+<td><code>est_valide = ...</code></td>
+</tr>
+<tr>
+<td><strong>Replace Magic Number</strong></td>
+<td>Nombre sans signification</td>
+<td><code>if age &lt; 18:</code></td>
+<td><code>if age &lt; AGE_MINIMUM:</code></td>
+</tr>
+<tr>
+<td><strong>Replace Conditional with Polymorphism</strong></td>
+<td><code>if/elif</code> sur un type</td>
+<td>Cascade de <code>if</code></td>
+<td>Classes spécialisées</td>
+</tr>
+</tbody>
+</table>
+<h3 id="exemple-extract-method">Exemple : Extract Method<a class="headerlink" href="#exemple-extract-method" title="Permanent link">&para;</a></h3>
+<p>Avant :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span> <span class="nf">total_panier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panier</span><span class="p">,</span> <span class="n">catalogue</span><span class="p">):</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">sous_total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="k">for</span> <span class="n">isbn</span><span class="p">,</span> <span class="n">qte</span> <span class="ow">in</span> <span class="n">panier</span><span class="o">.</span><span class="n">articles</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        <span class="n">sous_total</span> <span class="o">+=</span> <span class="n">catalogue</span><span class="p">[</span><span class="n">isbn</span><span class="p">]</span><span class="o">.</span><span class="n">prix</span> <span class="o">*</span> <span class="n">qte</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="k">if</span> <span class="n">sous_total</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="n">remise</span> <span class="o">=</span> <span class="n">sous_total</span> <span class="o">*</span> <span class="mf">0.10</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="k">elif</span> <span class="n">sous_total</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="n">remise</span> <span class="o">=</span> <span class="n">sous_total</span> <span class="o">*</span> <span class="mf">0.05</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="n">remise</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="k">if</span> <span class="n">sous_total</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">sous_total</span> <span class="o">&lt;</span> <span class="mi">35</span><span class="p">:</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        <span class="n">frais</span> <span class="o">=</span> <span class="mf">4.99</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        <span class="n">frais</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    <span class="k">return</span> <span class="n">sous_total</span> <span class="o">-</span> <span class="n">remise</span> <span class="o">+</span> <span class="n">frais</span>
+</span></code></pre></div>
+<p>Après refactoring :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span> <span class="nf">total_panier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panier</span><span class="p">,</span> <span class="n">catalogue</span><span class="p">):</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">sous_total</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sous_total</span><span class="p">(</span><span class="n">panier</span><span class="p">,</span> <span class="n">catalogue</span><span class="p">)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">remise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_appliquer_remise</span><span class="p">(</span><span class="n">sous_total</span><span class="p">)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">frais</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frais_port</span><span class="p">(</span><span class="n">sous_total</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="k">return</span> <span class="n">sous_total</span> <span class="o">-</span> <span class="n">remise</span> <span class="o">+</span> <span class="n">frais</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">def</span> <span class="nf">_sous_total</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panier</span><span class="p">,</span> <span class="n">catalogue</span><span class="p">):</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="n">catalogue</span><span class="p">[</span><span class="n">isbn</span><span class="p">]</span><span class="o">.</span><span class="n">prix</span> <span class="o">*</span> <span class="n">qte</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="k">for</span> <span class="n">isbn</span><span class="p">,</span> <span class="n">qte</span> <span class="ow">in</span> <span class="n">panier</span><span class="o">.</span><span class="n">articles</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="p">)</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="k">def</span> <span class="nf">_appliquer_remise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sous_total</span><span class="p">):</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="k">if</span> <span class="n">sous_total</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        <span class="k">return</span> <span class="n">sous_total</span> <span class="o">*</span> <span class="mf">0.10</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="k">elif</span> <span class="n">sous_total</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>        <span class="k">return</span> <span class="n">sous_total</span> <span class="o">*</span> <span class="mf">0.05</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="k">return</span> <span class="mi">0</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="k">def</span> <span class="nf">_frais_port</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sous_total</span><span class="p">):</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">sous_total</span> <span class="o">&lt;</span> <span class="mi">35</span><span class="p">:</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>        <span class="k">return</span> <span class="mf">4.99</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>    <span class="k">return</span> <span class="mi">0</span>
+</span></code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Règle d'or du refactoring</p>
+<p>Ne <strong>jamais</strong> refactorer sans tests. Les tests sont votre filet de sécurité.</p>
+</div>
+<hr />
+<h2 id="3-tests-dintegration">3. Tests d'intégration<a class="headerlink" href="#3-tests-dintegration" title="Permanent link">&para;</a></h2>
+<h3 id="difference-avec-les-tests-unitaires">Différence avec les tests unitaires<a class="headerlink" href="#difference-avec-les-tests-unitaires" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Test unitaire</th>
+<th>Test d'intégration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Portée</strong></td>
+<td>Une fonction/classe isolée</td>
+<td>Plusieurs composants ensemble</td>
+</tr>
+<tr>
+<td><strong>Dépendances</strong></td>
+<td>Mockées/stubbées</td>
+<td>Réelles (ou quasi-réelles)</td>
+</tr>
+<tr>
+<td><strong>Vitesse</strong></td>
+<td>Très rapide (ms)</td>
+<td>Plus lent (s)</td>
+</tr>
+<tr>
+<td><strong>Exemple</strong></td>
+<td><code>test_sauvegarder_livre</code> avec mock</td>
+<td><code>test_sauvegarder_puis_retrouver</code> avec vraie BDD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="base-de-donnees-en-memoire">Base de données en mémoire<a class="headerlink" href="#base-de-donnees-en-memoire" title="Permanent link">&para;</a></h3>
+<p>Pour tester les interactions avec une base de données sans installer un serveur, on utilise une base <strong>en mémoire</strong> :</p>
+<ul>
+<li><strong>Python</strong> : SQLite avec <code>sqlite3.connect(":memory:")</code></li>
+<li><strong>Java</strong> : H2 avec <code>jdbc:h2:mem:test</code></li>
+</ul>
+<h3 id="python-sqlite-in-memory">Python — SQLite in-memory<a class="headerlink" href="#python-sqlite-in-memory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span> <span class="nn">sqlite3</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">src.librairie</span> <span class="kn">import</span> <span class="n">Livre</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">class</span> <span class="nc">LivreRepository</span><span class="p">:</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Accès aux données des livres en base de données.&quot;&quot;&quot;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">:</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Connection</span><span class="p">):</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">conn</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="k">def</span> <span class="nf">sauvegarder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">livre</span><span class="p">:</span> <span class="n">Livre</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>            <span class="s2">&quot;INSERT INTO livres (isbn, titre, prix, stock) VALUES (?, ?, ?, ?)&quot;</span><span class="p">,</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>            <span class="p">(</span><span class="n">livre</span><span class="o">.</span><span class="n">isbn</span><span class="p">,</span> <span class="n">livre</span><span class="o">.</span><span class="n">titre</span><span class="p">,</span> <span class="n">livre</span><span class="o">.</span><span class="n">prix</span><span class="p">,</span> <span class="n">livre</span><span class="o">.</span><span class="n">stock</span><span class="p">)</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>        <span class="p">)</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    <span class="k">def</span> <span class="nf">trouver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">isbn</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Livre</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>        <span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>            <span class="s2">&quot;SELECT isbn, titre, prix, stock FROM livres WHERE isbn = ?&quot;</span><span class="p">,</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>            <span class="p">(</span><span class="n">isbn</span><span class="p">,)</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>        <span class="p">)</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>        <span class="n">row</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>        <span class="k">return</span> <span class="n">Livre</span><span class="p">(</span><span class="o">*</span><span class="n">row</span><span class="p">)</span> <span class="k">if</span> <span class="n">row</span> <span class="k">else</span> <span class="kc">None</span>
+</span></code></pre></div>
+<h3 id="fixture-de-base-de-donnees">Fixture de base de données<a class="headerlink" href="#fixture-de-base-de-donnees" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span> <span class="nn">pytest</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">import</span> <span class="nn">sqlite3</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">def</span> <span class="nf">db</span><span class="p">():</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base de données SQLite en mémoire avec le schéma livres.&quot;&quot;&quot;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;:memory:&quot;</span><span class="p">)</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="s2">        CREATE TABLE livres (</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="s2">            isbn TEXT PRIMARY KEY,</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="s2">            titre TEXT NOT NULL,</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="s2">            prix REAL NOT NULL,</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="s2">            stock INTEGER NOT NULL</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="s2">        )</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="k">yield</span> <span class="n">conn</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></code></pre></div>
+<h3 id="test-dintegration">Test d'intégration<a class="headerlink" href="#test-dintegration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">test_sauvegarder_puis_retrouver</span><span class="p">(</span><span class="n">db</span><span class="p">):</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">repo</span> <span class="o">=</span> <span class="n">LivreRepository</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">livre</span> <span class="o">=</span> <span class="n">Livre</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Le Petit Prince&quot;</span><span class="p">,</span> <span class="mf">7.50</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">repo</span><span class="o">.</span><span class="n">sauvegarder</span><span class="p">(</span><span class="n">livre</span><span class="p">)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">retrouve</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">trouver</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="k">assert</span> <span class="n">retrouve</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="k">assert</span> <span class="n">retrouve</span><span class="o">.</span><span class="n">titre</span> <span class="o">==</span> <span class="s2">&quot;Le Petit Prince&quot;</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="k">assert</span> <span class="n">retrouve</span><span class="o">.</span><span class="n">prix</span> <span class="o">==</span> <span class="mf">7.50</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="k">def</span> <span class="nf">test_trouver_isbn_inexistant</span><span class="p">(</span><span class="n">db</span><span class="p">):</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="n">repo</span> <span class="o">=</span> <span class="n">LivreRepository</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="n">resultat</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">trouver</span><span class="p">(</span><span class="s2">&quot;ISBN-ABSENT&quot;</span><span class="p">)</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="k">assert</span> <span class="n">resultat</span> <span class="ow">is</span> <span class="kc">None</span>
+</span></code></pre></div>
+<h3 id="java-h2-in-memory">Java — H2 in-memory<a class="headerlink" href="#java-h2-in-memory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">        </span><span class="s">&quot;jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">conn</span><span class="p">.</span><span class="na">createStatement</span><span class="p">().</span><span class="na">execute</span><span class="p">(</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">        </span><span class="s">&quot;CREATE TABLE livres (isbn VARCHAR PRIMARY KEY, &quot;</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">        </span><span class="s">&quot;titre VARCHAR, prix DECIMAL, stock INT)&quot;</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="n">LivreRepository</span><span class="w"> </span><span class="n">repo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LivreRepository</span><span class="p">(</span><span class="n">conn</span><span class="p">);</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="n">repo</span><span class="p">.</span><span class="na">sauvegarder</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Livre</span><span class="p">(</span><span class="s">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">        </span><span class="s">&quot;Le Petit Prince&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">7.50</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">));</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="n">Livre</span><span class="w"> </span><span class="n">retrouve</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repo</span><span class="p">.</span><span class="na">trouver</span><span class="p">(</span><span class="s">&quot;978-2-07-036024-1&quot;</span><span class="p">);</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">    </span><span class="n">assertNotNull</span><span class="p">(</span><span class="n">retrouve</span><span class="p">);</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Le Petit Prince&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">retrouve</span><span class="p">.</span><span class="na">titre</span><span class="p">());</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h2 id="4-integration-continue-ci">4. Intégration continue (CI)<a class="headerlink" href="#4-integration-continue-ci" title="Permanent link">&para;</a></h2>
+<h3 id="quest-ce-que-la-ci">Qu'est-ce que la CI ?<a class="headerlink" href="#quest-ce-que-la-ci" title="Permanent link">&para;</a></h3>
+<p>L'intégration continue consiste à <strong>exécuter automatiquement</strong> les tests à chaque push ou pull request. Si les tests échouent, l'intégration est bloquée.</p>
+<h3 id="github-actions">GitHub Actions<a class="headerlink" href="#github-actions" title="Permanent link">&para;</a></h3>
+<p>GitHub Actions permet de définir des <strong>workflows</strong> dans des fichiers YAML sous <code>.github/workflows/</code>.</p>
+<h3 id="workflow-minimal">Workflow minimal<a class="headerlink" href="#workflow-minimal" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CI</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">on</span><span class="p">:</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">main</span><span class="p p-Indicator">]</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">main</span><span class="p p-Indicator">]</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="nt">jobs</span><span class="p">:</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span><span class="nt">tests</span><span class="p">:</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v5</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.12&#39;</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install pytest pytest-cov</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pytest --cov=src --cov-branch --cov-fail-under=85</span>
+</span></code></pre></div>
+<h3 id="workflow-avec-matrice">Workflow avec matrice<a class="headerlink" href="#workflow-avec-matrice" title="Permanent link">&para;</a></h3>
+<p>Pour tester sur plusieurs versions de Python et systèmes d'exploitation :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">jobs</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">tests</span><span class="p">:</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ matrix.os }}</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nt">strategy</span><span class="p">:</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">      </span><span class="nt">matrix</span><span class="p">:</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">        </span><span class="nt">os</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">ubuntu-latest</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">macos-latest</span><span class="p p-Indicator">]</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">        </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;3.11&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;3.12&#39;</span><span class="p p-Indicator">]</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v5</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ matrix.python-version }}</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip install pytest pytest-cov</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pytest --cov=src --cov-branch --cov-fail-under=85</span>
+</span></code></pre></div>
+<h3 id="badge-de-statut">Badge de statut<a class="headerlink" href="#badge-de-statut" title="Permanent link">&para;</a></h3>
+<p>Ajoutez un badge dans votre <code>README.md</code> :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>![<span class="nt">CI</span>](<span class="na">https://github.com/&lt;user&gt;/&lt;repo&gt;/actions/workflows/ci.yml/badge.svg</span>)
+</span></code></pre></div>
+<hr />
+<h2 id="5-analyse-statique">5. Analyse statique<a class="headerlink" href="#5-analyse-statique" title="Permanent link">&para;</a></h2>
+<p>L'analyse statique détecte les problèmes <strong>sans exécuter</strong> le code :</p>
+<table>
+<thead>
+<tr>
+<th>Outil</th>
+<th>Langage</th>
+<th>Détecte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ruff</strong></td>
+<td>Python</td>
+<td>Style, imports, erreurs courantes (très rapide)</td>
+</tr>
+<tr>
+<td><strong>pylint</strong></td>
+<td>Python</td>
+<td>Conventions, complexité, code mort</td>
+</tr>
+<tr>
+<td><strong>mypy</strong></td>
+<td>Python</td>
+<td>Erreurs de typage statique</td>
+</tr>
+<tr>
+<td><strong>SpotBugs</strong></td>
+<td>Java</td>
+<td>Patterns de bugs connus</td>
+</tr>
+<tr>
+<td><strong>Checkstyle</strong></td>
+<td>Java</td>
+<td>Conventions de codage</td>
+</tr>
+<tr>
+<td><strong>ESLint</strong></td>
+<td>JavaScript</td>
+<td>Erreurs et conventions JS</td>
+</tr>
+<tr>
+<td><strong>SonarQube</strong></td>
+<td>Multi-langage</td>
+<td>Qualité globale, dette technique</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Python</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>pip<span class="w"> </span>install<span class="w"> </span>ruff<span class="w"> </span>mypy
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>ruff<span class="w"> </span>check<span class="w"> </span>src/
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>mypy<span class="w"> </span>src/
+</span></code></pre></div>
+<hr />
+<h2 id="6-tests-de-mutation">6. Tests de mutation<a class="headerlink" href="#6-tests-de-mutation" title="Permanent link">&para;</a></h2>
+<h3 id="principe">Principe<a class="headerlink" href="#principe" title="Permanent link">&para;</a></h3>
+<p>Les tests de mutation (DeMillo et al., 1978<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>) vérifient que vos tests <strong>détectent réellement</strong> les bugs. L'outil injecte des mutations dans le code (ex : <code>&gt;</code> → <code>&gt;=</code>, <code>+</code> → <code>-</code>) et vérifie que les tests échouent.</p>
+<ul>
+<li><strong>Mutant tué</strong> : les tests détectent la mutation (bien)</li>
+<li><strong>Mutant survivant</strong> : les tests ne voient pas la différence (tests trop faibles)</li>
+</ul>
+<h3 id="outils">Outils<a class="headerlink" href="#outils" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Outil</th>
+<th>Langage</th>
+<th>Commande</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>mutmut</strong></td>
+<td>Python</td>
+<td><code>mutmut run --paths-to-mutate=src/</code></td>
+</tr>
+<tr>
+<td><strong>PIT</strong> (Pitest)</td>
+<td>Java</td>
+<td>Plugin Maven</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mutmut
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>mutmut<span class="w"> </span>run<span class="w"> </span>--paths-to-mutate<span class="o">=</span>src/
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>mutmut<span class="w"> </span>results
+</span></code></pre></div>
+<hr />
+<h2 id="7-fuzzing-et-tests-property-based">7. Fuzzing et tests property-based<a class="headerlink" href="#7-fuzzing-et-tests-property-based" title="Permanent link">&para;</a></h2>
+<h3 id="fuzzing">Fuzzing<a class="headerlink" href="#fuzzing" title="Permanent link">&para;</a></h3>
+<p>Le fuzzing génère des entrées <strong>aléatoires</strong> ou <strong>semi-aléatoires</strong> pour découvrir des crashes inattendus.</p>
+<h3 id="hypothesis-python">Hypothesis (Python)<a class="headerlink" href="#hypothesis-python" title="Permanent link">&para;</a></h3>
+<p>Hypothesis génère automatiquement des données de test basées sur des <strong>stratégies</strong> :</p>
+<div class="highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">from</span> <span class="nn">hypothesis</span> <span class="kn">import</span> <span class="n">given</span><span class="p">,</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span> <span class="nn">src.librairie</span> <span class="kn">import</span> <span class="n">appliquer_tva</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nd">@given</span><span class="p">(</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="n">prix</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">floats</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span> <span class="n">allow_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="n">taux</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">floats</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">allow_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="p">)</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="k">def</span> <span class="nf">test_tva_jamais_inferieur_au_prix_ht</span><span class="p">(</span><span class="n">prix</span><span class="p">,</span> <span class="n">taux</span><span class="p">):</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    <span class="n">resultat</span> <span class="o">=</span> <span class="n">appliquer_tva</span><span class="p">(</span><span class="n">prix</span><span class="p">,</span> <span class="n">taux</span><span class="p">)</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    <span class="k">assert</span> <span class="n">resultat</span> <span class="o">&gt;=</span> <span class="n">prix</span>
+</span></code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Propriétés vs. exemples</p>
+<p>Les tests classiques vérifient des <strong>exemples</strong> (<code>appliquer_tva(100, 0.20) == 120</code>).
+Les tests property-based vérifient des <strong>propriétés</strong> (<code>pour tout prix et taux valides, le TTC ≥ le HT</code>). Hypothesis génère des centaines de cas automatiquement.</p>
+</div>
+<hr />
+<h2 id="recapitulatif-de-la-seance">Récapitulatif de la séance<a class="headerlink" href="#recapitulatif-de-la-seance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Points clés</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TDD</td>
+<td>Red → Green → Refactor. Test d'abord, code ensuite (Beck, 2002)</td>
+</tr>
+<tr>
+<td>Refactoring</td>
+<td>Modifier la structure sans changer le comportement (Fowler, 2018)</td>
+</tr>
+<tr>
+<td>Tests d'intégration</td>
+<td>Composants réels ensemble, BDD en mémoire (SQLite, H2)</td>
+</tr>
+<tr>
+<td>CI</td>
+<td>GitHub Actions, workflow YAML, matrice OS×Python, badge</td>
+</tr>
+<tr>
+<td>Analyse statique</td>
+<td>ruff, mypy, pylint, SonarQube — sans exécution</td>
+</tr>
+<tr>
+<td>Mutation</td>
+<td>mutmut / PIT — vérifier que les tests détectent les bugs</td>
+</tr>
+<tr>
+<td>Fuzzing</td>
+<td>Hypothesis — propriétés + données aléatoires</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Passez aux travaux pratiques : <a href="tp5-tdd-fizzbuzz/">TP5 — Kata FizzBuzz en TDD</a> puis <a href="tp6-ci-github-actions/">TP6 — CI avec GitHub Actions</a>.</em></p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Beck, K. (2002). <em>Test-Driven Development: By Example</em>. Addison-Wesley. ISBN: 978-0321146533.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Fowler, M. (2018). <em>Refactoring: Improving the Design of Existing Code</em>. 2nd ed. Addison-Wesley. ISBN: 978-0134757599.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>DeMillo, R.A., Lipton, R.J. &amp; Sayward, F.G. (1978). Hints on Test Data Selection: Help for the Practicing Programmer. <em>IEEE Computer</em>, 11(4), 34–41. DOI: <a href="https://doi.org/10.1109/C-M.1978.218136">10.1109/C-M.1978.218136</a>&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pied de page" >
+        
+          
+          <a href="../seance2/tp4-coverage/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: TP4 — Couverture de code">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              <div class="md-ellipsis">
+                TP4 — Couverture de code
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="tp5-tdd-fizzbuzz/" class="md-footer__link md-footer__link--next" aria-label="Suivant: TP5 — Kata FizzBuzz en TDD">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Suivant
+              </span>
+              <div class="md-ellipsis">
+                TP5 — Kata FizzBuzz en TDD
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2025–2026 Dr. Yvan GUIFO FODJO — EFREI Paris
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/YvanGuifo" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.aecac24b.min.js"></script>
+      
+    
+  </body>
+</html>
