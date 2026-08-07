@@ -10,6 +10,14 @@
     - Utiliser `@ParameterizedTest` avec `@CsvSource`
     - Vérifier les exceptions avec `assertThrows`
 
+!!! danger "Comment utiliser les indices — À lire avant de commencer"
+    Chaque exercice propose **2 niveaux d'aide imbriqués** :
+
+    - **Indice 1 — Direction** : ouvrez-le après avoir cherché seul au moins 5 minutes.
+    - **Indice 2 — Approche** : ouvrez-le si l'indice 1 ne suffit pas et après 5 minutes supplémentaires.
+
+    **Les corrigés complets sont fournis dans un document séparé, distribué après le rendu du TP.** Cette organisation vous garantit un apprentissage authentique : impossible de "regarder la réponse" avant d'avoir vraiment cherché.
+
 ---
 
 ## Étape 0 — Mise en place du projet Maven
@@ -182,18 +190,11 @@ Résultat attendu :
 
 Écrivez un test qui vérifie que `getPrix` lève `NoSuchElementException` pour un ISBN absent :
 
-??? tip "Indice"
-    Utilisez `assertThrows(ExceptionClass.class, () -> { ... })`.
+??? tip "Indice 1 — Direction"
+    JUnit 5 fournit une assertion dédiée aux exceptions. Cherchez `assertThrows` dans la documentation `org.junit.jupiter.api.Assertions`.
 
-??? example "Solution"
-    ```java
-    @Test
-    @DisplayName("getPrix lève NoSuchElementException pour ISBN inexistant")
-    void getPrix_isbnInexistant_leveException() {
-        assertThrows(NoSuchElementException.class,
-            () -> service.getPrix("000-0-00-000000-0"));
-    }
-    ```
+    ??? tip "Indice 2 — Approche"
+        Signature : `assertThrows(ClasseException.class, () -> methodQuiDoitEchouer())`. Le second argument est une lambda (`Executable`).
 
 ### 2.2 Vérifier le message d'exception
 
@@ -223,29 +224,11 @@ void getPrix_isbnInexistant_messageContientIsbn() {
 | 2 | 3 exemplaires à 7.50 € | 22.50 |
 | 3 | ISBN inexistant | `NoSuchElementException` |
 
-??? example "Solution"
-    ```java
-    @Test
-    @DisplayName("calculerTotal — 1 exemplaire")
-    void calculerTotal_unExemplaire_retournePrix() {
-        double total = service.calculerTotal("978-2-07-036024-1", 1);
-        assertEquals(7.50, total, 0.001);
-    }
+??? tip "Indice 1 — Direction"
+    Trois tests, trois scénarios. Deux tests utilisent `assertEquals(attendu, réel, delta)` pour les flottants ; le troisième réutilise `assertThrows`.
 
-    @Test
-    @DisplayName("calculerTotal — 3 exemplaires")
-    void calculerTotal_troisExemplaires_retourneTriple() {
-        double total = service.calculerTotal("978-2-07-036024-1", 3);
-        assertEquals(22.50, total, 0.001);
-    }
-
-    @Test
-    @DisplayName("calculerTotal — ISBN inexistant lève exception")
-    void calculerTotal_isbnInexistant_leveException() {
-        assertThrows(NoSuchElementException.class,
-            () -> service.calculerTotal("ABSENT", 1));
-    }
-    ```
+    ??? tip "Indice 2 — Approche"
+        Le `delta` (troisième argument de `assertEquals` pour un `double`) permet la tolérance flottante — `0.001` suffit ici. Réutilisez `service` déjà initialisé par `@BeforeEach`.
 
 ---
 
@@ -260,32 +243,11 @@ void getPrix_isbnInexistant_messageContientIsbn() {
 | 3 | 50 | 51 | `false` (insuffisant) |
 | 4 | ISBN absent | 1 | `false` |
 
-??? example "Solution"
-    ```java
-    @Test
-    @DisplayName("estDisponible — stock suffisant")
-    void estDisponible_stockSuffisant_retourneTrue() {
-        assertTrue(service.estDisponible("978-2-07-036024-1", 1));
-    }
+??? tip "Indice 1 — Direction"
+    Quatre tests indépendants. Pour un booléen, `assertTrue` / `assertFalse` sont plus lisibles que `assertEquals(true, ...)`.
 
-    @Test
-    @DisplayName("estDisponible — stock exact")
-    void estDisponible_stockExact_retourneTrue() {
-        assertTrue(service.estDisponible("978-2-07-040850-9", 50));
-    }
-
-    @Test
-    @DisplayName("estDisponible — stock insuffisant")
-    void estDisponible_stockInsuffisant_retourneFalse() {
-        assertFalse(service.estDisponible("978-2-07-040850-9", 51));
-    }
-
-    @Test
-    @DisplayName("estDisponible — ISBN inexistant")
-    void estDisponible_isbnInexistant_retourneFalse() {
-        assertFalse(service.estDisponible("ISBN-ABSENT", 1));
-    }
-    ```
+    ??? tip "Indice 2 — Approche"
+        Chaque test appelle `service.estDisponible(isbn, quantite)`. Attention au cas "stock exact" (stock == quantité) qui doit retourner `true`.
 
 ---
 
@@ -303,36 +265,11 @@ public static double appliquerTva(double prixHt, double taux) {
 
 Puis écrivez un test paramétré :
 
-??? tip "Indice"
-    ```java
-    @ParameterizedTest
-    @CsvSource({
-        "100.0, 0.20, 120.0",
-        // ... ajoutez d'autres cas
-    })
-    void appliquerTva_parametres(double prixHt, double taux, double attendu) {
-        assertEquals(attendu, LibraireService.appliquerTva(prixHt, taux), 0.001);
-    }
-    ```
+??? tip "Indice 1 — Direction"
+    Remplacez `@Test` par `@ParameterizedTest` et ajoutez une source de données `@CsvSource`. La méthode reçoit alors des paramètres.
 
-??? example "Solution"
-    ```java
-    import org.junit.jupiter.params.ParameterizedTest;
-    import org.junit.jupiter.params.provider.CsvSource;
-
-    @ParameterizedTest
-    @CsvSource({
-        "100.0, 0.20, 120.0",
-        "100.0, 0.055, 105.5",
-        "0.0, 0.20, 0.0",
-        "50.0, 0.0, 50.0",
-        "9.99, 0.20, 11.988"
-    })
-    @DisplayName("appliquerTva avec différents taux")
-    void appliquerTva_parametres(double prixHt, double taux, double attendu) {
-        assertEquals(attendu, LibraireService.appliquerTva(prixHt, taux), 0.001);
-    }
-    ```
+    ??? tip "Indice 2 — Approche"
+        Chaque ligne de `@CsvSource` correspond à une ligne du tableau des cas. Les paramètres de la méthode reçoivent les colonnes dans l'ordre. Attention aux imports `org.junit.jupiter.params.ParameterizedTest` et `org.junit.jupiter.params.provider.CsvSource`.
 
 ### 5.2 Validation d'âge paramétrée
 
@@ -346,23 +283,11 @@ public static boolean validerAge(int age) {
 
 Écrivez un test paramétré avec au moins 7 cas (bornes incluses, exclues, extrêmes) :
 
-??? example "Solution"
-    ```java
-    @ParameterizedTest
-    @CsvSource({
-        "12, false",
-        "13, true",
-        "25, true",
-        "120, true",
-        "121, false",
-        "0, false",
-        "-1, false"
-    })
-    @DisplayName("validerAge — valeurs limites")
-    void validerAge_parametres(int age, boolean attendu) {
-        assertEquals(attendu, LibraireService.validerAge(age));
-    }
-    ```
+??? tip "Indice 1 — Direction"
+    Même pattern que le test précédent, mais avec 2 paramètres (`int age`, `boolean attendu`). Pensez à tester les **bornes** (12/13, 120/121) et pas seulement l'intérieur.
+
+    ??? tip "Indice 2 — Approche"
+        Les 7 cas doivent couvrir : borne min − 1, borne min, milieu, borne max, borne max + 1, zéro, négatif.
 
 ---
 

@@ -10,6 +10,11 @@
     - Déclencher automatiquement les tests à chaque push
     - Ajouter un badge de statut au README
 
+!!! info "Nature de ce TP"
+    Ce TP est majoritairement procédural : suivez les étapes dans l'ordre. Chaque commande et fichier de configuration est fourni parce qu'il n'existe pas d'apprentissage à réinventer une syntaxe YAML propriétaire. **L'apprentissage porte sur la compréhension de chaque section**, pas sur sa réécriture aveugle.
+
+    Pour chaque étape, essayez d'abord de **prédire** ce que va faire la commande avant de la lancer, puis vérifiez sur GitHub.
+
 ---
 
 ## Étape 0 — Prérequis

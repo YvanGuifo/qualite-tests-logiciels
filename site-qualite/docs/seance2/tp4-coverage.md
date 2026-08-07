@@ -10,6 +10,11 @@
     - Identifier le code non couvert et écrire les tests manquants
     - Configurer un seuil minimal de couverture
 
+!!! danger "Comment utiliser les indices — À lire avant de commencer"
+    Ce TP est majoritairement procédural (commandes à exécuter). Les rares blocs contenant des indices imbriqués suivent la règle : **essayez d'abord seul**, ouvrez les indices dans l'ordre.
+
+    **Les corrigés complets sont fournis dans un document séparé, distribué après le rendu du TP.**
+
 ---
 
 ## Partie A — Python : coverage.py
@@ -76,22 +81,14 @@ Ouvrez `htmlcov/index.html` dans votre navigateur. Le rapport montre :
 
 Identifiez les lignes non couvertes dans le rapport HTML et écrivez les tests manquants.
 
-??? tip "Stratégie"
+??? tip "Stratégie (méthode à essayer d'abord)"
     1. Consultez les lignes rouges et jaunes dans le rapport
     2. Pour chaque ligne non couverte, identifiez le scénario qui la déclencherait
     3. Écrivez un test pour ce scénario
     4. Relancez la mesure pour vérifier
 
-??? example "Exemple : couvrir une branche manquée"
-    Si la ligne `raise ValueError("Quantité doit être > 0")` dans `retirer()` n'est pas couverte, ajoutez :
-
-    ```python
-    def test_retirer_quantite_zero_leve_ValueError(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-        with pytest.raises(ValueError, match="Quantité doit être > 0"):
-            panier.retirer("978-2-07-036024-1", quantite=0)
-    ```
+    ??? tip "Indice — quel scénario cibler ?"
+        Pour couvrir une ligne dans un `if X: raise Error`, il faut un test qui **déclenche X** — donc un test qui passe un paramètre invalide. Le nom du test doit refléter ce paramètre invalide (par exemple `test_<methode>_<parametre_invalide>_leve_<Exception>`).
 
 ### Étape 6 — Configurer un seuil minimal
 

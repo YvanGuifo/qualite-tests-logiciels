@@ -10,6 +10,11 @@
     - Refactorer en confiance grâce au filet de tests
     - Documenter chaque cycle TDD
 
+!!! danger "Nature particulière de ce TP — À lire"
+    Ce TP est un **kata TDD** : les 7 cycles décrits sont la démonstration pédagogique du TDD elle-même. Vous devez les **refaire vous-même** dans votre éditeur, pas les copier. La valeur pédagogique est dans **l'expérience de la discipline TDD**, pas dans la production du code final.
+
+    Pour l'**exercice bonus** (extension avec Jazz), 2 niveaux d'indices imbriqués sont fournis. Essayez d'abord seul en appliquant la discipline TDD stricte. **Le corrigé complet est fourni dans un document séparé, distribué après le TP.**
+
 ---
 
 ## Règles du kata FizzBuzz
@@ -288,35 +293,11 @@ def test_fizzbuzz_parametrise(n, attendu):
 
     Suivez les cycles Red → Green → Refactor.
 
-??? example "Solution"
-    ```python
-    # Test RED
-    def test_fizzbuzz_7_retourne_jazz():
-        assert fizzbuzz(7) == "Jazz"
+??? tip "Indice 1 — Direction (essayez d'abord seul, cycle Red-Green-Refactor)"
+    Suivez la même démarche que les 7 cycles précédents. Commencez par UN seul test RED pour `fizzbuzz(7) == "Jazz"`. Ne codez rien avant d'avoir vu le test échouer.
 
-    # GREEN — ajouter dans fizzbuzz :
-    def fizzbuzz(n):
-        sortie = ""
-        if n % 3 == 0:
-            sortie += "Fizz"
-        if n % 5 == 0:
-            sortie += "Buzz"
-        if n % 7 == 0:
-            sortie += "Jazz"
-        return sortie or str(n)
-
-    # Tests de consolidation
-    def test_fizzbuzz_21_retourne_fizzjazz():
-        assert fizzbuzz(21) == "FizzJazz"
-
-    def test_fizzbuzz_35_retourne_buzzjazz():
-        assert fizzbuzz(35) == "BuzzJazz"
-
-    def test_fizzbuzz_105_retourne_fizzbuzzjazz():
-        assert fizzbuzz(105) == "FizzBuzzJazz"
-    ```
-
-    Grâce au refactoring du cycle 6, l'ajout ne nécessite qu'**une seule ligne** de code de production.
+    ??? tip "Indice 2 — Approche"
+        Grâce au refactoring par concaténation du cycle 6, l'ajout dans la fonction ne devrait tenir qu'en **une seule ligne**. C'est le signe que le refactoring était bien conçu (principe Open-Closed).
 
 ---
 

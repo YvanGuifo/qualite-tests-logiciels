@@ -10,6 +10,14 @@
     - Écrire une suite de tests complète pour la classe `Panier`
     - Utiliser `pytest.raises` pour les cas d'erreur
 
+!!! danger "Comment utiliser les indices — À lire avant de commencer"
+    Chaque exercice propose **2 niveaux d'aide imbriqués** :
+
+    - **Indice 1 — Direction** : ouvrez-le après avoir cherché seul au moins 5 minutes.
+    - **Indice 2 — Approche** : ouvrez-le si l'indice 1 ne suffit pas et après 5 minutes supplémentaires.
+
+    **Les corrigés complets sont fournis dans un document séparé, distribué après le rendu.** Le TP noté (Séance 2) portera précisément sur des tests de Panier ; s'entraîner sans consulter de solution est la seule préparation efficace.
+
 ---
 
 ## Étape 0 — Code de départ
@@ -130,55 +138,27 @@ class Panier:
 
 ### 1.1 Ajouter un livre à un panier vide
 
-??? tip "Indice"
-    Créez un `Panier()`, un `Livre`, appelez `ajouter()`, puis vérifiez que l'état passe à `ACTIF` et que le livre est bien dans `articles`.
+??? tip "Indice 1 — Direction"
+    Deux assertions minimum : (1) l'état du panier après ajout, (2) le contenu du dictionnaire `articles`. Utilisez une fixture pour les livres réutilisés.
 
-??? example "Solution"
-    ```python
-    import pytest
-    from src.librairie import Livre
-    from src.panier import Panier, EtatPanier
-
-    @pytest.fixture
-    def livre_petit_prince():
-        return Livre("978-2-07-036024-1", "Le Petit Prince", 7.50, 100)
-
-    @pytest.fixture
-    def livre_etranger():
-        return Livre("978-2-07-040850-9", "L'Étranger", 6.90, 50)
-
-    def test_ajouter_panier_vide_passe_a_actif(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-
-        assert panier.etat == EtatPanier.ACTIF
-        assert panier.articles["978-2-07-036024-1"] == 1
-    ```
+    ??? tip "Indice 2 — Approche"
+        Structure du test : créez un `Panier()` (part de VIDE), appelez `ajouter(livre)`, puis assertez `panier.etat == EtatPanier.ACTIF` et `panier.articles[isbn] == 1`.
 
 ### 1.2 Ajouter plusieurs fois le même livre
 
-??? example "Solution"
-    ```python
-    def test_ajouter_meme_livre_cumule_quantites(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince, quantite=2)
-        panier.ajouter(livre_petit_prince, quantite=3)
+??? tip "Indice 1 — Direction"
+    Appelez `ajouter` deux fois avec le même livre mais des quantités différentes. La classe doit **cumuler**, pas écraser.
 
-        assert panier.articles["978-2-07-036024-1"] == 5
-    ```
+    ??? tip "Indice 2 — Approche"
+        Après `ajouter(livre, 2)` puis `ajouter(livre, 3)`, la quantité dans `articles[isbn]` doit valoir 5.
 
 ### 1.3 Ajouter des livres différents
 
-??? example "Solution"
-    ```python
-    def test_ajouter_livres_differents(livre_petit_prince, livre_etranger):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-        panier.ajouter(livre_etranger, quantite=2)
+??? tip "Indice 1 — Direction"
+    Deux ISBN distincts, donc deux entrées dans `articles`. Vérifiez à la fois le nombre d'entrées (`len`) et le total d'articles.
 
-        assert len(panier.articles) == 2
-        assert panier.nombre_articles() == 3
-    ```
+    ??? tip "Indice 2 — Approche"
+        `nombre_articles()` retourne la somme des quantités, pas le nombre d'ISBN distincts.
 
 ---
 
@@ -186,40 +166,19 @@ class Panier:
 
 ### 2.1 Quantité invalide (≤ 0)
 
-??? example "Solution"
-    ```python
-    def test_ajouter_quantite_zero_leve_ValueError(livre_petit_prince):
-        panier = Panier()
-        with pytest.raises(ValueError, match="Quantité doit être > 0"):
-            panier.ajouter(livre_petit_prince, quantite=0)
+??? tip "Indice 1 — Direction"
+    Deux cas à couvrir : quantité **exactement 0** (borne) et quantité **négative**. Le paramètre `match=` de `pytest.raises` permet de vérifier le message.
 
-    def test_ajouter_quantite_negative_leve_ValueError(livre_petit_prince):
-        panier = Panier()
-        with pytest.raises(ValueError):
-            panier.ajouter(livre_petit_prince, quantite=-1)
-    ```
+    ??? tip "Indice 2 — Approche"
+        `with pytest.raises(ValueError, match="Quantité doit être > 0"):` puis appelez `ajouter` avec `quantite=0` à l'intérieur du bloc.
 
 ### 2.2 Ajout sur un panier validé ou payé
 
-??? example "Solution"
-    ```python
-    def test_ajouter_panier_valide_leve_RuntimeError(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-        panier.valider()
+??? tip "Indice 1 — Direction"
+    Il faut d'abord amener le panier dans l'état VALIDE (ou PAYE), puis tenter d'y ajouter un livre. Cela nécessite plusieurs appels de méthodes dans l'Arrange.
 
-        with pytest.raises(RuntimeError, match="non modifiable"):
-            panier.ajouter(livre_petit_prince)
-
-    def test_ajouter_panier_paye_leve_RuntimeError(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-        panier.valider()
-        panier.payer()
-
-        with pytest.raises(RuntimeError):
-            panier.ajouter(livre_petit_prince)
-    ```
+    ??? tip "Indice 2 — Approche"
+        Pour l'état VALIDE : `ajouter(...)` → `valider()` → tenter `ajouter(...)`. Pour PAYE : ajouter le `payer()` en plus.
 
 ---
 
@@ -236,51 +195,14 @@ class Panier:
 | 5 | Quantité > stock panier | `ValueError` |
 | 6 | Retirer d'un panier validé | `RuntimeError` |
 
-??? example "Solution complète"
-    ```python
-    def test_retirer_partiel(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince, quantite=3)
-        panier.retirer("978-2-07-036024-1", quantite=1)
+??? tip "Indice 1 — Direction"
+    Chaque ligne du tableau = 1 test. Attention aux **effets de bord** : quand la quantité tombe à 0, l'ISBN doit disparaître du dict ; si `articles` devient vide, l'état repasse à VIDE.
 
-        assert panier.articles["978-2-07-036024-1"] == 2
-        assert panier.etat == EtatPanier.ACTIF
-
-    def test_retirer_totalite_article(livre_petit_prince, livre_etranger):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-        panier.ajouter(livre_etranger)
-        panier.retirer("978-2-07-036024-1")
-
-        assert "978-2-07-036024-1" not in panier.articles
-        assert panier.etat == EtatPanier.ACTIF  # reste L'Étranger
-
-    def test_retirer_dernier_article_panier_vide(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-        panier.retirer("978-2-07-036024-1")
-
-        assert panier.etat == EtatPanier.VIDE
-        assert panier.nombre_articles() == 0
-
-    def test_retirer_isbn_absent_leve_KeyError():
-        panier = Panier()
-        with pytest.raises(KeyError):
-            panier.retirer("ISBN-INEXISTANT")
-
-    def test_retirer_quantite_excessive_leve_ValueError(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince, quantite=2)
-        with pytest.raises(ValueError, match="Quantité à retirer"):
-            panier.retirer("978-2-07-036024-1", quantite=5)
-
-    def test_retirer_panier_valide_leve_RuntimeError(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-        panier.valider()
-        with pytest.raises(RuntimeError):
-            panier.retirer("978-2-07-036024-1")
-    ```
+    ??? tip "Indice 2 — Approche"
+        Trois patterns d'assertion selon le cas :
+        - Cas nominal : vérifier la quantité restante et l'état
+        - Cas "disparition" : `assert isbn not in panier.articles`
+        - Cas d'erreur : `with pytest.raises(...)` autour de l'appel
 
 ---
 
@@ -290,21 +212,11 @@ C'est l'exercice le plus important de ce TP. Vous devez tester le parcours compl
 
 ### 4.1 Parcours nominal complet
 
-??? example "Solution"
-    ```python
-    def test_parcours_complet_vide_actif_valide_paye(livre_petit_prince):
-        panier = Panier()
-        assert panier.etat == EtatPanier.VIDE
+??? tip "Indice 1 — Direction"
+    Un seul test qui suit tout le chemin VIDE → ACTIF → VALIDE → PAYE. Assertez l'état **après chaque transition**, pas seulement à la fin.
 
-        panier.ajouter(livre_petit_prince)
-        assert panier.etat == EtatPanier.ACTIF
-
-        panier.valider()
-        assert panier.etat == EtatPanier.VALIDE
-
-        panier.payer()
-        assert panier.etat == EtatPanier.PAYE
-    ```
+    ??? tip "Indice 2 — Approche"
+        Enchaînez : `Panier()` → assert VIDE → `ajouter` → assert ACTIF → `valider` → assert VALIDE → `payer` → assert PAYE.
 
 ### 4.2 Transitions invalides
 
@@ -322,69 +234,21 @@ Testez toutes les transitions **interdites** :
 | PAYÉ | `valider()` | `RuntimeError` |
 | PAYÉ | `payer()` | `RuntimeError` |
 
-??? example "Solution (extraits)"
-    ```python
-    def test_valider_panier_vide_leve_RuntimeError():
-        panier = Panier()
-        with pytest.raises(RuntimeError, match="Validation impossible"):
-            panier.valider()
+??? tip "Indice 1 — Direction"
+    Pour chaque transition interdite, votre Arrange doit amener le panier dans l'état de départ. L'Act tente la transition interdite. L'Assert utilise `pytest.raises(RuntimeError)`.
 
-    def test_payer_panier_vide_leve_RuntimeError():
-        panier = Panier()
-        with pytest.raises(RuntimeError, match="Paiement impossible"):
-            panier.payer()
-
-    def test_payer_panier_actif_leve_RuntimeError(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-        with pytest.raises(RuntimeError):
-            panier.payer()
-
-    def test_valider_panier_deja_valide_leve_RuntimeError(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-        panier.valider()
-        with pytest.raises(RuntimeError):
-            panier.valider()
-
-    def test_payer_panier_deja_paye_leve_RuntimeError(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-        panier.valider()
-        panier.payer()
-        with pytest.raises(RuntimeError):
-            panier.payer()
-    ```
+    ??? tip "Indice 2 — Approche"
+        Nommez chaque test explicitement : `test_<action>_panier_<etat>_leve_RuntimeError`. Le `match=` du `pytest.raises` documente le message attendu et rend le test plus strict.
 
 ---
 
 ## Étape 5 — Tester `vider()` et `nombre_articles()`
 
-??? example "Solution"
-    ```python
-    def test_vider_panier_actif(livre_petit_prince, livre_etranger):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince, quantite=3)
-        panier.ajouter(livre_etranger)
-        panier.vider()
+??? tip "Indice 1 — Direction"
+    3 tests : `vider` fonctionne (retour à VIDE, tout est effacé), `vider` échoue si panier verrouillé, `nombre_articles` fait bien une somme.
 
-        assert panier.etat == EtatPanier.VIDE
-        assert panier.nombre_articles() == 0
-        assert len(panier.articles) == 0
-
-    def test_vider_panier_valide_leve_RuntimeError(livre_petit_prince):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince)
-        panier.valider()
-        with pytest.raises(RuntimeError):
-            panier.vider()
-
-    def test_nombre_articles_cumule(livre_petit_prince, livre_etranger):
-        panier = Panier()
-        panier.ajouter(livre_petit_prince, quantite=3)
-        panier.ajouter(livre_etranger, quantite=2)
-        assert panier.nombre_articles() == 5
-    ```
+    ??? tip "Indice 2 — Approche"
+        Pour `vider`, testez 3 assertions à la fois (état, `nombre_articles()`, `len(articles)`). Pour `nombre_articles`, un panier avec 2 ISBN et 3+2 doit retourner 5.
 
 ---
 

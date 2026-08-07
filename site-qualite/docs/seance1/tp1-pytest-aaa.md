@@ -10,6 +10,14 @@
     - Utiliser la paramétrisation et `pytest.approx`
     - Tester le module `librairie.py` du fil rouge
 
+!!! danger "Comment utiliser les indices — À lire avant de commencer"
+    Chaque exercice propose **2 niveaux d'aide imbriqués** :
+
+    - **Indice 1 — Direction** : ouvrez-le après avoir cherché seul au moins 5 minutes.
+    - **Indice 2 — Approche** : ouvrez-le si l'indice 1 ne suffit pas et après 5 minutes supplémentaires.
+
+    **Les corrigés complets sont fournis dans un document séparé, distribué après le rendu du TP.** Cette organisation vous garantit un apprentissage authentique : impossible de "regarder la réponse" avant d'avoir vraiment cherché.
+
 ---
 
 ## Étape 0 — Mise en place du projet
@@ -151,49 +159,24 @@ tests/test_librairie.py::test_get_prix_livre_existant PASSED
 
 Écrivez un test qui vérifie que `calculer_total` retourne `prix × quantité` :
 
-??? tip "Indice"
-    Créez un catalogue avec un livre à 7.50 €, puis appelez `calculer_total` avec `quantite=2`. Le résultat attendu est 15.0.
+!!! warning "Règle d'apprentissage"
+    N'ouvrez l'indice 2 qu'après avoir essayé au moins 5 minutes avec l'indice 1. Les corrigés complets sont dans un document séparé distribué après le rendu du TP.
 
-??? example "Solution"
-    ```python
-    def test_calculer_total_deux_exemplaires():
-        # Arrange
-        catalogue = {
-            "978-2-07-036024-1": Livre(
-                isbn="978-2-07-036024-1",
-                titre="Le Petit Prince",
-                prix=7.50,
-                stock=100
-            )
-        }
-        service = LibraireService(catalogue)
+??? tip "Indice 1 — Direction (essayez d'abord seul)"
+    Reprenez la structure AAA du test précédent. Ce qui change : la méthode appelée (`calculer_total` au lieu de `get_prix`), un paramètre `quantite`, et la valeur attendue.
 
-        # Act
-        total = service.calculer_total("978-2-07-036024-1", quantite=2)
-
-        # Assert
-        assert total == 15.0
-    ```
+    ??? tip "Indice 2 — Approche (si toujours bloqué)"
+        Créez un catalogue avec un livre à 7.50 €. Appelez `service.calculer_total(isbn, quantite=2)`. Comparez le résultat à `15.0`.
 
 ### 2.2 Cas d'erreur — ISBN inexistant
 
 Que se passe-t-il si on demande le total pour un ISBN qui n'existe pas ?
 
-??? tip "Indice"
-    Utilisez `pytest.raises(KeyError)` pour vérifier qu'une exception est levée.
+??? tip "Indice 1 — Direction"
+    Pytest fournit un mécanisme dédié pour tester qu'une exception est bien levée. Cherchez `pytest.raises` dans la documentation.
 
-??? example "Solution"
-    ```python
-    import pytest
-
-    def test_calculer_total_isbn_inexistant_leve_KeyError():
-        # Arrange
-        service = LibraireService({})
-
-        # Act & Assert
-        with pytest.raises(KeyError):
-            service.calculer_total("000-0-00-000000-0", quantite=1)
-    ```
+    ??? tip "Indice 2 — Approche"
+        Utilisez `with pytest.raises(KeyError):` puis appelez la méthode qui doit lever l'exception à l'intérieur du bloc.
 
 ---
 
@@ -209,43 +192,11 @@ Que se passe-t-il si on demande le total pour un ISBN qui n'existe pas ?
 | 4 | ISBN inexistant | `False` |
 | 5 | Stock à zéro | `False` |
 
-??? tip "Indice"
-    Créez un test par cas. Chaque test crée son propre catalogue avec le stock approprié.
+??? tip "Indice 1 — Direction"
+    Un test = un scénario du tableau ci-dessus. Nommez chaque test explicitement (`test_est_disponible_stock_suffisant`, `test_est_disponible_stock_exact`, etc.).
 
-??? example "Solution complète"
-    ```python
-    def test_est_disponible_stock_suffisant():
-        catalogue = {
-            "ISBN-1": Livre("ISBN-1", "Titre", 10.0, stock=10)
-        }
-        service = LibraireService(catalogue)
-        assert service.est_disponible("ISBN-1", quantite=1) is True
-
-    def test_est_disponible_stock_exact():
-        catalogue = {
-            "ISBN-1": Livre("ISBN-1", "Titre", 10.0, stock=5)
-        }
-        service = LibraireService(catalogue)
-        assert service.est_disponible("ISBN-1", quantite=5) is True
-
-    def test_est_disponible_stock_insuffisant():
-        catalogue = {
-            "ISBN-1": Livre("ISBN-1", "Titre", 10.0, stock=2)
-        }
-        service = LibraireService(catalogue)
-        assert service.est_disponible("ISBN-1", quantite=5) is False
-
-    def test_est_disponible_isbn_inexistant():
-        service = LibraireService({})
-        assert service.est_disponible("ISBN-ABSENT") is False
-
-    def test_est_disponible_stock_zero():
-        catalogue = {
-            "ISBN-1": Livre("ISBN-1", "Titre", 10.0, stock=0)
-        }
-        service = LibraireService(catalogue)
-        assert service.est_disponible("ISBN-1") is False
-    ```
+    ??? tip "Indice 2 — Approche"
+        Pour chaque test, créez un `catalogue` avec un `Livre` dont le `stock` correspond au scénario, instanciez le `LibraireService`, puis assertez le résultat de `est_disponible`. Pensez à un test sans le livre du tout pour le cas "ISBN inexistant".
 
 ---
 
@@ -269,43 +220,11 @@ La fonction `valider_age` accepte les âges dans l'intervalle `[13, 120]`. Écri
 | 0 | `False` | Valeur extrême basse |
 | -1 | `False` | Valeur négative |
 
-??? tip "Indice"
-    ```python
-    @pytest.mark.parametrize("age, attendu", [
-        (12, False),
-        (13, True),
-        # ... complétez les cas
-    ])
-    def test_valider_age(age, attendu):
-        assert valider_age(age) == attendu
-    ```
+??? tip "Indice 1 — Direction"
+    Le décorateur `@pytest.mark.parametrize` prend une chaîne de noms de paramètres et une liste de tuples. Chaque tuple = un scénario du tableau.
 
-??? example "Solution"
-    ```python
-    import pytest
-    from src.librairie import valider_age
-
-    @pytest.mark.parametrize("age, attendu", [
-        (12, False),     # juste sous la borne min
-        (13, True),      # borne minimale (incluse)
-        (25, True),      # valeur nominale
-        (120, True),     # borne maximale (incluse)
-        (121, False),    # juste au-dessus de la borne max
-        (0, False),      # extrême bas
-        (-1, False),     # négatif
-    ])
-    def test_valider_age(age, attendu):
-        assert valider_age(age) == attendu
-    ```
-
-    Lancez avec `pytest -v` pour voir chaque cas affiché individuellement :
-
-    ```
-    test_librairie.py::test_valider_age[12-False] PASSED
-    test_librairie.py::test_valider_age[13-True] PASSED
-    test_librairie.py::test_valider_age[25-True] PASSED
-    ...
-    ```
+    ??? tip "Indice 2 — Approche"
+        Le décorateur prend deux arguments : (1) une chaîne `"nom1, nom2"` déclarant les paramètres, (2) une liste de tuples, un tuple par ligne du tableau. La fonction reçoit ensuite les paramètres et fait une seule assertion.
 
 ---
 
@@ -334,24 +253,11 @@ Les nombres à virgule flottante (IEEE 754) ne représentent pas tous les réels
 | 50.0 | 0.0 | 50.0 |
 | 9.99 | 0.20 | 11.988 |
 
-??? tip "Indice"
-    Utilisez `pytest.approx(attendu)` dans l'assertion au lieu de comparer directement avec `==`.
+??? tip "Indice 1 — Direction"
+    Réutilisez `@pytest.mark.parametrize` mais avec 3 paramètres cette fois. L'assertion doit utiliser une comparaison **tolérante** aux flottants.
 
-??? example "Solution"
-    ```python
-    import pytest
-    from src.librairie import appliquer_tva
-
-    @pytest.mark.parametrize("prix_ht, taux, attendu", [
-        (100.0, 0.20, 120.0),
-        (100.0, 0.055, 105.5),
-        (0.0, 0.20, 0.0),
-        (50.0, 0.0, 50.0),
-        (9.99, 0.20, 11.988),
-    ])
-    def test_appliquer_tva(prix_ht, taux, attendu):
-        assert appliquer_tva(prix_ht, taux) == pytest.approx(attendu)
-    ```
+    ??? tip "Indice 2 — Approche"
+        Remplacez `assert result == attendu` par `assert result == pytest.approx(attendu)`. Ne comparez jamais des flottants avec `==` strict.
 
 ---
 
