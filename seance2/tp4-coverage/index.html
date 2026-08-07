@@ -1062,6 +1062,11 @@
 <li>Configurer un seuil minimal de couverture</li>
 </ul>
 </div>
+<div class="admonition danger">
+<p class="admonition-title">Comment utiliser les indices — À lire avant de commencer</p>
+<p>Ce TP est majoritairement procédural (commandes à exécuter). Les rares blocs contenant des indices imbriqués suivent la règle : <strong>essayez d'abord seul</strong>, ouvrez les indices dans l'ordre.</p>
+<p><strong>Les corrigés complets sont fournis dans un document séparé, distribué après le rendu du TP.</strong></p>
+</div>
 <hr />
 <h2 id="partie-a-python-coveragepy">Partie A — Python : coverage.py<a class="headerlink" href="#partie-a-python-coveragepy" title="Permanent link">&para;</a></h2>
 <h3 id="etape-1-installation">Étape 1 — Installation<a class="headerlink" href="#etape-1-installation" title="Permanent link">&para;</a></h3>
@@ -1110,64 +1115,58 @@
 <h3 id="etape-5-atteindre-90-de-couverture">Étape 5 — Atteindre 90 % de couverture<a class="headerlink" href="#etape-5-atteindre-90-de-couverture" title="Permanent link">&para;</a></h3>
 <p>Identifiez les lignes non couvertes dans le rapport HTML et écrivez les tests manquants.</p>
 <details class="tip">
-<summary>Stratégie</summary>
+<summary>Stratégie (méthode à essayer d'abord)</summary>
 <ol>
 <li>Consultez les lignes rouges et jaunes dans le rapport</li>
 <li>Pour chaque ligne non couverte, identifiez le scénario qui la déclencherait</li>
 <li>Écrivez un test pour ce scénario</li>
 <li>Relancez la mesure pour vérifier</li>
 </ol>
+<details class="tip">
+<summary>Indice — quel scénario cibler ?</summary>
+<p>Pour couvrir une ligne dans un <code>if X: raise Error</code>, il faut un test qui <strong>déclenche X</strong> — donc un test qui passe un paramètre invalide. Le nom du test doit refléter ce paramètre invalide (par exemple <code>test_&lt;methode&gt;_&lt;parametre_invalide&gt;_leve_&lt;Exception&gt;</code>).</p>
 </details>
-<details class="example">
-<summary>Exemple : couvrir une branche manquée</summary>
-<p>Si la ligne <code>raise ValueError("Quantité doit être &gt; 0")</code> dans <code>retirer()</code> n'est pas couverte, ajoutez :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">test_retirer_quantite_zero_leve_ValueError</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;Quantité doit être &gt; 0&quot;</span><span class="p">):</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">retirer</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span></code></pre></div>
 </details>
 <h3 id="etape-6-configurer-un-seuil-minimal">Étape 6 — Configurer un seuil minimal<a class="headerlink" href="#etape-6-configurer-un-seuil-minimal" title="Permanent link">&para;</a></h3>
 <p>Configurez pytest pour <strong>échouer</strong> si la couverture est inférieure à 85 % :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pytest<span class="w"> </span>tests/<span class="w"> </span>--cov<span class="o">=</span>src<span class="w"> </span>--cov-branch<span class="w"> </span>--cov-fail-under<span class="o">=</span><span class="m">85</span>
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pytest<span class="w"> </span>tests/<span class="w"> </span>--cov<span class="o">=</span>src<span class="w"> </span>--cov-branch<span class="w"> </span>--cov-fail-under<span class="o">=</span><span class="m">85</span>
 </span></code></pre></div>
 <p>Si la couverture est inférieure, pytest retourne un code d'erreur :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>FAIL Required test coverage of 85% not reached. Total coverage: 82.50%
+<div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>FAIL Required test coverage of 85% not reached. Total coverage: 82.50%
 </span></code></pre></div>
 <details class="tip">
 <summary>Dans <code>pyproject.toml</code></summary>
 <p>Pour rendre ce seuil permanent :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">[tool.pytest.ini_options]</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">addopts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;--cov=src --cov-branch --cov-fail-under=85&quot;</span>
+<div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">[tool.pytest.ini_options]</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">addopts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;--cov=src --cov-branch --cov-fail-under=85&quot;</span>
 </span></code></pre></div>
 </details>
 <hr />
 <h2 id="partie-b-java-jacoco">Partie B — Java : JaCoCo<a class="headerlink" href="#partie-b-java-jacoco" title="Permanent link">&para;</a></h2>
 <h3 id="etape-1-configuration-maven">Étape 1 — Configuration Maven<a class="headerlink" href="#etape-1-configuration-maven" title="Permanent link">&para;</a></h3>
 <p>Si ce n'est pas déjà fait (voir cours), ajoutez le plugin JaCoCo dans <code>pom.xml</code> :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">&lt;build&gt;</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="nt">&lt;plugins&gt;</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">        </span><span class="nt">&lt;plugin&gt;</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">            </span><span class="nt">&lt;groupId&gt;</span>org.jacoco<span class="nt">&lt;/groupId&gt;</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>jacoco-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">            </span><span class="nt">&lt;version&gt;</span>0.8.12<span class="nt">&lt;/version&gt;</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">            </span><span class="nt">&lt;executions&gt;</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">                </span><span class="nt">&lt;execution&gt;</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">                    </span><span class="nt">&lt;goals&gt;&lt;goal&gt;</span>prepare-agent<span class="nt">&lt;/goal&gt;&lt;/goals&gt;</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">                </span><span class="nt">&lt;/execution&gt;</span>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">                </span><span class="nt">&lt;execution&gt;</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">                    </span><span class="nt">&lt;id&gt;</span>report<span class="nt">&lt;/id&gt;</span>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">                    </span><span class="nt">&lt;phase&gt;</span>test<span class="nt">&lt;/phase&gt;</span>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">                    </span><span class="nt">&lt;goals&gt;&lt;goal&gt;</span>report<span class="nt">&lt;/goal&gt;&lt;/goals&gt;</span>
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">                </span><span class="nt">&lt;/execution&gt;</span>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">            </span><span class="nt">&lt;/executions&gt;</span>
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">        </span><span class="nt">&lt;/plugin&gt;</span>
-</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">    </span><span class="nt">&lt;/plugins&gt;</span>
-</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="nt">&lt;/build&gt;</span>
+<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">&lt;build&gt;</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="nt">&lt;plugins&gt;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">        </span><span class="nt">&lt;plugin&gt;</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">            </span><span class="nt">&lt;groupId&gt;</span>org.jacoco<span class="nt">&lt;/groupId&gt;</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>jacoco-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">            </span><span class="nt">&lt;version&gt;</span>0.8.12<span class="nt">&lt;/version&gt;</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">            </span><span class="nt">&lt;executions&gt;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">                </span><span class="nt">&lt;execution&gt;</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">                    </span><span class="nt">&lt;goals&gt;&lt;goal&gt;</span>prepare-agent<span class="nt">&lt;/goal&gt;&lt;/goals&gt;</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">                </span><span class="nt">&lt;/execution&gt;</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">                </span><span class="nt">&lt;execution&gt;</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">                    </span><span class="nt">&lt;id&gt;</span>report<span class="nt">&lt;/id&gt;</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">                    </span><span class="nt">&lt;phase&gt;</span>test<span class="nt">&lt;/phase&gt;</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">                    </span><span class="nt">&lt;goals&gt;&lt;goal&gt;</span>report<span class="nt">&lt;/goal&gt;&lt;/goals&gt;</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">                </span><span class="nt">&lt;/execution&gt;</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">            </span><span class="nt">&lt;/executions&gt;</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">        </span><span class="nt">&lt;/plugin&gt;</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">    </span><span class="nt">&lt;/plugins&gt;</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="nt">&lt;/build&gt;</span>
 </span></code></pre></div>
 <h3 id="etape-2-generer-le-rapport">Étape 2 — Générer le rapport<a class="headerlink" href="#etape-2-generer-le-rapport" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mvn<span class="w"> </span>clean<span class="w"> </span><span class="nb">test</span>
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>mvn<span class="w"> </span>clean<span class="w"> </span><span class="nb">test</span>
 </span></code></pre></div>
 <p>Le rapport HTML est généré dans <code>target/site/jacoco/index.html</code>.</p>
 <h3 id="etape-3-interpreter-le-rapport-jacoco">Étape 3 — Interpréter le rapport JaCoCo<a class="headerlink" href="#etape-3-interpreter-le-rapport-jacoco" title="Permanent link">&para;</a></h3>
@@ -1202,24 +1201,24 @@
 </ul>
 <h3 id="etape-4-ajouter-un-seuil-dans-maven">Étape 4 — Ajouter un seuil dans Maven<a class="headerlink" href="#etape-4-ajouter-un-seuil-dans-maven" title="Permanent link">&para;</a></h3>
 <p>Pour faire échouer le build si la couverture est insuffisante :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">&lt;execution&gt;</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="nt">&lt;id&gt;</span>check<span class="nt">&lt;/id&gt;</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nt">&lt;goals&gt;&lt;goal&gt;</span>check<span class="nt">&lt;/goal&gt;&lt;/goals&gt;</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="nt">&lt;configuration&gt;</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">        </span><span class="nt">&lt;rules&gt;</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">            </span><span class="nt">&lt;rule&gt;</span>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">                </span><span class="nt">&lt;element&gt;</span>BUNDLE<span class="nt">&lt;/element&gt;</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">                </span><span class="nt">&lt;limits&gt;</span>
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">                    </span><span class="nt">&lt;limit&gt;</span>
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">                        </span><span class="nt">&lt;counter&gt;</span>BRANCH<span class="nt">&lt;/counter&gt;</span>
-</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">                        </span><span class="nt">&lt;value&gt;</span>COVEREDRATIO<span class="nt">&lt;/value&gt;</span>
-</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">                        </span><span class="nt">&lt;minimum&gt;</span>0.85<span class="nt">&lt;/minimum&gt;</span>
-</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">                    </span><span class="nt">&lt;/limit&gt;</span>
-</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">                </span><span class="nt">&lt;/limits&gt;</span>
-</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">            </span><span class="nt">&lt;/rule&gt;</span>
-</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">        </span><span class="nt">&lt;/rules&gt;</span>
-</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">    </span><span class="nt">&lt;/configuration&gt;</span>
-</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="nt">&lt;/execution&gt;</span>
+<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">&lt;execution&gt;</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="nt">&lt;id&gt;</span>check<span class="nt">&lt;/id&gt;</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="nt">&lt;goals&gt;&lt;goal&gt;</span>check<span class="nt">&lt;/goal&gt;&lt;/goals&gt;</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="nt">&lt;configuration&gt;</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">        </span><span class="nt">&lt;rules&gt;</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">            </span><span class="nt">&lt;rule&gt;</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">                </span><span class="nt">&lt;element&gt;</span>BUNDLE<span class="nt">&lt;/element&gt;</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">                </span><span class="nt">&lt;limits&gt;</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">                    </span><span class="nt">&lt;limit&gt;</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">                        </span><span class="nt">&lt;counter&gt;</span>BRANCH<span class="nt">&lt;/counter&gt;</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">                        </span><span class="nt">&lt;value&gt;</span>COVEREDRATIO<span class="nt">&lt;/value&gt;</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">                        </span><span class="nt">&lt;minimum&gt;</span>0.85<span class="nt">&lt;/minimum&gt;</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">                    </span><span class="nt">&lt;/limit&gt;</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">                </span><span class="nt">&lt;/limits&gt;</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">            </span><span class="nt">&lt;/rule&gt;</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">        </span><span class="nt">&lt;/rules&gt;</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">    </span><span class="nt">&lt;/configuration&gt;</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="nt">&lt;/execution&gt;</span>
 </span></code></pre></div>
 <hr />
 <h2 id="partie-c-exercice-de-synthese">Partie C — Exercice de synthèse<a class="headerlink" href="#partie-c-exercice-de-synthese" title="Permanent link">&para;</a></h2>
@@ -1236,7 +1235,7 @@
 </div>
 <hr />
 <h2 id="verification-finale">Vérification finale<a class="headerlink" href="#verification-finale" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>pytest<span class="w"> </span>tests/<span class="w"> </span>--cov<span class="o">=</span>src<span class="w"> </span>--cov-branch<span class="w"> </span>--cov-fail-under<span class="o">=</span><span class="m">85</span><span class="w"> </span>-v
+<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>pytest<span class="w"> </span>tests/<span class="w"> </span>--cov<span class="o">=</span>src<span class="w"> </span>--cov-branch<span class="w"> </span>--cov-fail-under<span class="o">=</span><span class="m">85</span><span class="w"> </span>-v
 </span></code></pre></div>
 <div class="admonition success">
 <p class="admonition-title">Critères de réussite</p>

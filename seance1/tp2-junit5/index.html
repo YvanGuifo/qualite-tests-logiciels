@@ -1130,6 +1130,15 @@
 <li>Vérifier les exceptions avec <code>assertThrows</code></li>
 </ul>
 </div>
+<div class="admonition danger">
+<p class="admonition-title">Comment utiliser les indices — À lire avant de commencer</p>
+<p>Chaque exercice propose <strong>2 niveaux d'aide imbriqués</strong> :</p>
+<ul>
+<li><strong>Indice 1 — Direction</strong> : ouvrez-le après avoir cherché seul au moins 5 minutes.</li>
+<li><strong>Indice 2 — Approche</strong> : ouvrez-le si l'indice 1 ne suffit pas et après 5 minutes supplémentaires.</li>
+</ul>
+<p><strong>Les corrigés complets sont fournis dans un document séparé, distribué après le rendu du TP.</strong> Cette organisation vous garantit un apprentissage authentique : impossible de "regarder la réponse" avant d'avoir vraiment cherché.</p>
+</div>
 <hr />
 <h2 id="etape-0-mise-en-place-du-projet-maven">Étape 0 — Mise en place du projet Maven<a class="headerlink" href="#etape-0-mise-en-place-du-projet-maven" title="Permanent link">&para;</a></h2>
 <h3 id="01-structure-du-projet">0.1 Structure du projet<a class="headerlink" href="#01-structure-du-projet" title="Permanent link">&para;</a></h3>
@@ -1270,30 +1279,24 @@
 <h3 id="21-exception-pour-isbn-inexistant">2.1 Exception pour ISBN inexistant<a class="headerlink" href="#21-exception-pour-isbn-inexistant" title="Permanent link">&para;</a></h3>
 <p>Écrivez un test qui vérifie que <code>getPrix</code> lève <code>NoSuchElementException</code> pour un ISBN absent :</p>
 <details class="tip">
-<summary>Indice</summary>
-<p>Utilisez <code>assertThrows(ExceptionClass.class, () -&gt; { ... })</code>.</p>
+<summary>Indice 1 — Direction</summary>
+<p>JUnit 5 fournit une assertion dédiée aux exceptions. Cherchez <code>assertThrows</code> dans la documentation <code>org.junit.jupiter.api.Assertions</code>.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Signature : <code>assertThrows(ClasseException.class, () -&gt; methodQuiDoitEchouer())</code>. Le second argument est une lambda (<code>Executable</code>).</p>
 </details>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nd">@Test</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;getPrix lève NoSuchElementException pour ISBN inexistant&quot;</span><span class="p">)</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">getPrix_isbnInexistant_leveException</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">assertThrows</span><span class="p">(</span><span class="n">NoSuchElementException</span><span class="p">.</span><span class="na">class</span><span class="p">,</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">        </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="na">getPrix</span><span class="p">(</span><span class="s">&quot;000-0-00-000000-0&quot;</span><span class="p">));</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="p">}</span>
-</span></code></pre></div>
 </details>
 <h3 id="22-verifier-le-message-dexception">2.2 Vérifier le message d'exception<a class="headerlink" href="#22-verifier-le-message-dexception" title="Permanent link">&para;</a></h3>
 <p>Vous pouvez aussi capturer l'exception pour vérifier son message :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nd">@Test</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;getPrix inclut l&#39;ISBN dans le message d&#39;erreur&quot;</span><span class="p">)</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">getPrix_isbnInexistant_messageContientIsbn</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="n">NoSuchElementException</span><span class="w"> </span><span class="n">exception</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">assertThrows</span><span class="p">(</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">        </span><span class="n">NoSuchElementException</span><span class="p">.</span><span class="na">class</span><span class="p">,</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">        </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="na">getPrix</span><span class="p">(</span><span class="s">&quot;000-0-00-000000-0&quot;</span><span class="p">)</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="p">);</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exception</span><span class="p">.</span><span class="na">getMessage</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;000-0-00-000000-0&quot;</span><span class="p">));</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nd">@Test</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;getPrix inclut l&#39;ISBN dans le message d&#39;erreur&quot;</span><span class="p">)</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">getPrix_isbnInexistant_messageContientIsbn</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">NoSuchElementException</span><span class="w"> </span><span class="n">exception</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">assertThrows</span><span class="p">(</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">        </span><span class="n">NoSuchElementException</span><span class="p">.</span><span class="na">class</span><span class="p">,</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">        </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="na">getPrix</span><span class="p">(</span><span class="s">&quot;000-0-00-000000-0&quot;</span><span class="p">)</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exception</span><span class="p">.</span><span class="na">getMessage</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;000-0-00-000000-0&quot;</span><span class="p">));</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">}</span>
 </span></code></pre></div>
 <hr />
 <h2 id="etape-3-tester-calculertotal">Étape 3 — Tester <code>calculerTotal</code><a class="headerlink" href="#etape-3-tester-calculertotal" title="Permanent link">&para;</a></h2>
@@ -1324,29 +1327,13 @@
 </tr>
 </tbody>
 </table>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nd">@Test</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;calculerTotal — 1 exemplaire&quot;</span><span class="p">)</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">calculerTotal_unExemplaire_retournePrix</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="na">calculerTotal</span><span class="p">(</span><span class="s">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="mf">7.50</span><span class="p">,</span><span class="w"> </span><span class="n">total</span><span class="p">,</span><span class="w"> </span><span class="mf">0.001</span><span class="p">);</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">}</span>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="nd">@Test</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;calculerTotal — 3 exemplaires&quot;</span><span class="p">)</span>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="kt">void</span><span class="w"> </span><span class="nf">calculerTotal_troisExemplaires_retourneTriple</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="na">calculerTotal</span><span class="p">(</span><span class="s">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="mf">22.50</span><span class="p">,</span><span class="w"> </span><span class="n">total</span><span class="p">,</span><span class="w"> </span><span class="mf">0.001</span><span class="p">);</span>
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="p">}</span>
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="nd">@Test</span>
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;calculerTotal — ISBN inexistant lève exception&quot;</span><span class="p">)</span>
-</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="kt">void</span><span class="w"> </span><span class="nf">calculerTotal_isbnInexistant_leveException</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">    </span><span class="n">assertThrows</span><span class="p">(</span><span class="n">NoSuchElementException</span><span class="p">.</span><span class="na">class</span><span class="p">,</span>
-</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">        </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="na">calculerTotal</span><span class="p">(</span><span class="s">&quot;ABSENT&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
-</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="p">}</span>
-</span></code></pre></div>
+<details class="tip">
+<summary>Indice 1 — Direction</summary>
+<p>Trois tests, trois scénarios. Deux tests utilisent <code>assertEquals(attendu, réel, delta)</code> pour les flottants ; le troisième réutilise <code>assertThrows</code>.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Le <code>delta</code> (troisième argument de <code>assertEquals</code> pour un <code>double</code>) permet la tolérance flottante — <code>0.001</code> suffit ici. Réutilisez <code>service</code> déjà initialisé par <code>@BeforeEach</code>.</p>
+</details>
 </details>
 <hr />
 <h2 id="etape-4-tester-estdisponible">Étape 4 — Tester <code>estDisponible</code><a class="headerlink" href="#etape-4-tester-estdisponible" title="Permanent link">&para;</a></h2>
@@ -1387,97 +1374,45 @@
 </tr>
 </tbody>
 </table>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nd">@Test</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;estDisponible — stock suffisant&quot;</span><span class="p">)</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">estDisponible_stockSuffisant_retourneTrue</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">service</span><span class="p">.</span><span class="na">estDisponible</span><span class="p">(</span><span class="s">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">}</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nd">@Test</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;estDisponible — stock exact&quot;</span><span class="p">)</span>
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="kt">void</span><span class="w"> </span><span class="nf">estDisponible_stockExact_retourneTrue</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span><span class="n">assertTrue</span><span class="p">(</span><span class="n">service</span><span class="p">.</span><span class="na">estDisponible</span><span class="p">(</span><span class="s">&quot;978-2-07-040850-9&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">));</span>
-</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="p">}</span>
-</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
-</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="nd">@Test</span>
-</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;estDisponible — stock insuffisant&quot;</span><span class="p">)</span>
-</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="kt">void</span><span class="w"> </span><span class="nf">estDisponible_stockInsuffisant_retourneFalse</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">    </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">service</span><span class="p">.</span><span class="na">estDisponible</span><span class="p">(</span><span class="s">&quot;978-2-07-040850-9&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">51</span><span class="p">));</span>
-</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="p">}</span>
-</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>
-</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="nd">@Test</span>
-</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;estDisponible — ISBN inexistant&quot;</span><span class="p">)</span>
-</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="kt">void</span><span class="w"> </span><span class="nf">estDisponible_isbnInexistant_retourneFalse</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="w">    </span><span class="n">assertFalse</span><span class="p">(</span><span class="n">service</span><span class="p">.</span><span class="na">estDisponible</span><span class="p">(</span><span class="s">&quot;ISBN-ABSENT&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
-</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="p">}</span>
-</span></code></pre></div>
+<details class="tip">
+<summary>Indice 1 — Direction</summary>
+<p>Quatre tests indépendants. Pour un booléen, <code>assertTrue</code> / <code>assertFalse</code> sont plus lisibles que <code>assertEquals(true, ...)</code>.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Chaque test appelle <code>service.estDisponible(isbn, quantite)</code>. Attention au cas "stock exact" (stock == quantité) qui doit retourner <code>true</code>.</p>
+</details>
 </details>
 <hr />
 <h2 id="etape-5-tests-parametres-avec-parameterizedtest">Étape 5 — Tests paramétrés avec <code>@ParameterizedTest</code><a class="headerlink" href="#etape-5-tests-parametres-avec-parameterizedtest" title="Permanent link">&para;</a></h2>
 <h3 id="51-tva-parametree-avec-csvsource">5.1 TVA paramétrée avec <code>@CsvSource</code><a class="headerlink" href="#51-tva-parametree-avec-csvsource" title="Permanent link">&para;</a></h3>
 <p>Ajoutez cette méthode statique dans <code>LibraireService.java</code> :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">appliquerTva</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">prixHt</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">taux</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">prixHt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">taux</span><span class="p">);</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">appliquerTva</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">prixHt</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">taux</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">prixHt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">taux</span><span class="p">);</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>Puis écrivez un test paramétré :</p>
 <details class="tip">
-<summary>Indice</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nd">@ParameterizedTest</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nd">@CsvSource</span><span class="p">({</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="s">&quot;100.0, 0.20, 120.0&quot;</span><span class="p">,</span>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="c1">// ... ajoutez d&#39;autres cas</span>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="p">})</span>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">appliquerTva_parametres</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">prixHt</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">taux</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">attendu</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">attendu</span><span class="p">,</span><span class="w"> </span><span class="n">LibraireService</span><span class="p">.</span><span class="na">appliquerTva</span><span class="p">(</span><span class="n">prixHt</span><span class="p">,</span><span class="w"> </span><span class="n">taux</span><span class="p">),</span><span class="w"> </span><span class="mf">0.001</span><span class="p">);</span>
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="p">}</span>
-</span></code></pre></div>
+<summary>Indice 1 — Direction</summary>
+<p>Remplacez <code>@Test</code> par <code>@ParameterizedTest</code> et ajoutez une source de données <code>@CsvSource</code>. La méthode reçoit alors des paramètres.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Chaque ligne de <code>@CsvSource</code> correspond à une ligne du tableau des cas. Les paramètres de la méthode reçoivent les colonnes dans l'ordre. Attention aux imports <code>org.junit.jupiter.params.ParameterizedTest</code> et <code>org.junit.jupiter.params.provider.CsvSource</code>.</p>
 </details>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.params.ParameterizedTest</span><span class="p">;</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.params.provider.CsvSource</span><span class="p">;</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nd">@ParameterizedTest</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nd">@CsvSource</span><span class="p">({</span>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="s">&quot;100.0, 0.20, 120.0&quot;</span><span class="p">,</span>
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="s">&quot;100.0, 0.055, 105.5&quot;</span><span class="p">,</span>
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="s">&quot;0.0, 0.20, 0.0&quot;</span><span class="p">,</span>
-</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">    </span><span class="s">&quot;50.0, 0.0, 50.0&quot;</span><span class="p">,</span>
-</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">    </span><span class="s">&quot;9.99, 0.20, 11.988&quot;</span>
-</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="p">})</span>
-</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;appliquerTva avec différents taux&quot;</span><span class="p">)</span>
-</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="kt">void</span><span class="w"> </span><span class="nf">appliquerTva_parametres</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">prixHt</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">taux</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">attendu</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">attendu</span><span class="p">,</span><span class="w"> </span><span class="n">LibraireService</span><span class="p">.</span><span class="na">appliquerTva</span><span class="p">(</span><span class="n">prixHt</span><span class="p">,</span><span class="w"> </span><span class="n">taux</span><span class="p">),</span><span class="w"> </span><span class="mf">0.001</span><span class="p">);</span>
-</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="p">}</span>
-</span></code></pre></div>
 </details>
 <h3 id="52-validation-dage-parametree">5.2 Validation d'âge paramétrée<a class="headerlink" href="#52-validation-dage-parametree" title="Permanent link">&para;</a></h3>
 <p>Ajoutez dans <code>LibraireService.java</code> :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">validerAge</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">120</span><span class="p">;</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">validerAge</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">120</span><span class="p">;</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>Écrivez un test paramétré avec au moins 7 cas (bornes incluses, exclues, extrêmes) :</p>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nd">@ParameterizedTest</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nd">@CsvSource</span><span class="p">({</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="s">&quot;12, false&quot;</span><span class="p">,</span>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="s">&quot;13, true&quot;</span><span class="p">,</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="s">&quot;25, true&quot;</span><span class="p">,</span>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="s">&quot;120, true&quot;</span><span class="p">,</span>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="s">&quot;121, false&quot;</span><span class="p">,</span>
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">    </span><span class="s">&quot;0, false&quot;</span><span class="p">,</span>
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="s">&quot;-1, false&quot;</span>
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="p">})</span>
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="nd">@DisplayName</span><span class="p">(</span><span class="s">&quot;validerAge — valeurs limites&quot;</span><span class="p">)</span>
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="kt">void</span><span class="w"> </span><span class="nf">validerAge_parametres</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">attendu</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">    </span><span class="n">assertEquals</span><span class="p">(</span><span class="n">attendu</span><span class="p">,</span><span class="w"> </span><span class="n">LibraireService</span><span class="p">.</span><span class="na">validerAge</span><span class="p">(</span><span class="n">age</span><span class="p">));</span>
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="p">}</span>
-</span></code></pre></div>
+<details class="tip">
+<summary>Indice 1 — Direction</summary>
+<p>Même pattern que le test précédent, mais avec 2 paramètres (<code>int age</code>, <code>boolean attendu</code>). Pensez à tester les <strong>bornes</strong> (12/13, 120/121) et pas seulement l'intérieur.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Les 7 cas doivent couvrir : borne min − 1, borne min, milieu, borne max, borne max + 1, zéro, négatif.</p>
+</details>
 </details>
 <hr />
 <h2 id="etape-6-comparaison-python-java">Étape 6 — Comparaison Python / Java<a class="headerlink" href="#etape-6-comparaison-python-java" title="Permanent link">&para;</a></h2>
@@ -1529,7 +1464,7 @@
 </table>
 <hr />
 <h2 id="verification-finale">Vérification finale<a class="headerlink" href="#verification-finale" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>mvn<span class="w"> </span><span class="nb">test</span>
+<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>mvn<span class="w"> </span><span class="nb">test</span>
 </span></code></pre></div>
 <div class="admonition success">
 <p class="admonition-title">Critères de réussite</p>

@@ -1196,6 +1196,15 @@
 <li>Tester le module <code>librairie.py</code> du fil rouge</li>
 </ul>
 </div>
+<div class="admonition danger">
+<p class="admonition-title">Comment utiliser les indices — À lire avant de commencer</p>
+<p>Chaque exercice propose <strong>2 niveaux d'aide imbriqués</strong> :</p>
+<ul>
+<li><strong>Indice 1 — Direction</strong> : ouvrez-le après avoir cherché seul au moins 5 minutes.</li>
+<li><strong>Indice 2 — Approche</strong> : ouvrez-le si l'indice 1 ne suffit pas et après 5 minutes supplémentaires.</li>
+</ul>
+<p><strong>Les corrigés complets sont fournis dans un document séparé, distribué après le rendu du TP.</strong> Cette organisation vous garantit un apprentissage authentique : impossible de "regarder la réponse" avant d'avoir vraiment cherché.</p>
+</div>
 <hr />
 <h2 id="etape-0-mise-en-place-du-projet">Étape 0 — Mise en place du projet<a class="headerlink" href="#etape-0-mise-en-place-du-projet" title="Permanent link">&para;</a></h2>
 <h3 id="01-creer-larborescence">0.1 Créer l'arborescence<a class="headerlink" href="#01-creer-larborescence" title="Permanent link">&para;</a></h3>
@@ -1306,49 +1315,27 @@
 <h2 id="etape-2-tester-calculer_total">Étape 2 — Tester <code>calculer_total</code><a class="headerlink" href="#etape-2-tester-calculer_total" title="Permanent link">&para;</a></h2>
 <h3 id="21-cas-nominal">2.1 Cas nominal<a class="headerlink" href="#21-cas-nominal" title="Permanent link">&para;</a></h3>
 <p>Écrivez un test qui vérifie que <code>calculer_total</code> retourne <code>prix × quantité</code> :</p>
+<div class="admonition warning">
+<p class="admonition-title">Règle d'apprentissage</p>
+<p>N'ouvrez l'indice 2 qu'après avoir essayé au moins 5 minutes avec l'indice 1. Les corrigés complets sont dans un document séparé distribué après le rendu du TP.</p>
+</div>
 <details class="tip">
-<summary>Indice</summary>
-<p>Créez un catalogue avec un livre à 7.50 €, puis appelez <code>calculer_total</code> avec <code>quantite=2</code>. Le résultat attendu est 15.0.</p>
+<summary>Indice 1 — Direction (essayez d'abord seul)</summary>
+<p>Reprenez la structure AAA du test précédent. Ce qui change : la méthode appelée (<code>calculer_total</code> au lieu de <code>get_prix</code>), un paramètre <code>quantite</code>, et la valeur attendue.</p>
+<details class="tip">
+<summary>Indice 2 — Approche (si toujours bloqué)</summary>
+<p>Créez un catalogue avec un livre à 7.50 €. Appelez <code>service.calculer_total(isbn, quantite=2)</code>. Comparez le résultat à <code>15.0</code>.</p>
 </details>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">def</span> <span class="nf">test_calculer_total_deux_exemplaires</span><span class="p">():</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="c1"># Arrange</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">catalogue</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>        <span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">:</span> <span class="n">Livre</span><span class="p">(</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>            <span class="n">isbn</span><span class="o">=</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>            <span class="n">titre</span><span class="o">=</span><span class="s2">&quot;Le Petit Prince&quot;</span><span class="p">,</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>            <span class="n">prix</span><span class="o">=</span><span class="mf">7.50</span><span class="p">,</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>            <span class="n">stock</span><span class="o">=</span><span class="mi">100</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>        <span class="p">)</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    <span class="p">}</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    <span class="n">service</span> <span class="o">=</span> <span class="n">LibraireService</span><span class="p">(</span><span class="n">catalogue</span><span class="p">)</span>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="c1"># Act</span>
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    <span class="n">total</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">calculer_total</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>    <span class="c1"># Assert</span>
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>    <span class="k">assert</span> <span class="n">total</span> <span class="o">==</span> <span class="mf">15.0</span>
-</span></code></pre></div>
 </details>
 <h3 id="22-cas-derreur-isbn-inexistant">2.2 Cas d'erreur — ISBN inexistant<a class="headerlink" href="#22-cas-derreur-isbn-inexistant" title="Permanent link">&para;</a></h3>
 <p>Que se passe-t-il si on demande le total pour un ISBN qui n'existe pas ?</p>
 <details class="tip">
-<summary>Indice</summary>
-<p>Utilisez <code>pytest.raises(KeyError)</code> pour vérifier qu'une exception est levée.</p>
+<summary>Indice 1 — Direction</summary>
+<p>Pytest fournit un mécanisme dédié pour tester qu'une exception est bien levée. Cherchez <code>pytest.raises</code> dans la documentation.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Utilisez <code>with pytest.raises(KeyError):</code> puis appelez la méthode qui doit lever l'exception à l'intérieur du bloc.</p>
 </details>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">import</span> <span class="nn">pytest</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="k">def</span> <span class="nf">test_calculer_total_isbn_inexistant_leve_KeyError</span><span class="p">():</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="c1"># Arrange</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="n">service</span> <span class="o">=</span> <span class="n">LibraireService</span><span class="p">({})</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="c1"># Act &amp; Assert</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>        <span class="n">service</span><span class="o">.</span><span class="n">calculer_total</span><span class="p">(</span><span class="s2">&quot;000-0-00-000000-0&quot;</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span></code></pre></div>
 </details>
 <hr />
 <h2 id="etape-3-tester-est_disponible">Étape 3 — Tester <code>est_disponible</code><a class="headerlink" href="#etape-3-tester-est_disponible" title="Permanent link">&para;</a></h2>
@@ -1390,43 +1377,12 @@
 </tbody>
 </table>
 <details class="tip">
-<summary>Indice</summary>
-<p>Créez un test par cas. Chaque test crée son propre catalogue avec le stock approprié.</p>
+<summary>Indice 1 — Direction</summary>
+<p>Un test = un scénario du tableau ci-dessus. Nommez chaque test explicitement (<code>test_est_disponible_stock_suffisant</code>, <code>test_est_disponible_stock_exact</code>, etc.).</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Pour chaque test, créez un <code>catalogue</code> avec un <code>Livre</code> dont le <code>stock</code> correspond au scénario, instanciez le <code>LibraireService</code>, puis assertez le résultat de <code>est_disponible</code>. Pensez à un test sans le livre du tout pour le cas "ISBN inexistant".</p>
 </details>
-<details class="example">
-<summary>Solution complète</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">def</span> <span class="nf">test_est_disponible_stock_suffisant</span><span class="p">():</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">catalogue</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>        <span class="s2">&quot;ISBN-1&quot;</span><span class="p">:</span> <span class="n">Livre</span><span class="p">(</span><span class="s2">&quot;ISBN-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Titre&quot;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">stock</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="p">}</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="n">service</span> <span class="o">=</span> <span class="n">LibraireService</span><span class="p">(</span><span class="n">catalogue</span><span class="p">)</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">est_disponible</span><span class="p">(</span><span class="s2">&quot;ISBN-1&quot;</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="k">def</span> <span class="nf">test_est_disponible_stock_exact</span><span class="p">():</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>    <span class="n">catalogue</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>        <span class="s2">&quot;ISBN-1&quot;</span><span class="p">:</span> <span class="n">Livre</span><span class="p">(</span><span class="s2">&quot;ISBN-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Titre&quot;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">stock</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="p">}</span>
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="n">service</span> <span class="o">=</span> <span class="n">LibraireService</span><span class="p">(</span><span class="n">catalogue</span><span class="p">)</span>
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">est_disponible</span><span class="p">(</span><span class="s2">&quot;ISBN-1&quot;</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="k">def</span> <span class="nf">test_est_disponible_stock_insuffisant</span><span class="p">():</span>
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>    <span class="n">catalogue</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>        <span class="s2">&quot;ISBN-1&quot;</span><span class="p">:</span> <span class="n">Livre</span><span class="p">(</span><span class="s2">&quot;ISBN-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Titre&quot;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">stock</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>    <span class="p">}</span>
-</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>    <span class="n">service</span> <span class="o">=</span> <span class="n">LibraireService</span><span class="p">(</span><span class="n">catalogue</span><span class="p">)</span>
-</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">est_disponible</span><span class="p">(</span><span class="s2">&quot;ISBN-1&quot;</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span>
-</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>
-</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="k">def</span> <span class="nf">test_est_disponible_isbn_inexistant</span><span class="p">():</span>
-</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>    <span class="n">service</span> <span class="o">=</span> <span class="n">LibraireService</span><span class="p">({})</span>
-</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a>    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">est_disponible</span><span class="p">(</span><span class="s2">&quot;ISBN-ABSENT&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span>
-</span><span id="__span-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>
-</span><span id="__span-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="k">def</span> <span class="nf">test_est_disponible_stock_zero</span><span class="p">():</span>
-</span><span id="__span-10-27"><a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a>    <span class="n">catalogue</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="__span-10-28"><a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a>        <span class="s2">&quot;ISBN-1&quot;</span><span class="p">:</span> <span class="n">Livre</span><span class="p">(</span><span class="s2">&quot;ISBN-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Titre&quot;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">stock</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="__span-10-29"><a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a>    <span class="p">}</span>
-</span><span id="__span-10-30"><a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a>    <span class="n">service</span> <span class="o">=</span> <span class="n">LibraireService</span><span class="p">(</span><span class="n">catalogue</span><span class="p">)</span>
-</span><span id="__span-10-31"><a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a>    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">est_disponible</span><span class="p">(</span><span class="s2">&quot;ISBN-1&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span>
-</span></code></pre></div>
 </details>
 <hr />
 <h2 id="etape-4-parametrisation-avec-pytestmarkparametrize">Étape 4 — Paramétrisation avec <code>@pytest.mark.parametrize</code><a class="headerlink" href="#etape-4-parametrisation-avec-pytestmarkparametrize" title="Permanent link">&para;</a></h2>
@@ -1481,46 +1437,19 @@
 </tbody>
 </table>
 <details class="tip">
-<summary>Indice</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;age, attendu&quot;</span><span class="p">,</span> <span class="p">[</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="c1"># ... complétez les cas</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">])</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="k">def</span> <span class="nf">test_valider_age</span><span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="n">attendu</span><span class="p">):</span>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="k">assert</span> <span class="n">valider_age</span><span class="p">(</span><span class="n">age</span><span class="p">)</span> <span class="o">==</span> <span class="n">attendu</span>
-</span></code></pre></div>
+<summary>Indice 1 — Direction</summary>
+<p>Le décorateur <code>@pytest.mark.parametrize</code> prend une chaîne de noms de paramètres et une liste de tuples. Chaque tuple = un scénario du tableau.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Le décorateur prend deux arguments : (1) une chaîne <code>"nom1, nom2"</code> déclarant les paramètres, (2) une liste de tuples, un tuple par ligne du tableau. La fonction reçoit ensuite les paramètres et fait une seule assertion.</p>
 </details>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">import</span> <span class="nn">pytest</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span> <span class="nn">src.librairie</span> <span class="kn">import</span> <span class="n">valider_age</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;age, attendu&quot;</span><span class="p">,</span> <span class="p">[</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>     <span class="c1"># juste sous la borne min</span>
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>      <span class="c1"># borne minimale (incluse)</span>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>      <span class="c1"># valeur nominale</span>
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>    <span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>     <span class="c1"># borne maximale (incluse)</span>
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    <span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>    <span class="c1"># juste au-dessus de la borne max</span>
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>      <span class="c1"># extrême bas</span>
-</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>     <span class="c1"># négatif</span>
-</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="p">])</span>
-</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="k">def</span> <span class="nf">test_valider_age</span><span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="n">attendu</span><span class="p">):</span>
-</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>    <span class="k">assert</span> <span class="n">valider_age</span><span class="p">(</span><span class="n">age</span><span class="p">)</span> <span class="o">==</span> <span class="n">attendu</span>
-</span></code></pre></div>
-<p>Lancez avec <code>pytest -v</code> pour voir chaque cas affiché individuellement :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>test_librairie.py::test_valider_age[12-False] PASSED
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>test_librairie.py::test_valider_age[13-True] PASSED
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>test_librairie.py::test_valider_age[25-True] PASSED
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>...
-</span></code></pre></div>
 </details>
 <hr />
 <h2 id="etape-5-pytestapprox-pour-la-tva">Étape 5 — <code>pytest.approx</code> pour la TVA<a class="headerlink" href="#etape-5-pytestapprox-pour-la-tva" title="Permanent link">&para;</a></h2>
 <h3 id="51-le-probleme-des-flottants">5.1 Le problème des flottants<a class="headerlink" href="#51-le-probleme-des-flottants" title="Permanent link">&para;</a></h3>
 <p>Essayez ceci dans un interpréteur Python :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">==</span> <span class="mf">0.3</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kc">False</span>
+<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">==</span> <span class="mf">0.3</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kc">False</span>
 </span></code></pre></div>
 <p>Les nombres à virgule flottante (IEEE 754) ne représentent pas tous les réels exactement. Pour les comparaisons, pytest fournit <code>pytest.approx</code>.</p>
 <h3 id="52-test-parametre-de-appliquer_tva">5.2 Test paramétré de <code>appliquer_tva</code><a class="headerlink" href="#52-test-parametre-de-appliquer_tva" title="Permanent link">&para;</a></h3>
@@ -1562,59 +1491,47 @@
 </tbody>
 </table>
 <details class="tip">
-<summary>Indice</summary>
-<p>Utilisez <code>pytest.approx(attendu)</code> dans l'assertion au lieu de comparer directement avec <code>==</code>.</p>
+<summary>Indice 1 — Direction</summary>
+<p>Réutilisez <code>@pytest.mark.parametrize</code> mais avec 3 paramètres cette fois. L'assertion doit utiliser une comparaison <strong>tolérante</strong> aux flottants.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Remplacez <code>assert result == attendu</code> par <code>assert result == pytest.approx(attendu)</code>. Ne comparez jamais des flottants avec <code>==</code> strict.</p>
 </details>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">import</span> <span class="nn">pytest</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span> <span class="nn">src.librairie</span> <span class="kn">import</span> <span class="n">appliquer_tva</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;prix_ht, taux, attendu&quot;</span><span class="p">,</span> <span class="p">[</span>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">),</span>
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">0.055</span><span class="p">,</span> <span class="mf">105.5</span><span class="p">),</span>
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
-</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>    <span class="p">(</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">),</span>
-</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>    <span class="p">(</span><span class="mf">9.99</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mf">11.988</span><span class="p">),</span>
-</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="p">])</span>
-</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="k">def</span> <span class="nf">test_appliquer_tva</span><span class="p">(</span><span class="n">prix_ht</span><span class="p">,</span> <span class="n">taux</span><span class="p">,</span> <span class="n">attendu</span><span class="p">):</span>
-</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>    <span class="k">assert</span> <span class="n">appliquer_tva</span><span class="p">(</span><span class="n">prix_ht</span><span class="p">,</span> <span class="n">taux</span><span class="p">)</span> <span class="o">==</span> <span class="n">pytest</span><span class="o">.</span><span class="n">approx</span><span class="p">(</span><span class="n">attendu</span><span class="p">)</span>
-</span></code></pre></div>
 </details>
 <hr />
 <h2 id="etape-6-fixtures-pytest-bonus">Étape 6 — Fixtures pytest (bonus)<a class="headerlink" href="#etape-6-fixtures-pytest-bonus" title="Permanent link">&para;</a></h2>
 <h3 id="61-quest-ce-quune-fixture">6.1 Qu'est-ce qu'une fixture ?<a class="headerlink" href="#61-quest-ce-quune-fixture" title="Permanent link">&para;</a></h3>
 <p>Une <strong>fixture</strong> est une fonction qui fournit des données ou un contexte réutilisable pour les tests. Elle remplace le copier-coller du code Arrange.</p>
 <h3 id="62-creer-une-fixture-pour-le-catalogue">6.2 Créer une fixture pour le catalogue<a class="headerlink" href="#62-creer-une-fixture-pour-le-catalogue" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">import</span> <span class="nn">pytest</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kn">from</span> <span class="nn">src.librairie</span> <span class="kn">import</span> <span class="n">Livre</span><span class="p">,</span> <span class="n">LibraireService</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">def</span> <span class="nf">catalogue</span><span class="p">():</span>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixture fournissant un catalogue avec deux livres.&quot;&quot;&quot;</span>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="k">return</span> <span class="p">{</span>
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>        <span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">:</span> <span class="n">Livre</span><span class="p">(</span>
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>            <span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Le Petit Prince&quot;</span><span class="p">,</span> <span class="mf">7.50</span><span class="p">,</span> <span class="mi">100</span>
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>        <span class="p">),</span>
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>        <span class="s2">&quot;978-2-07-040850-9&quot;</span><span class="p">:</span> <span class="n">Livre</span><span class="p">(</span>
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>            <span class="s2">&quot;978-2-07-040850-9&quot;</span><span class="p">,</span> <span class="s2">&quot;L&#39;Étranger&quot;</span><span class="p">,</span> <span class="mf">6.90</span><span class="p">,</span> <span class="mi">50</span>
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>        <span class="p">),</span>
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>    <span class="p">}</span>
-</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>
-</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
-</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="k">def</span> <span class="nf">service</span><span class="p">(</span><span class="n">catalogue</span><span class="p">):</span>
-</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixture fournissant un LibraireService initialisé.&quot;&quot;&quot;</span>
-</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>    <span class="k">return</span> <span class="n">LibraireService</span><span class="p">(</span><span class="n">catalogue</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">import</span> <span class="nn">pytest</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">src.librairie</span> <span class="kn">import</span> <span class="n">Livre</span><span class="p">,</span> <span class="n">LibraireService</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">def</span> <span class="nf">catalogue</span><span class="p">():</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixture fournissant un catalogue avec deux livres.&quot;&quot;&quot;</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="k">return</span> <span class="p">{</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>        <span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">:</span> <span class="n">Livre</span><span class="p">(</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>            <span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Le Petit Prince&quot;</span><span class="p">,</span> <span class="mf">7.50</span><span class="p">,</span> <span class="mi">100</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>        <span class="p">),</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>        <span class="s2">&quot;978-2-07-040850-9&quot;</span><span class="p">:</span> <span class="n">Livre</span><span class="p">(</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>            <span class="s2">&quot;978-2-07-040850-9&quot;</span><span class="p">,</span> <span class="s2">&quot;L&#39;Étranger&quot;</span><span class="p">,</span> <span class="mf">6.90</span><span class="p">,</span> <span class="mi">50</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>        <span class="p">),</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    <span class="p">}</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="k">def</span> <span class="nf">service</span><span class="p">(</span><span class="n">catalogue</span><span class="p">):</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fixture fournissant un LibraireService initialisé.&quot;&quot;&quot;</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>    <span class="k">return</span> <span class="n">LibraireService</span><span class="p">(</span><span class="n">catalogue</span><span class="p">)</span>
 </span></code></pre></div>
 <h3 id="63-utiliser-les-fixtures-dans-les-tests">6.3 Utiliser les fixtures dans les tests<a class="headerlink" href="#63-utiliser-les-fixtures-dans-les-tests" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">def</span> <span class="nf">test_get_prix_petit_prince</span><span class="p">(</span><span class="n">service</span><span class="p">):</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">get_prix</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mf">7.50</span>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="k">def</span> <span class="nf">test_get_prix_etranger</span><span class="p">(</span><span class="n">service</span><span class="p">):</span>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">get_prix</span><span class="p">(</span><span class="s2">&quot;978-2-07-040850-9&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mf">6.90</span>
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="k">def</span> <span class="nf">test_est_disponible_petit_prince</span><span class="p">(</span><span class="n">service</span><span class="p">):</span>
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">est_disponible</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
+<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">def</span> <span class="nf">test_get_prix_petit_prince</span><span class="p">(</span><span class="n">service</span><span class="p">):</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">get_prix</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mf">7.50</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="k">def</span> <span class="nf">test_get_prix_etranger</span><span class="p">(</span><span class="n">service</span><span class="p">):</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">get_prix</span><span class="p">(</span><span class="s2">&quot;978-2-07-040850-9&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="mf">6.90</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="k">def</span> <span class="nf">test_est_disponible_petit_prince</span><span class="p">(</span><span class="n">service</span><span class="p">):</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="k">assert</span> <span class="n">service</span><span class="o">.</span><span class="n">est_disponible</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span>
 </span></code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Avantage des fixtures</p>
@@ -1623,7 +1540,7 @@
 <hr />
 <h2 id="verification-finale">Vérification finale<a class="headerlink" href="#verification-finale" title="Permanent link">&para;</a></h2>
 <p>Lancez toute la suite de tests :</p>
-<div class="highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>pytest<span class="w"> </span>tests/test_librairie.py<span class="w"> </span>-v
+<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>pytest<span class="w"> </span>tests/test_librairie.py<span class="w"> </span>-v
 </span></code></pre></div>
 <div class="admonition success">
 <p class="admonition-title">Critères de réussite</p>

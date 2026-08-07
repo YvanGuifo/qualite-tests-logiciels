@@ -1088,6 +1088,15 @@
 <li>Utiliser <code>pytest.raises</code> pour les cas d'erreur</li>
 </ul>
 </div>
+<div class="admonition danger">
+<p class="admonition-title">Comment utiliser les indices — À lire avant de commencer</p>
+<p>Chaque exercice propose <strong>2 niveaux d'aide imbriqués</strong> :</p>
+<ul>
+<li><strong>Indice 1 — Direction</strong> : ouvrez-le après avoir cherché seul au moins 5 minutes.</li>
+<li><strong>Indice 2 — Approche</strong> : ouvrez-le si l'indice 1 ne suffit pas et après 5 minutes supplémentaires.</li>
+</ul>
+<p><strong>Les corrigés complets sont fournis dans un document séparé, distribué après le rendu.</strong> Le TP noté (Séance 2) portera précisément sur des tests de Panier ; s'entraîner sans consulter de solution est la seule préparation efficace.</p>
+</div>
 <hr />
 <h2 id="etape-0-code-de-depart">Étape 0 — Code de départ<a class="headerlink" href="#etape-0-code-de-depart" title="Permanent link">&para;</a></h2>
 <h3 id="01-enrichir-le-projet">0.1 Enrichir le projet<a class="headerlink" href="#01-enrichir-le-projet" title="Permanent link">&para;</a></h3>
@@ -1196,90 +1205,50 @@
 <p>Écrivez les tests suivants dans <code>tests/test_panier.py</code> :</p>
 <h3 id="11-ajouter-un-livre-a-un-panier-vide">1.1 Ajouter un livre à un panier vide<a class="headerlink" href="#11-ajouter-un-livre-a-un-panier-vide" title="Permanent link">&para;</a></h3>
 <details class="tip">
-<summary>Indice</summary>
-<p>Créez un <code>Panier()</code>, un <code>Livre</code>, appelez <code>ajouter()</code>, puis vérifiez que l'état passe à <code>ACTIF</code> et que le livre est bien dans <code>articles</code>.</p>
+<summary>Indice 1 — Direction</summary>
+<p>Deux assertions minimum : (1) l'état du panier après ajout, (2) le contenu du dictionnaire <code>articles</code>. Utilisez une fixture pour les livres réutilisés.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Structure du test : créez un <code>Panier()</code> (part de VIDE), appelez <code>ajouter(livre)</code>, puis assertez <code>panier.etat == EtatPanier.ACTIF</code> et <code>panier.articles[isbn] == 1</code>.</p>
 </details>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span> <span class="nn">pytest</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">src.librairie</span> <span class="kn">import</span> <span class="n">Livre</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span> <span class="nn">src.panier</span> <span class="kn">import</span> <span class="n">Panier</span><span class="p">,</span> <span class="n">EtatPanier</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">def</span> <span class="nf">livre_petit_prince</span><span class="p">():</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="k">return</span> <span class="n">Livre</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Le Petit Prince&quot;</span><span class="p">,</span> <span class="mf">7.50</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">def</span> <span class="nf">livre_etranger</span><span class="p">():</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="k">return</span> <span class="n">Livre</span><span class="p">(</span><span class="s2">&quot;978-2-07-040850-9&quot;</span><span class="p">,</span> <span class="s2">&quot;L&#39;Étranger&quot;</span><span class="p">,</span> <span class="mf">6.90</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="k">def</span> <span class="nf">test_ajouter_panier_vide_passe_a_actif</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">etat</span> <span class="o">==</span> <span class="n">EtatPanier</span><span class="o">.</span><span class="n">ACTIF</span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">articles</span><span class="p">[</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
-</span></code></pre></div>
 </details>
 <h3 id="12-ajouter-plusieurs-fois-le-meme-livre">1.2 Ajouter plusieurs fois le même livre<a class="headerlink" href="#12-ajouter-plusieurs-fois-le-meme-livre" title="Permanent link">&para;</a></h3>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span> <span class="nf">test_ajouter_meme_livre_cumule_quantites</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">articles</span><span class="p">[</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5</span>
-</span></code></pre></div>
+<details class="tip">
+<summary>Indice 1 — Direction</summary>
+<p>Appelez <code>ajouter</code> deux fois avec le même livre mais des quantités différentes. La classe doit <strong>cumuler</strong>, pas écraser.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Après <code>ajouter(livre, 2)</code> puis <code>ajouter(livre, 3)</code>, la quantité dans <code>articles[isbn]</code> doit valoir 5.</p>
+</details>
 </details>
 <h3 id="13-ajouter-des-livres-differents">1.3 Ajouter des livres différents<a class="headerlink" href="#13-ajouter-des-livres-differents" title="Permanent link">&para;</a></h3>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span> <span class="nf">test_ajouter_livres_differents</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">livre_etranger</span><span class="p">):</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_etranger</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">panier</span><span class="o">.</span><span class="n">articles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">nombre_articles</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span>
-</span></code></pre></div>
+<details class="tip">
+<summary>Indice 1 — Direction</summary>
+<p>Deux ISBN distincts, donc deux entrées dans <code>articles</code>. Vérifiez à la fois le nombre d'entrées (<code>len</code>) et le total d'articles.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p><code>nombre_articles()</code> retourne la somme des quantités, pas le nombre d'ISBN distincts.</p>
+</details>
 </details>
 <hr />
 <h2 id="etape-2-tester-les-cas-derreur-de-ajouter">Étape 2 — Tester les cas d'erreur de <code>ajouter()</code><a class="headerlink" href="#etape-2-tester-les-cas-derreur-de-ajouter" title="Permanent link">&para;</a></h2>
 <h3 id="21-quantite-invalide-0">2.1 Quantité invalide (≤ 0)<a class="headerlink" href="#21-quantite-invalide-0" title="Permanent link">&para;</a></h3>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">test_ajouter_quantite_zero_leve_ValueError</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;Quantité doit être &gt; 0&quot;</span><span class="p">):</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="k">def</span> <span class="nf">test_ajouter_quantite_negative_leve_ValueError</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-</span></code></pre></div>
+<details class="tip">
+<summary>Indice 1 — Direction</summary>
+<p>Deux cas à couvrir : quantité <strong>exactement 0</strong> (borne) et quantité <strong>négative</strong>. Le paramètre <code>match=</code> de <code>pytest.raises</code> permet de vérifier le message.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p><code>with pytest.raises(ValueError, match="Quantité doit être &gt; 0"):</code> puis appelez <code>ajouter</code> avec <code>quantite=0</code> à l'intérieur du bloc.</p>
+</details>
 </details>
 <h3 id="22-ajout-sur-un-panier-valide-ou-paye">2.2 Ajout sur un panier validé ou payé<a class="headerlink" href="#22-ajout-sur-un-panier-valide-ou-paye" title="Permanent link">&para;</a></h3>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span> <span class="nf">test_ajouter_panier_valide_leve_RuntimeError</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">valider</span><span class="p">()</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;non modifiable&quot;</span><span class="p">):</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="k">def</span> <span class="nf">test_ajouter_panier_paye_leve_RuntimeError</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">valider</span><span class="p">()</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">payer</span><span class="p">()</span>
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span></code></pre></div>
+<details class="tip">
+<summary>Indice 1 — Direction</summary>
+<p>Il faut d'abord amener le panier dans l'état VALIDE (ou PAYE), puis tenter d'y ajouter un livre. Cela nécessite plusieurs appels de méthodes dans l'Arrange.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Pour l'état VALIDE : <code>ajouter(...)</code> → <code>valider()</code> → tenter <code>ajouter(...)</code>. Pour PAYE : ajouter le <code>payer()</code> en plus.</p>
+</details>
 </details>
 <hr />
 <h2 id="etape-3-tester-retirer">Étape 3 — Tester <code>retirer()</code><a class="headerlink" href="#etape-3-tester-retirer" title="Permanent link">&para;</a></h2>
@@ -1325,71 +1294,28 @@
 </tr>
 </tbody>
 </table>
-<details class="example">
-<summary>Solution complète</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">def</span> <span class="nf">test_retirer_partiel</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">retirer</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">articles</span><span class="p">[</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">etat</span> <span class="o">==</span> <span class="n">EtatPanier</span><span class="o">.</span><span class="n">ACTIF</span>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="k">def</span> <span class="nf">test_retirer_totalite_article</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">livre_etranger</span><span class="p">):</span>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_etranger</span><span class="p">)</span>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">retirer</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">)</span>
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>    <span class="k">assert</span> <span class="s2">&quot;978-2-07-036024-1&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">panier</span><span class="o">.</span><span class="n">articles</span>
-</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">etat</span> <span class="o">==</span> <span class="n">EtatPanier</span><span class="o">.</span><span class="n">ACTIF</span>  <span class="c1"># reste L&#39;Étranger</span>
-</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
-</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="k">def</span> <span class="nf">test_retirer_dernier_article_panier_vide</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">retirer</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">)</span>
-</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>
-</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">etat</span> <span class="o">==</span> <span class="n">EtatPanier</span><span class="o">.</span><span class="n">VIDE</span>
-</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">nombre_articles</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
-</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>
-</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="k">def</span> <span class="nf">test_retirer_isbn_absent_leve_KeyError</span><span class="p">():</span>
-</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
-</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">retirer</span><span class="p">(</span><span class="s2">&quot;ISBN-INEXISTANT&quot;</span><span class="p">)</span>
-</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>
-</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="k">def</span> <span class="nf">test_retirer_quantite_excessive_leve_ValueError</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;Quantité à retirer&quot;</span><span class="p">):</span>
-</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">retirer</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>
-</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a><span class="k">def</span> <span class="nf">test_retirer_panier_valide_leve_RuntimeError</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-7-38"><a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-7-39"><a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-7-40"><a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">valider</span><span class="p">()</span>
-</span><span id="__span-7-41"><a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
-</span><span id="__span-7-42"><a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">retirer</span><span class="p">(</span><span class="s2">&quot;978-2-07-036024-1&quot;</span><span class="p">)</span>
-</span></code></pre></div>
+<details class="tip">
+<summary>Indice 1 — Direction</summary>
+<p>Chaque ligne du tableau = 1 test. Attention aux <strong>effets de bord</strong> : quand la quantité tombe à 0, l'ISBN doit disparaître du dict ; si <code>articles</code> devient vide, l'état repasse à VIDE.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Trois patterns d'assertion selon le cas :
+- Cas nominal : vérifier la quantité restante et l'état
+- Cas "disparition" : <code>assert isbn not in panier.articles</code>
+- Cas d'erreur : <code>with pytest.raises(...)</code> autour de l'appel</p>
+</details>
 </details>
 <hr />
 <h2 id="etape-4-tester-les-transitions-detats">Étape 4 — Tester les transitions d'états<a class="headerlink" href="#etape-4-tester-les-transitions-detats" title="Permanent link">&para;</a></h2>
 <p>C'est l'exercice le plus important de ce TP. Vous devez tester le parcours complet de la machine à états.</p>
 <h3 id="41-parcours-nominal-complet">4.1 Parcours nominal complet<a class="headerlink" href="#41-parcours-nominal-complet" title="Permanent link">&para;</a></h3>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">def</span> <span class="nf">test_parcours_complet_vide_actif_valide_paye</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">etat</span> <span class="o">==</span> <span class="n">EtatPanier</span><span class="o">.</span><span class="n">VIDE</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">etat</span> <span class="o">==</span> <span class="n">EtatPanier</span><span class="o">.</span><span class="n">ACTIF</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">valider</span><span class="p">()</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">etat</span> <span class="o">==</span> <span class="n">EtatPanier</span><span class="o">.</span><span class="n">VALIDE</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">payer</span><span class="p">()</span>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">etat</span> <span class="o">==</span> <span class="n">EtatPanier</span><span class="o">.</span><span class="n">PAYE</span>
-</span></code></pre></div>
+<details class="tip">
+<summary>Indice 1 — Direction</summary>
+<p>Un seul test qui suit tout le chemin VIDE → ACTIF → VALIDE → PAYE. Assertez l'état <strong>après chaque transition</strong>, pas seulement à la fin.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Enchaînez : <code>Panier()</code> → assert VIDE → <code>ajouter</code> → assert ACTIF → <code>valider</code> → assert VALIDE → <code>payer</code> → assert PAYE.</p>
+</details>
 </details>
 <h3 id="42-transitions-invalides">4.2 Transitions invalides<a class="headerlink" href="#42-transitions-invalides" title="Permanent link">&para;</a></h3>
 <p>Testez toutes les transitions <strong>interdites</strong> :</p>
@@ -1449,71 +1375,27 @@
 </tr>
 </tbody>
 </table>
-<details class="example">
-<summary>Solution (extraits)</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">def</span> <span class="nf">test_valider_panier_vide_leve_RuntimeError</span><span class="p">():</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;Validation impossible&quot;</span><span class="p">):</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">valider</span><span class="p">()</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="k">def</span> <span class="nf">test_payer_panier_vide_leve_RuntimeError</span><span class="p">():</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;Paiement impossible&quot;</span><span class="p">):</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">payer</span><span class="p">()</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="k">def</span> <span class="nf">test_payer_panier_actif_leve_RuntimeError</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">payer</span><span class="p">()</span>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="k">def</span> <span class="nf">test_valider_panier_deja_valide_leve_RuntimeError</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">valider</span><span class="p">()</span>
-</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
-</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">valider</span><span class="p">()</span>
-</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>
-</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="k">def</span> <span class="nf">test_payer_panier_deja_paye_leve_RuntimeError</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">valider</span><span class="p">()</span>
-</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">payer</span><span class="p">()</span>
-</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
-</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">payer</span><span class="p">()</span>
-</span></code></pre></div>
+<details class="tip">
+<summary>Indice 1 — Direction</summary>
+<p>Pour chaque transition interdite, votre Arrange doit amener le panier dans l'état de départ. L'Act tente la transition interdite. L'Assert utilise <code>pytest.raises(RuntimeError)</code>.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Nommez chaque test explicitement : <code>test_&lt;action&gt;_panier_&lt;etat&gt;_leve_RuntimeError</code>. Le <code>match=</code> du <code>pytest.raises</code> documente le message attendu et rend le test plus strict.</p>
+</details>
 </details>
 <hr />
 <h2 id="etape-5-tester-vider-et-nombre_articles">Étape 5 — Tester <code>vider()</code> et <code>nombre_articles()</code><a class="headerlink" href="#etape-5-tester-vider-et-nombre_articles" title="Permanent link">&para;</a></h2>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">def</span> <span class="nf">test_vider_panier_actif</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">livre_etranger</span><span class="p">):</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_etranger</span><span class="p">)</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">vider</span><span class="p">()</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">etat</span> <span class="o">==</span> <span class="n">EtatPanier</span><span class="o">.</span><span class="n">VIDE</span>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">nombre_articles</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">panier</span><span class="o">.</span><span class="n">articles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="k">def</span> <span class="nf">test_vider_panier_valide_leve_RuntimeError</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">):</span>
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">)</span>
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">valider</span><span class="p">()</span>
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>        <span class="n">panier</span><span class="o">.</span><span class="n">vider</span><span class="p">()</span>
-</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>
-</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="k">def</span> <span class="nf">test_nombre_articles_cumule</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">livre_etranger</span><span class="p">):</span>
-</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>    <span class="n">panier</span> <span class="o">=</span> <span class="n">Panier</span><span class="p">()</span>
-</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_petit_prince</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>    <span class="n">panier</span><span class="o">.</span><span class="n">ajouter</span><span class="p">(</span><span class="n">livre_etranger</span><span class="p">,</span> <span class="n">quantite</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>    <span class="k">assert</span> <span class="n">panier</span><span class="o">.</span><span class="n">nombre_articles</span><span class="p">()</span> <span class="o">==</span> <span class="mi">5</span>
-</span></code></pre></div>
+<details class="tip">
+<summary>Indice 1 — Direction</summary>
+<p>3 tests : <code>vider</code> fonctionne (retour à VIDE, tout est effacé), <code>vider</code> échoue si panier verrouillé, <code>nombre_articles</code> fait bien une somme.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Pour <code>vider</code>, testez 3 assertions à la fois (état, <code>nombre_articles()</code>, <code>len(articles)</code>). Pour <code>nombre_articles</code>, un panier avec 2 ISBN et 3+2 doit retourner 5.</p>
+</details>
 </details>
 <hr />
 <h2 id="verification-finale">Vérification finale<a class="headerlink" href="#verification-finale" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>pytest<span class="w"> </span>tests/test_panier.py<span class="w"> </span>-v
+<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pytest<span class="w"> </span>tests/test_panier.py<span class="w"> </span>-v
 </span></code></pre></div>
 <div class="admonition success">
 <p class="admonition-title">Critères de réussite</p>

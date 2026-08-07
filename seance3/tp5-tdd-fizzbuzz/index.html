@@ -1280,6 +1280,11 @@
 <li>Documenter chaque cycle TDD</li>
 </ul>
 </div>
+<div class="admonition danger">
+<p class="admonition-title">Nature particulière de ce TP — À lire</p>
+<p>Ce TP est un <strong>kata TDD</strong> : les 7 cycles décrits sont la démonstration pédagogique du TDD elle-même. Vous devez les <strong>refaire vous-même</strong> dans votre éditeur, pas les copier. La valeur pédagogique est dans <strong>l'expérience de la discipline TDD</strong>, pas dans la production du code final.</p>
+<p>Pour l'<strong>exercice bonus</strong> (extension avec Jazz), 2 niveaux d'indices imbriqués sont fournis. Essayez d'abord seul en appliquant la discipline TDD stricte. <strong>Le corrigé complet est fourni dans un document séparé, distribué après le TP.</strong></p>
+</div>
 <hr />
 <h2 id="regles-du-kata-fizzbuzz">Règles du kata FizzBuzz<a class="headerlink" href="#regles-du-kata-fizzbuzz" title="Permanent link">&para;</a></h2>
 <p>Écrire une fonction <code>fizzbuzz(n)</code> qui, pour un entier <code>n</code> donné :</p>
@@ -1521,38 +1526,17 @@
 </ul>
 <p>Suivez les cycles Red → Green → Refactor.</p>
 </div>
-<details class="example">
-<summary>Solution</summary>
-<div class="highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Test RED</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">def</span> <span class="nf">test_fizzbuzz_7_retourne_jazz</span><span class="p">():</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    <span class="k">assert</span> <span class="n">fizzbuzz</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Jazz&quot;</span>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="c1"># GREEN — ajouter dans fizzbuzz :</span>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="k">def</span> <span class="nf">fizzbuzz</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="n">sortie</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>        <span class="n">sortie</span> <span class="o">+=</span> <span class="s2">&quot;Fizz&quot;</span>
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>        <span class="n">sortie</span> <span class="o">+=</span> <span class="s2">&quot;Buzz&quot;</span>
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">7</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>        <span class="n">sortie</span> <span class="o">+=</span> <span class="s2">&quot;Jazz&quot;</span>
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>    <span class="k">return</span> <span class="n">sortie</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>
-</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="c1"># Tests de consolidation</span>
-</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="k">def</span> <span class="nf">test_fizzbuzz_21_retourne_fizzjazz</span><span class="p">():</span>
-</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>    <span class="k">assert</span> <span class="n">fizzbuzz</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;FizzJazz&quot;</span>
-</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>
-</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="k">def</span> <span class="nf">test_fizzbuzz_35_retourne_buzzjazz</span><span class="p">():</span>
-</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>    <span class="k">assert</span> <span class="n">fizzbuzz</span><span class="p">(</span><span class="mi">35</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;BuzzJazz&quot;</span>
-</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>
-</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a><span class="k">def</span> <span class="nf">test_fizzbuzz_105_retourne_fizzbuzzjazz</span><span class="p">():</span>
-</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>    <span class="k">assert</span> <span class="n">fizzbuzz</span><span class="p">(</span><span class="mi">105</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;FizzBuzzJazz&quot;</span>
-</span></code></pre></div>
-<p>Grâce au refactoring du cycle 6, l'ajout ne nécessite qu'<strong>une seule ligne</strong> de code de production.</p>
+<details class="tip">
+<summary>Indice 1 — Direction (essayez d'abord seul, cycle Red-Green-Refactor)</summary>
+<p>Suivez la même démarche que les 7 cycles précédents. Commencez par UN seul test RED pour <code>fizzbuzz(7) == "Jazz"</code>. Ne codez rien avant d'avoir vu le test échouer.</p>
+<details class="tip">
+<summary>Indice 2 — Approche</summary>
+<p>Grâce au refactoring par concaténation du cycle 6, l'ajout dans la fonction ne devrait tenir qu'en <strong>une seule ligne</strong>. C'est le signe que le refactoring était bien conçu (principe Open-Closed).</p>
+</details>
 </details>
 <hr />
 <h2 id="verification-finale">Vérification finale<a class="headerlink" href="#verification-finale" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>pytest<span class="w"> </span>tests/test_fizzbuzz.py<span class="w"> </span>-v
+<div class="highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>pytest<span class="w"> </span>tests/test_fizzbuzz.py<span class="w"> </span>-v
 </span></code></pre></div>
 <div class="admonition success">
 <p class="admonition-title">Critères de réussite</p>
